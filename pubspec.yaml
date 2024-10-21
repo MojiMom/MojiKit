@@ -1,0 +1,57 @@
+name: mojikit
+description: "MojiKit"
+version: 1.0.0+1
+publish_to: 'none'
+
+environment:
+  sdk: '>=3.4.3 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  signals: 5.5.0
+  intl: 0.19.0
+  dart_firebase_admin: 0.4.0
+  firebaseapis: 0.2.0
+  googleapis: 13.2.0
+  googleapis_auth: 1.6.0
+  undo: 1.5.0
+  hugeicons: 0.0.7
+  scroll_to_index: 3.0.1
+  device_info_plus: 11.0.0
+  infinite_carousel: 1.1.1
+  duration: 4.0.3
+  http: 1.2.2
+  realm: 20.0.0
+  path_provider: 2.1.4
+  google_fonts: 6.2.1
+  flutter_app_group_directory: 1.0.1+1
+  forui: 
+    git:
+      url: https://github.com/MojiMom/forui
+      path: forui
+      ref: e4ab5567d11de11788a11b19044d578370164910
+  duration_picker: 
+    git:
+      url: https://github.com/MojiMom/duration_picker
+      ref: 222348905bb679db257f609b517e9ae5d56a98ce
+  flutter_fancy_tree_view: 
+    git: 
+      url: https://github.com/MojiMom/flutter_tree_view
+      ref: 47bd8a3eef6a1f12dc619999158ed83039981cf0
+  lexicographical_order:
+    git:
+      url: https://github.com/MojiMom/lexicographical_order
+      ref: 428c6750191338e1182e4c354d5a0ccb63d3ea58
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: 5.0.0
+  build_runner: 2.4.12
+  analyzer: 6.8.0
+  file: 7.0.1
+  
+
+dependency_overrides:
+  collection: ^1.19.0

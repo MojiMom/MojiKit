@@ -1,0 +1,9 @@
+{
+  "exclude": [
+    "**/*.g.dart",
+    "**/*.freezed.dart",
+    "**/*.realm.dart",
+    "**/generated/**",
+    "path/to/specific/generated/file.dart"
+  ]
+}
