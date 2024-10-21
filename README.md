@@ -2,8 +2,10 @@
 
 To run the tests :
 
-Install : https://firebase.google.com/docs/cli
+Install Firebase CLI : https://firebase.google.com/docs/cli
+
+Install Realm : `dart run realm install`
 
 Run : `firebase emulators:start`
 
-Run the tests : `flutter test`
+Run the tests : `flutter test --coverage`
