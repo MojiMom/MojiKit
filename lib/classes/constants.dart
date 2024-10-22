@@ -27,3 +27,5 @@ const kMojiAppGroup = 'group.mojimom.app';
 const kFuchsiaDevice = 'fuchsia_device';
 const kTestRealmFileName = 'test.realm';
 const kGoogleCalendarTokenKey = 'g';
+const kMojiKitPackageName = 'app.mojimom.mojikit';
+const kMojiMomPackageName = 'app.mojimom.app';

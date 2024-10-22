@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:mojikit/mojikit.dart';
 import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
@@ -9,6 +10,19 @@ Future<String> getRealmPath() async {
     case TargetPlatform.macOS:
       final appGroupDirectory = await FlutterAppGroupDirectory.getAppGroupDirectory(kMojiAppGroup);
       return '${appGroupDirectory?.path}/Library/Application Support';
+    case TargetPlatform.android:
+      final path = (await getApplicationDocumentsDirectory()).path;
+      final mojiMomPath = path.replaceAll(kMojiKitPackageName, kMojiMomPackageName);
+      final dir = Directory(mojiMomPath);
+      if (dir.existsSync()) {
+        try {
+          dir.listSync();
+          return mojiMomPath;
+        } catch (e) {
+          return path;
+        }
+      }
+      return path;
     default:
       return (await getApplicationDocumentsDirectory()).path;
   }
