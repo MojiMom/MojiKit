@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter_app_group_directory/flutter_app_group_directory.dart';
 
-Future<String> getRealmPath() async {
+Future<String> getRealmPath({Directory? directory}) async {
   switch (defaultTargetPlatform) {
     case TargetPlatform.iOS:
     case TargetPlatform.macOS:
@@ -13,7 +13,7 @@ Future<String> getRealmPath() async {
     case TargetPlatform.android:
       final path = (await getApplicationDocumentsDirectory()).path;
       final mojiMomPath = path.replaceAll(kMojiKitPackageName, kMojiMomPackageName);
-      final dir = Directory(mojiMomPath);
+      final dir = directory ?? Directory(mojiMomPath);
       if (dir.existsSync()) {
         try {
           dir.listSync();

@@ -1,7 +1,11 @@
+import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/foundation.dart';
 import 'package:mojikit/mojikit.dart';
 import 'package:flutter/services.dart';
+import 'package:mocktail/mocktail.dart';
+
+class MockDirectory extends Mock implements Directory {}
 
 void main() {
   const MethodChannel appGroupChannel = MethodChannel('flutter_app_group_directory');
@@ -21,6 +25,9 @@ void main() {
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(pathProviderChannel,
         (MethodCall methodCall) async {
       if (methodCall.method == 'getApplicationDocumentsDirectory') {
+        if (defaultTargetPlatform == TargetPlatform.android) {
+          return '/data/user/0/$kMojiKitPackageName/flutter_app';
+        }
         return '/mocked/application/documents/directory';
       }
       return null;
@@ -47,9 +54,18 @@ void main() {
 
     test('getRealmPath returns correct path for other platforms', () async {
       debugDefaultTargetPlatformOverride = TargetPlatform.android;
-      final path = await getRealmPath();
-      expect(path, isNotEmpty);
-      expect(path, isA<String>());
+
+      final mockDirectory = MockDirectory();
+      when(() => mockDirectory.existsSync()).thenReturn(true);
+      when(() => mockDirectory.listSync()).thenReturn([]);
+
+      final androidPathMojiMom = await getRealmPath(directory: mockDirectory);
+      expect(androidPathMojiMom, isNotEmpty);
+      expect(androidPathMojiMom, contains(kMojiMomPackageName));
+
+      final androidPath = await getRealmPath();
+      expect(androidPath, isNotEmpty);
+      expect(androidPath, contains(kMojiKitPackageName));
 
       debugDefaultTargetPlatformOverride = TargetPlatform.linux;
       final linuxPath = await getRealmPath();
