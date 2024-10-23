@@ -104,6 +104,7 @@ class S {
   static final shouldTraverseFocus = signal(false);
   static final shouldAddChildMoji = signal(false);
 
+  static final Signal<String> linkingCalendar = signal(kEmptyString);
   static final Signal<bool> flyingOverMojiPlanner = signal(false);
   static final Signal<double> softwareKeyboardHeight = signal(0.0);
   static final Signal<Moji> flyingMoji = signal(U.emptyMoji);
