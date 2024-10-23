@@ -63,7 +63,7 @@ enum MojiDockTile implements Comparable<MojiDockTile> {
       case 'c':
         return MojiDockTile.c;
       default:
-        return MojiDockTile.r;
+        return MojiDockTile.c;
     }
   }
 }

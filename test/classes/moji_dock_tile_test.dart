@@ -53,7 +53,7 @@ void main() {
       expect(MojiDockTile.fromString('i'), MojiDockTile.i);
       expect(MojiDockTile.fromString('p'), MojiDockTile.p);
       expect(MojiDockTile.fromString('c'), MojiDockTile.c);
-      expect(MojiDockTile.fromString('unknown'), MojiDockTile.r);
+      expect(MojiDockTile.fromString('unknown'), MojiDockTile.c);
     });
 
     test('MojiDockTile compareTo compares based on name', () {
