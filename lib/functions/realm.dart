@@ -392,19 +392,12 @@ class R {
             syncLocalUnwrittenMojis(mojiIDs: mojiLBC.map((e) => e.id).toSet());
             final day = sTime;
             if (day != null) {
-              // Derive the day id
-              final did = U.did(day);
-              // Get the moji planner notifier for the day id
-              final mojiPlannerNotifier = U.mojiPlannersNotifiers[did];
-              // If the moji planner notifier exists
-              if (mojiPlannerNotifier != null) {
-                // Get the planner width
-                final plannerWidth = R.p.find<Preferences>(kLocalPreferences)?.mojiPlannerWidth ?? kDefaultMojiPlannerWidth;
-                // Get the flexible moji events for the day
-                final flexibleMojiEvents = U.getFlexibleMojiEventsForDay(day, plannerWidth);
-                // Update the value of the moji planner notifier
-                mojiPlannerNotifier.value = (flexibleMojiEvents, DateTime.now().millisecondsSinceEpoch);
-              }
+              // Get the planner width
+              final plannerWidth = R.p.find<Preferences>(kLocalPreferences)?.mojiPlannerWidth ?? kDefaultMojiPlannerWidth;
+              // Get the day id and the flexible moji events for the day
+              final (did, flexibleMojiEvents) = U.getFlexibleMojiEventsForDay(day, plannerWidth);
+              // Update the value of the moji planner notifier if it exists
+              U.mojiPlannersNotifiers[did]?.value = (flexibleMojiEvents, DateTime.now().millisecondsSinceEpoch);
             }
           },
         ),
@@ -909,16 +902,14 @@ class R {
               final sTime = moji.s?.toUtc();
               // If the moji has a start time
               if (sTime != null) {
-                // Derive the day id
-                final did = U.did(sTime);
+                // Get the planner width
+                final plannerWidth = R.p.find<Preferences>(kLocalPreferences)?.mojiPlannerWidth ?? kDefaultMojiPlannerWidth;
+                // Get the day id and the flexible moji events for the day
+                final (did, flexibleMojiEvents) = U.getFlexibleMojiEventsForDay(sTime, plannerWidth);
                 // Get the existing moji planner notifier
                 final existingMojiPlannerNotifier = U.mojiPlannersNotifiers[did];
                 // If it exists
                 if (existingMojiPlannerNotifier != null) {
-                  // Get the planner width
-                  final plannerWidth = R.p.find<Preferences>(kLocalPreferences)?.mojiPlannerWidth ?? kDefaultMojiPlannerWidth;
-                  // Calculate the flexible moji events for the day
-                  final flexibleMojiEvents = U.getFlexibleMojiEventsForDay(sTime, plannerWidth);
                   // Update the value of the moji planner notifier
                   existingMojiPlannerNotifier.value = (flexibleMojiEvents, DateTime.now().millisecondsSinceEpoch);
                 }
@@ -1097,16 +1088,10 @@ class R {
     final plannerWidth = untracked(() => S.preferencesSignal(kLocalPreferences).value).mojiPlannerWidth ?? kDefaultMojiPlannerWidth;
     // For each moji planner day id that needs to be refreshed
     for (final day in mojiPlannersToRefresh) {
-      final did = U.did(day);
-      // Get the moji planner notifier for the day id
-      final mojiPlannerNotifier = U.mojiPlannersNotifiers[did];
-      // If the moji planner notifier exists
-      if (mojiPlannerNotifier != null) {
-        // Get the flexible moji events for the day
-        final flexibleMojiEvents = U.getFlexibleMojiEventsForDay(day, plannerWidth);
-        // Update the value of the moji planner notifier
-        mojiPlannerNotifier.value = (flexibleMojiEvents, DateTime.now().millisecondsSinceEpoch);
-      }
+      // Get the day id and the flexible moji events for the day
+      final (did, flexibleMojiEvents) = U.getFlexibleMojiEventsForDay(day, plannerWidth);
+      // Update the value of the moji planner notifier if it exists
+      U.mojiPlannersNotifiers[did]?.value = (flexibleMojiEvents, DateTime.now().millisecondsSinceEpoch);
     }
     batch(() {
       // Refresh the moji bar

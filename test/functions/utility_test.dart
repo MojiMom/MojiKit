@@ -146,8 +146,9 @@ void main() {
       final mojiPlannerWidth = 300.0;
 
       // Mock the signals and realm to test functionality
-      final flexibleEvents = U.getFlexibleMojiEventsForDay(day, mojiPlannerWidth);
+      final (did, flexibleEvents) = U.getFlexibleMojiEventsForDay(day, mojiPlannerWidth);
 
+      expect(did, isA<String>());
       expect(flexibleEvents, isA<Map<String, FlexibleMojiEvent>>());
     });
 
@@ -181,7 +182,7 @@ void main() {
         event3MojiR.e = day.add(Duration(hours: 1));
       });
 
-      final flexibleEvents = U.getFlexibleMojiEventsForDay(day, mojiPlannerWidth);
+      final (_, flexibleEvents) = U.getFlexibleMojiEventsForDay(day, mojiPlannerWidth);
       expect(flexibleEvents.keys, containsAll([eid1, eid2, eid3]));
     });
 

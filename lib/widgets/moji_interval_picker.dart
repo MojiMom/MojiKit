@@ -105,11 +105,9 @@ class MojiIntervalPickerState extends State<MojiIntervalPicker> {
                   return mojiR.s?.toUtc();
                 });
                 if (sTime != null) {
-                  final did = U.did(sTime);
-                  final flexibleMojiEvents = U.getFlexibleMojiEventsForDay(sTime, widget.mojiPlannerWidth);
-                  // Get the existing moji planner notifier
-                  final existingMojiPlannerNotifier = U.mojiPlannersNotifiers[did];
-                  existingMojiPlannerNotifier?.value = (flexibleMojiEvents, DateTime.now().millisecondsSinceEpoch);
+                  final (did, flexibleMojiEvents) = U.getFlexibleMojiEventsForDay(sTime, widget.mojiPlannerWidth);
+                  // Update the value of the moji planner notifier if it exists
+                  U.mojiPlannersNotifiers[did]?.value = (flexibleMojiEvents, DateTime.now().millisecondsSinceEpoch);
                 }
               }
             },

@@ -570,7 +570,7 @@ void main() {
       final cfid2 = U.fid();
       untracked(() => S.mojiSignal(cfid1).value);
       untracked(() => S.mojiSignal(cfid2).value);
-      final allMojis = R.getAllMojis([cfid1, cfid2, '']);
+      final allMojis = R.getAllMojis({cfid1, cfid2, ''});
       expect(allMojis.length, 2);
       expect(allMojis.map((m) => m.id).toList(), [cfid1, cfid2]);
     });
