@@ -230,5 +230,11 @@ void main() {
 
       expect(lastInteractionAt.difference(DateTime.now()).inSeconds.abs(), lessThan(1));
     });
+
+    test('linkingCalendar returns correct initial value', () {
+      final linkingCalendar = S.linkingCalendar.value;
+
+      expect(linkingCalendar, equals(kEmptyString));
+    });
   });
 }
