@@ -710,10 +710,10 @@ class R {
     }
   }
 
-  static List<Moji> getAllMojis(List<String>? mids) {
+  static List<Moji> getAllMojis(Set<String>? mids) {
     // Get all the mojis from realm
     final mojisR = <Moji>[];
-    for (final mid in mids ?? []) {
+    for (final mid in mids ?? {}) {
       final moji = untracked(() => S.mojiSignal(mid).value);
       if (moji.id.isNotEmpty) {
         mojisR.add(moji);
