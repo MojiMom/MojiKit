@@ -906,13 +906,8 @@ class R {
                 final plannerWidth = R.p.find<Preferences>(kLocalPreferences)?.mojiPlannerWidth ?? kDefaultMojiPlannerWidth;
                 // Get the day id and the flexible moji events for the day
                 final (did, flexibleMojiEvents) = U.getFlexibleMojiEventsForDay(sTime, plannerWidth);
-                // Get the existing moji planner notifier
-                final existingMojiPlannerNotifier = U.mojiPlannersNotifiers[did];
-                // If it exists
-                if (existingMojiPlannerNotifier != null) {
-                  // Update the value of the moji planner notifier
-                  existingMojiPlannerNotifier.value = (flexibleMojiEvents, DateTime.now().millisecondsSinceEpoch);
-                }
+                // Update the value of the moji planner notifier if it exists
+                U.mojiPlannersNotifiers[did]?.value = (flexibleMojiEvents, DateTime.now().millisecondsSinceEpoch);
               }
             }
             syncLocalUnwrittenMojis(mojiIDs: mojiLBC.map((e) => e.id).toSet());
