@@ -21,7 +21,7 @@ extension RoundTo5Min on double {
 }
 
 class U {
-  static Map<String, FlexibleMojiEvent> getFlexibleMojiEventsForDay(DateTime day, double mojiPlannerWidth) {
+  static (String, Map<String, FlexibleMojiEvent>) getFlexibleMojiEventsForDay(DateTime day, double mojiPlannerWidth) {
     // Since the moji planners are based on the local time use the local time here
     day = day.toLocal();
     final yid = U.did(DateTime(day.year, day.month, day.day - 1));
@@ -43,10 +43,13 @@ class U {
     // Calculate the flexibility of the moji events
     final fMojiEvents = calculateFlexibility(dayMojisR, mojiPlannerWidth);
     // Return a map of the flexible moji events
-    return fMojiEvents.fold<Map<String, FlexibleMojiEvent>>({}, (map, event) {
-      map[event.moji.id] = event;
-      return map;
-    });
+    return (
+      did,
+      fMojiEvents.fold<Map<String, FlexibleMojiEvent>>({}, (map, event) {
+        map[event.moji.id] = event;
+        return map;
+      })
+    );
   }
 
   static String fid() {
