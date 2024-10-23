@@ -30,7 +30,7 @@ class U {
     final mojiPlannerY = untracked(() => S.mojiSignal(yid).value);
     final mojiPlannerD = untracked(() => S.mojiSignal(did).value);
     final mojiPlannerT = untracked(() => S.mojiSignal(tid).value);
-    final mojiEventIds = <String>[];
+    final mojiEventIds = <String>{};
     for (final entries in [mojiPlannerY.l.entries, mojiPlannerD.l.entries, mojiPlannerT.l.entries]) {
       for (final entry in entries) {
         if (U.did(entry.value.toLocal()) == did) {
