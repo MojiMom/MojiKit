@@ -152,7 +152,7 @@ Dye generateDyePalette(Color inputColor, {bool invert = true}) {
   List<Color> palette = [];
 
   for (int i = 0; i < 9; i++) {
-    double factor = i / 5.75;
+    double factor = i / 6.75;
 
     Color newColor = Color.lerp(
       baseColor, // baseColor.withOpacity(0.7),
