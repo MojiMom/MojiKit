@@ -34,7 +34,7 @@ SPEC CHECKSUMS:
   flutter_app_group_directory: 343bbb65318bb5f95bfea8873b7c49dd6604c3d0
   FlutterMacOS: 8f6f14fa908a6fb3fba0cd85dbd81ec4b251fb24
   path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
-  realm: 78a46e9390da0d1be583cd2d5501e8c01cb20b2b
+  realm: b20855504ce4f4bb211d5692caf41d494ae232ce
 
 PODFILE CHECKSUM: 236401fc2c932af29a9fcf0e97baeeb2d750d367
 

@@ -52,6 +52,7 @@ dev_dependencies:
   analyzer: 6.8.0
   file: 7.0.1
   mocktail: 1.0.4
+  icons_launcher: 3.0.0
   
 
 dependency_overrides:
