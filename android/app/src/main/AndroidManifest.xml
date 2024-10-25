@@ -2,7 +2,7 @@
     package="app.mojimom.mojikit"
     android:sharedUserId="app.mojimom.shared">
     <application
-        android:label="mojikit"
+        android:label="MojiKit"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
 		android:roundIcon="@mipmap/ic_launcher_round">
