@@ -305,7 +305,7 @@ class R {
     return mojiDockTiles;
   }
 
-  static void addMojiToPlannerIfNeeded(Moji pMoji, Moji cMoji, {DateTime? cStartTime, DateTime? cEndTime}) {
+  static void addMojiToPlannerIfNeeded(Moji pMoji, Moji cMoji, {DateTime? cStartTime, DateTime? cEndTime, bool shouldUpdateMojis = true}) {
     // Create a list of mojis to update
     final Set<String> mojisToUpdate = {};
     // Create a list of mojis before changes
@@ -402,9 +402,13 @@ class R {
           },
         ),
       );
+      // If the mojis should be updated
+      if (shouldUpdateMojis) {
+        // Update the moji origins
       updateMojiOrigins({cMojiR.id});
       // Sync the unwritten mojis
       syncLocalUnwrittenMojis(mojiIDs: mojisToUpdate);
+      }
     }
   }
 
