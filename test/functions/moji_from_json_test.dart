@@ -21,6 +21,7 @@ void main() {
         'f': 1683350400000,
         'u': 1683436800000,
         'w': 1683523200000,
+        'b': 1683524200000,
         'o': true,
         'i': 10,
       };
@@ -44,6 +45,7 @@ void main() {
       expect(moji.f, DateTime.fromMillisecondsSinceEpoch(1683350400000, isUtc: true));
       expect(moji.u, DateTime.fromMillisecondsSinceEpoch(1683436800000, isUtc: true));
       expect(moji.w, DateTime.fromMillisecondsSinceEpoch(1683523200000, isUtc: true));
+      expect(moji.b, DateTime.fromMillisecondsSinceEpoch(1683524200000, isUtc: true));
       expect(moji.o, true);
       expect(moji.i, 10);
     });
@@ -66,6 +68,7 @@ void main() {
         'f': null,
         'u': null,
         'w': null,
+        'b': null,
         'o': null,
         'i': null,
       };
@@ -89,6 +92,7 @@ void main() {
       expect(moji.f, isNull);
       expect(moji.u, isNull);
       expect(moji.w, isNull);
+      expect(moji.b, isNull);
       expect(moji.o, isNull);
       expect(moji.i, isNull);
     });

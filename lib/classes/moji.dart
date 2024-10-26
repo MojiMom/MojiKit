@@ -68,6 +68,7 @@ class _Moji {
       'f': f?.toUtc().millisecondsSinceEpoch,
       'u': u?.toUtc().millisecondsSinceEpoch,
       'w': w?.toUtc().millisecondsSinceEpoch,
+      'b': b?.toUtc().millisecondsSinceEpoch,
       'o': o,
       'i': i,
     };

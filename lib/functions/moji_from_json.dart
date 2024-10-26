@@ -39,6 +39,7 @@ Moji mojiFromJson(String documentID, Map<String, dynamic> json) {
     f: json['f'] != null ? DateTime.fromMillisecondsSinceEpoch(json['f'], isUtc: true) : null,
     u: json['u'] != null ? DateTime.fromMillisecondsSinceEpoch(json['u'], isUtc: true) : null,
     w: json['w'] != null ? DateTime.fromMillisecondsSinceEpoch(json['w'], isUtc: true) : null,
+    b: json['b'] != null ? DateTime.fromMillisecondsSinceEpoch(json['b'], isUtc: true) : null,
     o: json['o'],
     i: json['i'],
   );

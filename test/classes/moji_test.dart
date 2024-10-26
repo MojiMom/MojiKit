@@ -22,6 +22,7 @@ void main() {
         f: DateTime.utc(2023, 5, 6),
         u: DateTime.utc(2023, 5, 7),
         w: DateTime.utc(2023, 5, 8),
+        b: DateTime.utc(2023, 5, 9),
         o: true,
         i: 10,
       );
@@ -44,6 +45,7 @@ void main() {
       expect(json['f'], DateTime.utc(2023, 5, 6).millisecondsSinceEpoch);
       expect(json['u'], DateTime.utc(2023, 5, 7).millisecondsSinceEpoch);
       expect(json['w'], DateTime.utc(2023, 5, 8).millisecondsSinceEpoch);
+      expect(json['b'], DateTime.utc(2023, 5, 9).millisecondsSinceEpoch);
       expect(json['o'], true);
       expect(json['i'], 10);
     });
