@@ -14,6 +14,7 @@ import 'package:lexicographical_order/lexicographical_order.dart';
 
 class R {
   static void Function(Set<String>) updateMojiOrigins = (_) {};
+  static void Function(String) getModifiedCalendarEvents = (_) {};
   static bool online = false;
   static late Realm m;
   static late Realm p;
@@ -405,9 +406,9 @@ class R {
       // If the mojis should be updated
       if (shouldUpdateMojis) {
         // Update the moji origins
-      updateMojiOrigins({cMojiR.id});
-      // Sync the unwritten mojis
-      syncLocalUnwrittenMojis(mojiIDs: mojisToUpdate);
+        updateMojiOrigins({cMojiR.id});
+        // Sync the unwritten mojis
+        syncLocalUnwrittenMojis(mojiIDs: mojisToUpdate);
       }
     }
   }

@@ -150,6 +150,13 @@ class S {
             if (syncingMojis != true) {
               // Sync the unwritten mojis
               R.syncLocalUnwrittenMojis();
+              // Get the calendar ids
+              final calendarIds = untracked(() => S.mojiSignal(kMojiCalendars).value.c.keys);
+              // For each calendar
+              for (final calendarId in calendarIds) {
+                // Get the modified calendar events
+                R.getModifiedCalendarEvents(calendarId);
+              }
             }
           }();
           yield cDate;
