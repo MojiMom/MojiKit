@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter_test/flutter_test.dart';
+import 'package:lexicographical_order/lexicographical_order.dart';
 import 'package:signals/signals.dart';
 import 'package:mojikit/mojikit.dart';
 import 'package:realm/realm.dart';
@@ -105,6 +108,12 @@ void main() {
     });
 
     test('now stream signal updates every second', () async {
+      final calendars = untracked(() => S.mojiSignal(kMojiCalendars).value);
+      final order = generateOrderKeys(1);
+      final calendarId = base64Encode(utf8.encode('test@example.com'));
+      R.m.write(() {
+        calendars.c[calendarId] = order.first;
+      });
       final nowStream = S.now.toStream();
       final nowValues = <DateTime?>[];
 
