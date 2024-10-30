@@ -127,8 +127,6 @@ void main() {
                 'serialNumber': 'fuchsia_serial_number',
                 'systemId': 'fuchsia_system_id',
               };
-            default:
-              return <String, dynamic>{};
           }
         default:
           return <String, dynamic>{};
