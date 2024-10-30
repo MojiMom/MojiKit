@@ -767,6 +767,12 @@ class R {
             });
           }
         }
+        // Get the planner width
+        final plannerWidth = R.p.find<Preferences>(kLocalPreferences)?.mojiPlannerWidth ?? kDefaultMojiPlannerWidth;
+        // Get the day id and the flexible moji events for the day
+        final (_, flexibleMojiEvents) = U.getFlexibleMojiEventsForDay(sTime, plannerWidth);
+        // Update the value of the moji planner notifier if it exists
+        U.mojiPlannersNotifiers[mojiPlannerR.id]?.value = (flexibleMojiEvents, DateTime.now().millisecondsSinceEpoch);
       }
       // If there are mojis to update
       if (mojisToUpdate.isNotEmpty) {
