@@ -45,7 +45,8 @@ void main() {
 
     testWidgets('MojiCard removes empty node and deletes Moji when text is empty', (WidgetTester tester) async {
       final mockNode = Node(id: 'testNodeId');
-      U.activeTreeController = (mockNode, TreeController<Node>(roots: [mockNode], childrenProvider: (Node node) => node.children));
+      U.activeTreeControllers[mockNode.id] =
+          (mockNode, TreeController<Node>(roots: [mockNode], childrenProvider: (Node node) => node.children));
 
       await tester.pumpWidget(
         MaterialApp(
@@ -236,7 +237,7 @@ void main() {
       S.selectedHeaderView.set(MMHeaderView.thoughts);
       final pMojiId = U.fid();
       final pMojiR = untracked(() => S.mojiSignal(pMojiId).value);
-      U.activeTreeController =
+      U.activeTreeControllers[pMojiId] =
           (Node(id: pMojiId), TreeController<Node>(roots: [Node(id: pMojiId)], childrenProvider: (Node node) => node.children));
       R.m.write(() {
         pMojiR.p = MojiDockTile.g.name;

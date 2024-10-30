@@ -177,17 +177,16 @@ class R {
           (mojiLBC) {
             // Restore the mojis to their previous state
             R.updateMojis(mojiLBC);
+            for (final activeTreeControllerWithNode in U.activeTreeControllers.values) {
+              final activeTreeController = activeTreeControllerWithNode.$2;
+              // Get the nodes within the active tree controller
+              final nodesToRestore = activeTreeController.search((node) {
+                // Return true if the node id is equal to the mid, opid or npid
+                return node.id == mid || node.id == opid || node.id == npid;
+              });
 
-            // Get the nodes within the active tree controller
-            final nodesToRestore = U.activeTreeController?.$2?.search((node) {
-              // Return true if the node id is equal to the mid, opid or npid
-              return node.id == mid || node.id == opid || node.id == npid;
-            });
-
-            // Use a placeholder for the old parent node, new parent node and the moji node
-            Node? oParentN, nParentN, mojiN;
-            // If the nodes to restore exist
-            if (nodesToRestore != null) {
+              // Use a placeholder for the old parent node, new parent node and the moji node
+              Node? oParentN, nParentN, mojiN;
               // For each node in the nodes to restore
               for (final node in nodesToRestore.matches.keys) {
                 // If the node id is equal to the mid
@@ -204,22 +203,21 @@ class R {
                   nParentN = node;
                 }
               }
+
+              // If the old parent node doesn't exist use the root node
+              oParentN ??= activeTreeControllerWithNode.$1;
+
+              // If the moji node exists
+              if (mojiN != null) {
+                // Remove the moji node from the old parent node
+                nParentN?.removeChild(mojiN);
+                // Insert the moji node at theold index in the old parent node
+                oParentN.insertChild(oIndex, mojiN);
+              }
+
+              // Rebuild the active tree controller
+              activeTreeController.rebuild();
             }
-
-            // If the old parent node doesn't exist use the root node
-            oParentN ??= U.activeTreeController?.$1;
-
-            // If the moji node exists
-            if (mojiN != null) {
-              // Remove the moji node from the old parent node
-              nParentN?.removeChild(mojiN);
-              // Insert the moji node at theold index in the old parent node
-              oParentN?.insertChild(oIndex, mojiN);
-            }
-
-            // Rebuild the active tree controller
-            U.activeTreeController?.$2?.rebuild();
-
             // Sync the unwritten mojis
             syncLocalUnwrittenMojis(mojiIDs: mojiLBC.map((e) => e.id).toSet());
           },

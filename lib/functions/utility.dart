@@ -126,7 +126,7 @@ class U {
     }
   }
 
-  static (Node?, TreeController<Node>?)? activeTreeController;
+  static Map<String, (Node, TreeController<Node>)> activeTreeControllers = {};
   static final Map<String, AutoRefreshingAuthClient> calendarAutoRefreshingAuthClients = {};
   static Map<String, ValueNotifier<(Map<String, FlexibleMojiEvent>, int)>> mojiPlannersNotifiers = {};
 

@@ -143,14 +143,14 @@ class DragAndDropTreeViewState extends State<DragAndDropTreeView> {
       parentProvider: (Node node) => node.parent,
     );
 
-    U.activeTreeController = (root, treeController);
+    U.activeTreeControllers[widget.mid] = (root, treeController);
   }
 
   @override
   void dispose() {
     autoScrollController.dispose();
     treeController.dispose();
-    (U.activeTreeController = (null, null));
+    U.activeTreeControllers.remove(widget.mid);
     super.dispose();
   }
 
@@ -217,6 +217,7 @@ class DragAndDropTreeViewState extends State<DragAndDropTreeView> {
           index: entry.node.index,
           key: ValueKey(entry.node.id),
           child: DragAndDropTreeTile(
+            treeController: treeController,
             autoScrollController: autoScrollController,
             entry: entry,
             dye: widget.dye,
@@ -278,6 +279,7 @@ class DragAndDropTreeTile extends StatelessWidget {
     required this.mojiPlannerWidth,
     required this.autoScrollController,
     required this.dye,
+    required this.treeController,
     this.borderSide = BorderSide.none,
     this.longPressDelay,
     this.onFolderPressed,
@@ -290,6 +292,7 @@ class DragAndDropTreeTile extends StatelessWidget {
   final VoidCallback? onFolderPressed;
   final double mojiPlannerWidth;
   final AutoScrollController autoScrollController;
+  final TreeController<Node> treeController;
   final Dye dye;
 
   @override
@@ -324,6 +327,9 @@ class DragAndDropTreeTile extends StatelessWidget {
           },
           onDragEnd: (details) {
             S.flyingMoji.set(U.emptyMoji);
+          },
+          onDragCompleted: () {
+            treeController.rebuild();
           },
           node: entry.node,
           longPressDelay: longPressDelay,

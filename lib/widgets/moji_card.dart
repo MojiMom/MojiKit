@@ -41,7 +41,10 @@ class _MojiCardState extends State<MojiCard> {
         nodeInstance.parent?.removeChild(nodeInstance);
       }
       R.deleteMoji(widget.id);
-      U.activeTreeController?.$2?.rebuild();
+      for (final activeTreeControllerWithNode in U.activeTreeControllers.values) {
+        final activeTreeController = activeTreeControllerWithNode.$2;
+        activeTreeController.rebuild();
+      }
       return;
     }
 
@@ -153,13 +156,17 @@ class _MojiCardState extends State<MojiCard> {
 
   late final _mojiR = S.mojiSignal(widget.id);
   late final _isMojiFlying = computed(() => S.flyingMoji.value.id == widget.id);
-  late final _dye = computed(() {
+  late final _dyeAndParents = computed(() {
     final mojiR = _mojiR.value;
-    if (mojiR.id.isNotEmpty) {
-      final mojiDT = R.getMojiDockTileAndParents(mojiR).$1;
-      return mojiDT.dye.value;
+    final mojiText = mojiR.t;
+    if (_controller.text != mojiText) {
+      _controller.value = _controller.value.copyWith(text: mojiText);
     }
-    return Dyes.unknown;
+    if (mojiR.id.isNotEmpty) {
+      final (mojiDT, parents) = R.getMojiDockTileAndParents(mojiR);
+      return (mojiDT.dye.value, parents);
+    }
+    return (Dyes.unknown, const []);
   });
 
   @override
@@ -173,7 +180,7 @@ class _MojiCardState extends State<MojiCard> {
       child: Watch(
         (context) {
           final isMojiFlying = _isMojiFlying.value;
-          final dye = _dye.value;
+          final dye = _dyeAndParents.value.$1;
           final isSelected = S.selectedMID.value == widget.id;
           return AnimatedContainer(
             constraints: BoxConstraints(
@@ -201,7 +208,7 @@ class _MojiCardState extends State<MojiCard> {
                   Padding(
                     padding: const EdgeInsets.only(left: 1.5),
                     child: Watch((context) {
-                      final dye = _dye.value;
+                      final dye = _dyeAndParents.value.$1;
                       return Theme(
                         data: ThemeData(
                           textSelectionTheme: TextSelectionThemeData(
@@ -211,13 +218,13 @@ class _MojiCardState extends State<MojiCard> {
                           ),
                         ),
                         child: Watch((context) {
-                          final dye = _dye.value;
+                          final dye = _dyeAndParents.value.$1;
                           return CupertinoTheme(
                             data: CupertinoThemeData(
                               primaryColor: dye.extraDark,
                             ),
                             child: Watch((context) {
-                              final dye = _dye.value;
+                              final dye = _dyeAndParents.value.$1;
                               return TextField(
                                 onTapOutside: (event) {
                                   // Since we will be losing focus there won't be any unwritten changes after we update the moji from here
@@ -268,7 +275,11 @@ class _MojiCardState extends State<MojiCard> {
                                 ),
                                 maxLines: null,
                                 onChanged: (value) {
+                                  final mojiR = untracked(() => _mojiR.value);
                                   hasUnwrittenChange = true;
+                                  R.m.write(() {
+                                    mojiR.t = value;
+                                  });
                                 },
                                 onSubmitted: (value) {
                                   final isPlaceholder = widget.placeholder;
@@ -284,9 +295,16 @@ class _MojiCardState extends State<MojiCard> {
                                     });
                                     if (widget.renderedByMojiIsland) {
                                       R.addChildMoji(pid: widget.id, cfid: cfid);
-                                      final pinnedMoji = U.activeTreeController?.$1;
-                                      if (pinnedMoji != null) {
-                                        pinnedMoji.insertChild(0, Node(id: cfid));
+                                      final parents = untracked(() => _dyeAndParents.value.$2);
+                                      for (final parent in parents) {
+                                        if (U.activeTreeControllers[parent.id] != null) {
+                                          U.activeTreeControllers[parent.id]?.$2.rebuild();
+                                          final pinnedMoji = U.activeTreeControllers[widget.id]?.$1;
+                                          if (pinnedMoji != null) {
+                                            pinnedMoji.insertChild(0, Node(id: cfid));
+                                          }
+                                          break;
+                                        }
                                       }
                                     } else {
                                       final mojiR = untracked(() => _mojiR.value);
@@ -297,7 +315,12 @@ class _MojiCardState extends State<MojiCard> {
                                         widget.node?.parent?.insertChild((widget.node?.index ?? 0) + 1, Node(id: cfid));
                                       }
                                     }
-                                    U.activeTreeController?.$2?.rebuild();
+                                    final parents = untracked(() => _dyeAndParents.value.$2);
+                                    for (final parent in parents) {
+                                      if (U.activeTreeControllers[parent.id] != null) {
+                                        U.activeTreeControllers[parent.id]?.$2.rebuild();
+                                      }
+                                    }
                                   } else {
                                     R.updateMoji(widget.id, text: value, npid: isPlaceholder ? selectedMID : null, shouldUpdateOrigin: true);
                                   }

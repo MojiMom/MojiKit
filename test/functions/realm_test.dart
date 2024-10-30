@@ -236,7 +236,7 @@ void main() {
       final opMojiR = untracked(() => S.mojiSignal(opfid).value);
       final npMojiR = untracked(() => S.mojiSignal(npfid).value);
       final cMojiR = untracked(() => S.mojiSignal(cfid).value);
-      U.activeTreeController = (
+      U.activeTreeControllers[npfid] = (
         Node(id: npfid),
         TreeController<Node>(roots: [Node(id: cfid), Node(id: opfid), Node(id: npfid)], childrenProvider: (Node node) => node.children)
       );
