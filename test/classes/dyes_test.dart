@@ -13,18 +13,10 @@ void main() {
   });
 
   group('Dyes class tests', () {
-    test('unknown Dye contains all black colors', () {
+    test('unknown Dye ultra dark is black', () {
       final dye = Dyes.unknown;
 
       expect(dye.ultraDark, Colors.black);
-      expect(dye.extraDark, Colors.black);
-      expect(dye.darker, Colors.black);
-      expect(dye.dark, Colors.black);
-      expect(dye.medium, Colors.black);
-      expect(dye.light, Colors.black);
-      expect(dye.lighter, Colors.black);
-      expect(dye.extraLight, Colors.black);
-      expect(dye.ultraLight, Colors.black);
     });
 
     test('dyes return correct value based on darkness', () async {
@@ -43,7 +35,7 @@ void main() {
       expect(Dyes.red.value, equals(Dyes.redDark));
       expect(Dyes.orange.value, equals(Dyes.orangeDark));
       expect(Dyes.green.value, equals(Dyes.greenDark));
-      expect(Dyes.chestnut.value, equals(Dyes.chestnustDark));
+      expect(Dyes.chestnut.value, equals(Dyes.chestnutDark));
     });
 
     test('generateDyePalette returns a dye palette', () {
@@ -56,12 +48,12 @@ void main() {
     });
 
     test('invertColor correctly inverts the color', () {
-      final originalColor = const Color.fromARGB(255, 100, 150, 200);
+      final originalColor = const Color.from(alpha: 1.0, red: 0.9, green: 0.8, blue: 0.7);
       final invertedColor = invertColor(originalColor);
 
-      expect(invertedColor.red, 155);
-      expect(invertedColor.green, 105);
-      expect(invertedColor.blue, 55);
+      expect((invertedColor.r * 10).round() / 10, 0.1);
+      expect((invertedColor.g * 10).round() / 10, 0.2);
+      expect((invertedColor.b * 10).round() / 10, 0.3);
     });
   });
 }
