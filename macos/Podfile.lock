@@ -4,9 +4,6 @@ PODS:
   - flutter_app_group_directory (0.0.1):
     - FlutterMacOS
   - FlutterMacOS (1.0.0)
-  - path_provider_foundation (0.0.1):
-    - Flutter
-    - FlutterMacOS
   - realm (20.0.0):
     - FlutterMacOS
 
@@ -14,7 +11,6 @@ DEPENDENCIES:
   - device_info_plus (from `Flutter/ephemeral/.symlinks/plugins/device_info_plus/macos`)
   - flutter_app_group_directory (from `Flutter/ephemeral/.symlinks/plugins/flutter_app_group_directory/macos`)
   - FlutterMacOS (from `Flutter/ephemeral`)
-  - path_provider_foundation (from `Flutter/ephemeral/.symlinks/plugins/path_provider_foundation/darwin`)
   - realm (from `Flutter/ephemeral/.symlinks/plugins/realm/macos`)
 
 EXTERNAL SOURCES:
@@ -24,8 +20,6 @@ EXTERNAL SOURCES:
     :path: Flutter/ephemeral/.symlinks/plugins/flutter_app_group_directory/macos
   FlutterMacOS:
     :path: Flutter/ephemeral
-  path_provider_foundation:
-    :path: Flutter/ephemeral/.symlinks/plugins/path_provider_foundation/darwin
   realm:
     :path: Flutter/ephemeral/.symlinks/plugins/realm/macos
 
@@ -33,7 +27,6 @@ SPEC CHECKSUMS:
   device_info_plus: f1aae8670672f75c4c8850ecbe0b2ddef62b0a22
   flutter_app_group_directory: 343bbb65318bb5f95bfea8873b7c49dd6604c3d0
   FlutterMacOS: 8f6f14fa908a6fb3fba0cd85dbd81ec4b251fb24
-  path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
   realm: b20855504ce4f4bb211d5692caf41d494ae232ce
 
 PODFILE CHECKSUM: 236401fc2c932af29a9fcf0e97baeeb2d750d367
