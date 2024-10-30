@@ -32,7 +32,7 @@ class MojiIntervalPickerState extends State<MojiIntervalPicker> {
       data: ThemeData(
         colorScheme: ColorScheme.dark(
           secondary: widget.dye.darker,
-          surface: widget.dye.ultraDark.withOpacity(0.05),
+          surface: widget.dye.ultraDark.withValues(alpha: 0.05),
           primary: widget.dye.extraLight,
         ),
         textTheme: Typography.blackMountainView.copyWith(

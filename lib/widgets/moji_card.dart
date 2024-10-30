@@ -213,7 +213,7 @@ class _MojiCardState extends State<MojiCard> {
                         data: ThemeData(
                           textSelectionTheme: TextSelectionThemeData(
                             cursorColor: dye.extraDark,
-                            selectionColor: dye.medium.withOpacity(0.75),
+                            selectionColor: dye.medium.withValues(alpha: 0.75),
                             selectionHandleColor: dye.extraDark,
                           ),
                         ),

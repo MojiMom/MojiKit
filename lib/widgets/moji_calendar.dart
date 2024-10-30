@@ -29,7 +29,7 @@ class _MojiCalendarState extends State<MojiCalendar> {
       end: widget.relativeDay.add(const Duration(days: 365)),
       style: context.theme.calendarStyle.copyWith(
         decoration: BoxDecoration(
-          color: widget.dye.lighter.withOpacity(0.95),
+          color: widget.dye.lighter.withValues(alpha: 0.95),
           borderRadius: BorderRadius.circular(15),
         ),
         dayPickerStyle: context.theme.calendarStyle.dayPickerStyle.copyWith(
@@ -47,7 +47,7 @@ class _MojiCalendarState extends State<MojiCalendar> {
               textStyle: context.theme.calendarStyle.dayPickerStyle.unselectableStyles.enclosing.unselectedStyle.textStyle.copyWith(
                 fontFamily: kDefaultFontFamily,
                 color: widget.dye.medium,
-                decorationColor: widget.dye.extraDark.withOpacity(0.0),
+                decorationColor: widget.dye.extraDark.withValues(alpha: 0.0),
               ),
             ),
             selectedStyle: context.theme.calendarStyle.dayPickerStyle.unselectableStyles.enclosing.selectedStyle.copyWith(
@@ -58,7 +58,7 @@ class _MojiCalendarState extends State<MojiCalendar> {
               hoveredBackgroundColor: widget.dye.extraDark,
               textStyle: context.theme.calendarStyle.dayPickerStyle.unselectableStyles.enclosing.selectedStyle.textStyle.copyWith(
                 fontFamily: kDefaultFontFamily,
-                decorationColor: widget.dye.extraDark.withOpacity(0.0),
+                decorationColor: widget.dye.extraDark.withValues(alpha: 0.0),
               ),
             ),
           ),
@@ -72,7 +72,7 @@ class _MojiCalendarState extends State<MojiCalendar> {
               textStyle: context.theme.calendarStyle.dayPickerStyle.unselectableStyles.current.unselectedStyle.textStyle.copyWith(
                 fontFamily: kDefaultFontFamily,
                 color: widget.dye.medium,
-                decorationColor: widget.dye.extraDark.withOpacity(0.0),
+                decorationColor: widget.dye.extraDark.withValues(alpha: 0.0),
               ),
             ),
             selectedStyle: context.theme.calendarStyle.dayPickerStyle.unselectableStyles.current.selectedStyle.copyWith(
@@ -83,7 +83,7 @@ class _MojiCalendarState extends State<MojiCalendar> {
               hoveredBackgroundColor: widget.dye.extraDark,
               textStyle: context.theme.calendarStyle.dayPickerStyle.unselectableStyles.current.selectedStyle.textStyle.copyWith(
                 fontFamily: kDefaultFontFamily,
-                decorationColor: widget.dye.extraDark.withOpacity(0.0),
+                decorationColor: widget.dye.extraDark.withValues(alpha: 0.0),
               ),
             ),
           ),
@@ -97,7 +97,7 @@ class _MojiCalendarState extends State<MojiCalendar> {
               textStyle: context.theme.calendarStyle.dayPickerStyle.selectableStyles.current.unselectedStyle.textStyle.copyWith(
                 fontFamily: kDefaultFontFamily,
                 color: widget.dye.medium,
-                decorationColor: widget.dye.extraDark.withOpacity(0.0),
+                decorationColor: widget.dye.extraDark.withValues(alpha: 0.0),
               ),
             ),
             selectedStyle: context.theme.calendarStyle.dayPickerStyle.selectableStyles.current.selectedStyle.copyWith(
@@ -109,7 +109,7 @@ class _MojiCalendarState extends State<MojiCalendar> {
               textStyle: context.theme.calendarStyle.dayPickerStyle.selectableStyles.enclosing.selectedStyle.textStyle.copyWith(
                 fontFamily: kDefaultFontFamily,
                 color: widget.dye.extraDark,
-                decorationColor: widget.dye.extraDark.withOpacity(0.0),
+                decorationColor: widget.dye.extraDark.withValues(alpha: 0.0),
               ),
             ),
           ),
@@ -120,7 +120,7 @@ class _MojiCalendarState extends State<MojiCalendar> {
               backgroundColor: widget.dye.light,
               textStyle: context.theme.calendarStyle.dayPickerStyle.selectableStyles.current.unselectedStyle.textStyle.copyWith(
                 color: widget.dye.darker,
-                decorationColor: widget.dye.extraDark.withOpacity(0.0),
+                decorationColor: widget.dye.extraDark.withValues(alpha: 0.0),
                 fontFamily: kDefaultFontFamily,
               ),
               focusedBorderColor: widget.dye.extraDark,
@@ -133,7 +133,7 @@ class _MojiCalendarState extends State<MojiCalendar> {
               backgroundColor: widget.dye.medium,
               textStyle: context.theme.calendarStyle.dayPickerStyle.selectableStyles.current.selectedStyle.textStyle.copyWith(
                 color: widget.dye.extraDark,
-                decorationColor: widget.dye.extraDark.withOpacity(0.0),
+                decorationColor: widget.dye.extraDark.withValues(alpha: 0.0),
                 fontFamily: kDefaultFontFamily,
               ),
               focusedBorderColor: widget.dye.extraDark,

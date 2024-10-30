@@ -46,7 +46,7 @@ class _MojiKitAppState extends State<MojiKitApp> {
             child: Theme(
               data: ThemeData.light().copyWith(
                 dialogTheme: DialogTheme(
-                  barrierColor: darkness ? Colors.white.withOpacity(0.5) : Colors.black.withOpacity(0.5),
+                  barrierColor: darkness ? Colors.white.withValues(alpha: 0.5) : Colors.black.withValues(alpha: 0.5),
                 ),
               ),
               child: Watch((context) {
