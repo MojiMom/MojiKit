@@ -162,11 +162,8 @@ class _MojiCardState extends State<MojiCard> {
     if (_controller.text != mojiText) {
       _controller.value = _controller.value.copyWith(text: mojiText);
     }
-    if (mojiR.id.isNotEmpty) {
       final (mojiDT, parents) = R.getMojiDockTileAndParents(mojiR);
       return (mojiDT.dye.value, parents);
-    }
-    return (Dyes.unknown, const []);
   });
 
   @override
