@@ -20,7 +20,7 @@ void main() async {
   // Initialize realm
   R.m = Realm(Configuration.local([Moji.schema], path: '$realmPath/moji'));
   R.p = Realm(Configuration.local([Preferences.schema], path: '$realmPath/preferences'));
-
+  S.selectedHeaderView.set(MMHeaderView.thoughts);
   runApp(const MojiKitApp());
 }
 
