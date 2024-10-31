@@ -34,6 +34,27 @@ class MojiKitApp extends StatefulWidget {
 
 class _MojiKitAppState extends State<MojiKitApp> {
   final _dye = Dyes.grey;
+  final r = S.mojiSignal(MojiDockTile.r.name);
+  final o = S.mojiSignal(MojiDockTile.o.name);
+  final g = S.mojiSignal(MojiDockTile.g.name);
+  final t = S.mojiSignal(MojiDockTile.t.name);
+  final b = S.mojiSignal(MojiDockTile.b.name);
+  final i = S.mojiSignal(MojiDockTile.i.name);
+  final p = S.mojiSignal(MojiDockTile.p.name);
+  final c = S.mojiSignal(MojiDockTile.c.name);
+  late final _mojiDockTilesWithDye = computed(() {
+    final mojiDockTiles = [
+      (r.value, MojiDockTile.r.dye),
+      (o.value, MojiDockTile.o.dye),
+      (g.value, MojiDockTile.g.dye),
+      (t.value, MojiDockTile.t.dye),
+      (b.value, MojiDockTile.b.dye),
+      (i.value, MojiDockTile.i.dye),
+      (p.value, MojiDockTile.p.dye),
+      (c.value, MojiDockTile.c.dye),
+    ];
+    return mojiDockTiles;
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -173,37 +194,38 @@ class _MojiKitAppState extends State<MojiKitApp> {
                       extendBodyBehindAppBar: false,
                       extendBody: true,
                       resizeToAvoidBottomInset: false,
-                      body: Container(
-                        color: U.ultraLightBackground(dye),
-                        child: ReorderableListView.builder(
-                          physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-                          padding: EdgeInsets.only(left: 15),
-                          itemExtentBuilder: (index, dimensions) {
-                            final screenWidth = dimensions.viewportMainAxisExtent;
-                            final extent = screenWidth - 60.0 > 500.0 ? 500.0 : screenWidth - 60.0;
-                            return extent;
-                          },
-                          onReorderStart: (index) {},
-                          onReorderEnd: (index) {},
-                          scrollDirection: Axis.horizontal,
-                          buildDefaultDragHandles: false,
-                          proxyDecorator: (child, index, animation) {
-                            return Transform.rotate(
-                              angle: 0.10,
-                              child: Transform.scale(
-                                scale: 0.8,
-                                child: Material(
-                                  color: Colors.transparent,
-                                  child: child,
+                      body: Watch((context) {
+                        final mojiDockTiles = _mojiDockTilesWithDye.value;
+                        return Container(
+                          color: U.ultraLightBackground(dye),
+                          child: ReorderableListView.builder(
+                            physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+                            padding: EdgeInsets.only(left: 15),
+                            itemExtentBuilder: (index, dimensions) {
+                              final screenWidth = dimensions.viewportMainAxisExtent;
+                              final extent = screenWidth - 60.0 > 500.0 ? 500.0 : screenWidth - 60.0;
+                              return extent;
+                            },
+                            onReorderStart: (index) {},
+                            onReorderEnd: (index) {},
+                            scrollDirection: Axis.horizontal,
+                            buildDefaultDragHandles: false,
+                            proxyDecorator: (child, index, animation) {
+                              return Transform.rotate(
+                                angle: 0.10,
+                                child: Transform.scale(
+                                  scale: 0.8,
+                                  child: Material(
+                                    color: Colors.transparent,
+                                    child: child,
+                                  ),
                                 ),
-                              ),
-                            );
-                          },
-                          itemBuilder: (context, index) {
-                            final mojiDockTile = MojiDockTile.values[index];
-                            return Watch(
-                              (context) {
-                                final dye = mojiDockTile.dye.value;
+                              );
+                            },
+                            itemBuilder: (context, index) {
+                              final (mojiDockTile, mojiDockTileDye) = mojiDockTiles[index];
+                              return Watch(key: ValueKey(mojiDockTile.id), (context) {
+                                final dye = mojiDockTileDye.value;
                                 return ReorderableDragStartListener(
                                   index: index,
                                   child: Padding(
@@ -213,7 +235,7 @@ class _MojiKitAppState extends State<MojiKitApp> {
                                       crossAxisAlignment: CrossAxisAlignment.center,
                                       children: [
                                         HugeIcon(
-                                          icon: hugeIconsMap[mojiDockTile.mcp] ?? HugeIcons.strokeRoundedQuestion,
+                                          icon: hugeIconsMap[mojiDockTile.m] ?? HugeIcons.strokeRoundedQuestion,
                                           size: kMojiTileIconSize,
                                           color: dye.dark,
                                         ),
@@ -239,8 +261,8 @@ class _MojiKitAppState extends State<MojiKitApp> {
                                                   },
                                                 ),
                                                 child: MojiTree(
-                                                  key: ValueKey('mojiTree:${mojiDockTile.name}'),
-                                                  mid: mojiDockTile.name,
+                                                  key: ValueKey('mojiTree:${mojiDockTile.id}'),
+                                                  mid: mojiDockTile.id,
                                                   dye: dye,
                                                   mojiPlannerWidth: 500,
                                                 ),
@@ -252,14 +274,13 @@ class _MojiKitAppState extends State<MojiKitApp> {
                                     ),
                                   ),
                                 );
-                              },
-                              key: ValueKey(mojiDockTile.name),
-                            );
-                          },
-                          itemCount: MojiDockTile.values.length,
-                          onReorder: (a, b) {},
-                        ),
-                      ),
+                              });
+                            },
+                            itemCount: mojiDockTiles.length,
+                            onReorder: (a, b) {},
+                          ),
+                        );
+                      }),
                     ),
                   ),
                 );
