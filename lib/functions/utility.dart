@@ -98,7 +98,7 @@ class U {
 
   static final mojiChanges = ChangeStack();
 
-  static final mojiPlannerScrollController = InfiniteScrollController(initialItem: untracked(() => S.currentMojiPlannerIndex.value));
+  static InfiniteScrollController mojiPlannerScrollController = InfiniteScrollController(initialItem: untracked(() => S.currentMojiPlannerIndex.value));
 
   static String? author;
 
