@@ -162,8 +162,8 @@ class _MojiCardState extends State<MojiCard> {
     if (_controller.text != mojiText) {
       _controller.value = _controller.value.copyWith(text: mojiText);
     }
-      final (mojiDT, parents) = R.getMojiDockTileAndParents(mojiR);
-      return (mojiDT.dye.value, parents);
+    final (mojiDT, parents) = R.getMojiDockTileAndParents(mojiR);
+    return (mojiDT.dye.value, parents);
   });
 
   @override
@@ -295,11 +295,9 @@ class _MojiCardState extends State<MojiCard> {
                                       final parents = untracked(() => _dyeAndParents.value.$2);
                                       for (final parent in parents) {
                                         if (U.activeTreeControllers[parent.id] != null) {
+                                          final pinnedMoji = U.activeTreeControllers[parent.id]?.$1;
+                                          pinnedMoji?.insertChild(0, Node(id: cfid));
                                           U.activeTreeControllers[parent.id]?.$2.rebuild();
-                                          final pinnedMoji = U.activeTreeControllers[widget.id]?.$1;
-                                          if (pinnedMoji != null) {
-                                            pinnedMoji.insertChild(0, Node(id: cfid));
-                                          }
                                           break;
                                         }
                                       }

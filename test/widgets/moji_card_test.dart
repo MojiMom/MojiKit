@@ -236,9 +236,18 @@ void main() {
     testWidgets('Can create child moji when submitting text on thoughts view', (WidgetTester tester) async {
       S.selectedHeaderView.set(MMHeaderView.thoughts);
       final pMojiId = U.fid();
+      final cMojiId = U.fid();
       final pMojiR = untracked(() => S.mojiSignal(pMojiId).value);
+      final cMojiR = untracked(() => S.mojiSignal(cMojiId).value);
+      final order = generateOrderKeys(1);
+      R.m.write(() {
+        pMojiR.c[cMojiId] = order.first;
+        cMojiR.p = pMojiId;
+      });
+
       U.activeTreeControllers[pMojiId] =
           (Node(id: pMojiId), TreeController<Node>(roots: [Node(id: pMojiId)], childrenProvider: (Node node) => node.children));
+
       R.m.write(() {
         pMojiR.p = MojiDockTile.g.name;
       });
@@ -246,7 +255,7 @@ void main() {
         home: Material(
           child: Center(
             child: MojiCard(
-              id: pMojiId,
+              id: cMojiId,
               renderedByMojiIsland: true,
               shouldShowParentMojis: true,
               openMojiChild: false,
@@ -272,8 +281,8 @@ void main() {
       await tester.testTextInput.receiveAction(TextInputAction.done);
       await tester.pumpAndSettle();
 
-      expect(pMojiR.t, equals('${kEmptySpace}Submitted Text'));
-      expect(pMojiR.c.length, equals(1));
+      expect(cMojiR.t, equals('${kEmptySpace}Submitted Text'));
+      expect(cMojiR.c.length, equals(1));
     });
 
     testWidgets('Can update itself when not on thoughts view', (WidgetTester tester) async {
