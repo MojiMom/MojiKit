@@ -293,6 +293,7 @@ class _MojiCardState extends State<MojiCard> {
                                     if (widget.renderedByMojiIsland) {
                                       R.addChildMoji(pid: widget.id, cfid: cfid);
                                       final parents = untracked(() => _dyeAndParents.value.$2);
+                                      parents.insert(0, untracked(() => _mojiR.value));
                                       for (final parent in parents) {
                                         if (U.activeTreeControllers[parent.id] != null) {
                                           final pinnedMoji = U.activeTreeControllers[parent.id]?.$1;
