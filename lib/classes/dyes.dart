@@ -4,8 +4,10 @@ import 'package:signals/signals.dart';
 import 'package:mojikit/mojikit.dart';
 
 class Dyes {
-  static const blackReference = Color.from(alpha: 1.0, red: 0.0, green: 0.0, blue: 0.0);
-  static final Dye unknown = generateDyePalette(blackReference, invert: false);
+  static const greyReference = Color.from(alpha: 1.0, red: 0.42, green: 0.42, blue: 0.42);
+  static final Dye greyLight = generateDyePalette(greyReference, invert: false);
+  static final Dye greyDark = generateDyePalette(greyReference);
+  static Computed<Dye> get grey => computed(() => S.darkness.value ? greyDark : greyLight);
 
   static const tealReference = Color.from(alpha: 1.0, red: 0.000000, green: 0.537255, blue: 0.482353);
   static final Dye tealLight = generateDyePalette(tealReference, invert: false);

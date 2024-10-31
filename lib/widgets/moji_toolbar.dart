@@ -92,7 +92,7 @@ class _MojiToolbarState extends State<MojiToolbar> {
                 },
                 child: Watch((context) {
                   final shouldShowMojiPicker = S.shouldShowMojiPicker.value;
-                  final dye = _result.value?.$3 ?? Dyes.unknown;
+                  final dye = _result.value?.$3 ?? Dyes.grey.value;
                   return AnimatedContainer(
                     curve: Curves.ease,
                     duration: const Duration(milliseconds: 250),
@@ -116,7 +116,7 @@ class _MojiToolbarState extends State<MojiToolbar> {
                           final pMoji = mojiTileParents[index];
                           return Watch(
                             (context) {
-                              final dye = _result.value?.$3 ?? Dyes.unknown;
+                              final dye = _result.value?.$3 ?? Dyes.grey.value;
                               return HugeIcon(
                                 icon: hugeIconsMap[pMoji.m] ?? HugeIcons.strokeRoundedQuestion,
                                 color: dye.ultraDark,
@@ -197,7 +197,7 @@ class _MojiToolbarState extends State<MojiToolbar> {
                 },
                 child: Watch((context) {
                   final fCalendarController = S.fCalendarController.value;
-                  final dye = _result.value?.$3 ?? Dyes.unknown;
+                  final dye = _result.value?.$3 ?? Dyes.grey.value;
                   return AnimatedContainer(
                     duration: const Duration(milliseconds: 250),
                     curve: Curves.ease,
@@ -256,7 +256,7 @@ class _MojiToolbarState extends State<MojiToolbar> {
                     ),
                     child: Center(
                       child: Watch((context) {
-                        final dye = _result.value?.$3 ?? Dyes.unknown;
+                        final dye = _result.value?.$3 ?? Dyes.grey.value;
                         return HugeIcon(
                           icon: HugeIcons.strokeRoundedDelete02,
                           color: dye.ultraDark,
@@ -275,7 +275,7 @@ class _MojiToolbarState extends State<MojiToolbar> {
                   }
                 },
                 child: Watch((context) {
-                  final dye = _result.value?.$3 ?? Dyes.unknown;
+                  final dye = _result.value?.$3 ?? Dyes.grey.value;
                   return Container(
                     constraints: const BoxConstraints(minWidth: 45),
                     decoration: BoxDecoration(

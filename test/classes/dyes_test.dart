@@ -13,10 +13,10 @@ void main() {
   });
 
   group('Dyes class tests', () {
-    test('unknown Dye ultra dark is black', () {
-      final dye = Dyes.unknown;
+    test('the ultra dark dye is same as the reference', () {
+      final dye = untracked(() => Dyes.grey.value);
 
-      expect(dye.ultraDark, Colors.black);
+      expect(dye.ultraDark, Dyes.greyReference);
     });
 
     test('dyes return correct value based on darkness', () async {
@@ -28,6 +28,7 @@ void main() {
         preferences.darkness = true;
       });
 
+      expect(Dyes.grey.value, equals(Dyes.greyDark));
       expect(Dyes.teal.value, equals(Dyes.tealDark));
       expect(Dyes.blue.value, equals(Dyes.blueDark));
       expect(Dyes.indigo.value, equals(Dyes.indigoDark));
