@@ -95,23 +95,27 @@ class S {
   static final Signal<MojiDockTile?> implicitMojiDockTile = signal(initialMojiDockTile);
   static final Signal<MojiDockTile?> selectedMojiDockTile = signal(initialMojiDockTile);
 
-  static final shouldShowIntervalPicker = signal(false);
-  static final shouldShowMojiPicker = signal(false);
-  static final selectedHeaderView = signal(MMHeaderView.plan);
+  static final Signal<MMHeaderView> selectedHeaderView = signal(MMHeaderView.plan);
   static final Signal<FCalendarController<DateTime?>?> fCalendarController = signal(null);
 
-  static final currentMojiText = signal(kEmptyString);
-  static final shouldTraverseFocus = signal(false);
-  static final shouldAddChildMoji = signal(false);
-
+  static final Signal<String> currentMojiText = signal(kEmptyString);
   static final Signal<String> linkingCalendar = signal(kEmptyString);
+
+  static final Signal<bool> shouldShowIntervalPicker = signal(false);
+  static final Signal<bool> shouldShowMojiPicker = signal(false);
+  static final Signal<bool> shouldTraverseFocus = signal(false);
+  static final Signal<bool> shouldAddChildMoji = signal(false);
+  static final Signal<bool> shouldShowPerformanceOverlay = signal(false);
   static final Signal<bool> flyingOverMojiPlanner = signal(false);
-  static final Signal<double> softwareKeyboardHeight = signal(0.0);
+
   static final Signal<Moji> flyingMoji = signal(U.emptyMoji);
   static final Signal<Moji> flyingMojiEvent = signal(U.emptyMoji);
   static final Signal<Moji> flyingMojiDragTarget = signal(U.emptyMoji);
-  static final Signal<double> additionalTopOffsetFromHandle = signal(0.0);
 
+  static final Signal<double> additionalTopOffsetFromHandle = signal(0.0);
+  static final Signal<double> softwareKeyboardHeight = signal(0.0);
+
+  static final Signal<DateTime> lastInteractionAt = signal(DateTime.now());
   // The current moji planner index
   static final currentMojiPlannerIndex = signal(() {
     final now = DateTime.now();
@@ -164,5 +168,4 @@ class S {
       }
     }(),
   );
-  static final lastInteractionAt = signal(DateTime.now());
 }

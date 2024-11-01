@@ -245,5 +245,11 @@ void main() {
 
       expect(linkingCalendar, equals(kEmptyString));
     });
+
+    test('shouldShowPerformanceOverlay returns correct initial value', () {
+      final shouldShowPerformanceOverlay = S.shouldShowPerformanceOverlay.value;
+
+      expect(shouldShowPerformanceOverlay, isFalse);
+    });
   });
 }
