@@ -40,7 +40,7 @@ class _MojiCardState extends State<MojiCard> {
       if (nodeInstance != null) {
         nodeInstance.parent?.removeChild(nodeInstance);
       }
-      R.deleteMoji(widget.id);
+      R.deleteMojis({widget.id});
       for (final activeTreeControllerWithNode in U.activeTreeControllers.values) {
         final activeTreeController = activeTreeControllerWithNode.$2;
         activeTreeController.rebuild();

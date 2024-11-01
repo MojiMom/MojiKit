@@ -820,83 +820,86 @@ class R {
     }
   }
 
-  static void deleteMoji(String mid) {
+  static void deleteMojis(Set<String> mids) {
     // Create a list of mojis to update
     final Set<String> mojisToUpdate = {};
     // Create a list of mojis before changes
     final List<Moji> mojiLBC = [];
-    // Get the moji that needs to be deleted from realm
-    final mojiR = untracked(() => S.mojiSignal(mid).value);
-    // If it exists
-    if (mojiR.id.isNotEmpty) {
-      // Add a copy of the moji to the list of mojis before changes
-      mojiLBC.add(mojiR.copyWith());
-      // Get the parent moji id
-      final pid = mojiR.p;
-      // If it has a parent
-      if (pid != null) {
-        // Get the parent moji from realm
-        final pMojiR = untracked(() => S.mojiSignal(pid).value);
-        // If the parent moji exists
-        if (pMojiR.id.isNotEmpty) {
-          // Add a copy of the parent moji to the list of mojis before changes
-          mojiLBC.add(pMojiR.copyWith());
-          // Start a write transaction
-          R.m.write(() {
-            // Remove the moji from the parent moji's children
-            pMojiR.c.remove(mojiR.id);
-            // Remove the moji from the parent moji's heap
-            pMojiR.h.remove(mojiR.id);
-            // Remove the moji from the parent moji's log
-            pMojiR.l.remove(mojiR.id);
-            // Remove the moji from the parent moji's quick access
-            pMojiR.q.remove(mojiR.id);
-            // If it's not already added to the junk map
-            if (pMojiR.j.containsKey(mojiR.id) != true) {
-              // Add it to the top of the junk map
-              pMojiR.j[mojiR.id] = DateTime.now().toUtc();
-            }
-            // Reset the write time of the moji
-            pMojiR.w = U.zeroDateTime;
-            // Add the parent moji to the list of mojis to update
-          });
+    for (final mid in mids) {
+      // Get the moji that needs to be deleted from realm
+      final mojiR = untracked(() => S.mojiSignal(mid).value);
+      // If it exists
+      if (mojiR.id.isNotEmpty) {
+        // Add a copy of the moji to the list of mojis before changes
+        mojiLBC.add(mojiR.copyWith());
+        // Get the parent moji id
+        final pid = mojiR.p;
+        // If it has a parent
+        if (pid != null) {
+          // Get the parent moji from realm
+          final pMojiR = untracked(() => S.mojiSignal(pid).value);
+          // If the parent moji exists
+          if (pMojiR.id.isNotEmpty) {
+            // Add a copy of the parent moji to the list of mojis before changes
+            mojiLBC.add(pMojiR.copyWith());
+            // Start a write transaction
+            R.m.write(() {
+              // Remove the moji from the parent moji's children
+              pMojiR.c.remove(mojiR.id);
+              // Remove the moji from the parent moji's heap
+              pMojiR.h.remove(mojiR.id);
+              // Remove the moji from the parent moji's log
+              pMojiR.l.remove(mojiR.id);
+              // Remove the moji from the parent moji's quick access
+              pMojiR.q.remove(mojiR.id);
+              // If it's not already added to the junk map
+              if (pMojiR.j.containsKey(mojiR.id) != true) {
+                // Add it to the top of the junk map
+                pMojiR.j[mojiR.id] = DateTime.now().toUtc();
+              }
+              // Reset the write time of the moji
+              pMojiR.w = U.zeroDateTime;
+              // Add the parent moji to the list of mojis to update
+            });
 
-          mojisToUpdate.add(pMojiR.id);
+            mojisToUpdate.add(pMojiR.id);
+          }
         }
-      }
-      // Get the start time of the moji
-      final sTime = mojiR.s?.toUtc();
-      // If the moji has a start time
-      if (sTime != null) {
-        // Derive the day id
-        final did = U.did(sTime);
-        // Get the moji planner from realm
-        final mojiPlannerR = untracked(() => S.mojiSignal(did).value);
-        // If the moji planner exists
-        if (mojiPlannerR.id.isNotEmpty) {
-          // Add a copy of the moji planner to the list of mojis before changes
-          mojiLBC.add(mojiPlannerR.copyWith());
-          // Start a write transaction
-          R.m.write(() {
-            // Remove the moji from the moji planner moji's children
-            mojiPlannerR.c.remove(mojiR.id);
-            // Remove the moji from the moji planner moji's heap
-            mojiPlannerR.h.remove(mojiR.id);
-            // Remove the moji from the moji planner moji's log
-            mojiPlannerR.l.remove(mojiR.id);
-            // If it's not already added to the junk list
-            if (mojiPlannerR.j.containsKey(mojiR.id) != true) {
-              // Add it to the top of the junk list
-              mojiPlannerR.j[mojiR.id] = DateTime.now().toUtc();
-            }
-            // Reset the write time of the moji
-            mojiPlannerR.w = U.zeroDateTime;
-            // Add the moji planner moji to the list of mojis to update
-          });
-          mojisToUpdate.add(mojiPlannerR.id);
+        // Get the start time of the moji
+        final sTime = mojiR.s?.toUtc();
+        // If the moji has a start time
+        if (sTime != null) {
+          // Derive the day id
+          final did = U.did(sTime);
+          // Get the moji planner from realm
+          final mojiPlannerR = untracked(() => S.mojiSignal(did).value);
+          // If the moji planner exists
+          if (mojiPlannerR.id.isNotEmpty) {
+            // Add a copy of the moji planner to the list of mojis before changes
+            mojiLBC.add(mojiPlannerR.copyWith());
+            // Start a write transaction
+            R.m.write(() {
+              // Remove the moji from the moji planner moji's children
+              mojiPlannerR.c.remove(mojiR.id);
+              // Remove the moji from the moji planner moji's heap
+              mojiPlannerR.h.remove(mojiR.id);
+              // Remove the moji from the moji planner moji's log
+              mojiPlannerR.l.remove(mojiR.id);
+              // If it's not already added to the junk list
+              if (mojiPlannerR.j.containsKey(mojiR.id) != true) {
+                // Add it to the top of the junk list
+                mojiPlannerR.j[mojiR.id] = DateTime.now().toUtc();
+              }
+              // Reset the write time of the moji
+              mojiPlannerR.w = U.zeroDateTime;
+              // Add the moji planner moji to the list of mojis to update
+            });
+            mojisToUpdate.add(mojiPlannerR.id);
+          }
         }
       }
     }
+
     // If there are mojis to update
     if (mojisToUpdate.isNotEmpty) {
       U.mojiChanges.add(

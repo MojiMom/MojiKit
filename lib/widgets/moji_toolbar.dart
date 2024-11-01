@@ -234,7 +234,7 @@ class _MojiToolbarState extends State<MojiToolbar> {
                   final mojiR = untracked(() => _mojiR.value);
                   if (mojiR.p == null) return;
                   final isMojiTile = mojiR.m != null;
-                  R.deleteMoji(mojiR.id);
+                  R.deleteMojis({mojiR.id});
                   batch(() {
                     S.selectedMID.set(kEmptyString);
                     S.pinnedMID.set(kEmptyString);

@@ -621,7 +621,7 @@ void main() {
         plMojiR.l[cfid] = sTime.toUtc();
       });
 
-      R.deleteMoji(cfid);
+      R.deleteMojis({cfid});
 
       expect(pMojiR.c, isEmpty);
       expect(pMojiR.j.values.first.isAfter(sTime), true);
