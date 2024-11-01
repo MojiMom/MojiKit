@@ -9,9 +9,9 @@ import 'package:googleapis_auth/auth_io.dart';
 import 'package:intl/intl.dart';
 import 'package:mojikit/mojikit.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
+import 'package:signals/signals_flutter.dart';
 import 'package:undo/undo.dart';
 import 'package:infinite_carousel/infinite_carousel.dart';
-import 'package:signals/signals.dart';
 import 'package:flutter/material.dart';
 
 extension RoundTo5Min on double {
@@ -128,7 +128,7 @@ class U {
 
   static Map<String, (Node, TreeController<Node>)> activeTreeControllers = {};
   static final Map<String, AutoRefreshingAuthClient> calendarAutoRefreshingAuthClients = {};
-  static Map<String, ValueNotifier<(Map<String, FlexibleMojiEvent>, int)>> mojiPlannersNotifiers = {};
+  static Map<String, FlutterSignal<(Map<String, FlexibleMojiEvent>, int)>> mojiPlannersNotifiers = {};
 
   static final mojiDockTileASC = AutoScrollController();
   static final emptyMoji = Moji(kEmptyString);

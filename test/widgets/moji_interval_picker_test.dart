@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mojikit/mojikit.dart';
 import 'package:realm/realm.dart';
 import 'package:flutter/material.dart';
-import 'package:signals/signals.dart';
+import 'package:signals/signals_flutter.dart';
 
 void main() {
   setUpAll(() async {
@@ -19,7 +19,7 @@ void main() {
       final sTime = DateTime(2023, 1, 1).toUtc();
       final did = U.did(sTime);
       U.mojiPlannersNotifiers = {
-        did: ValueNotifier((Map<String, FlexibleMojiEvent>.from({did: FlexibleMojiEvent(mojiR)}), 0))
+        did: FlutterSignal((Map<String, FlexibleMojiEvent>.from({did: FlexibleMojiEvent(mojiR)}), 0))
       };
       R.m.write(() {
         mojiR.s = sTime;

@@ -1,11 +1,10 @@
 import 'dart:convert';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_fancy_tree_view/flutter_fancy_tree_view.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mojikit/mojikit.dart';
 import 'package:realm/realm.dart';
 import 'package:lexicographical_order/lexicographical_order.dart';
-import 'package:signals/signals.dart';
+import 'package:signals/signals_flutter.dart';
 
 void main() {
   setUpAll(() async {
@@ -27,7 +26,7 @@ void main() {
       final mojiR = untracked(() => S.mojiSignal(fid).value);
       final did = U.did(day);
       U.mojiPlannersNotifiers = {
-        did: ValueNotifier((Map<String, FlexibleMojiEvent>.from({did: FlexibleMojiEvent(mojiR)}), 0))
+        did: FlutterSignal((Map<String, FlexibleMojiEvent>.from({did: FlexibleMojiEvent(mojiR)}), 0))
       };
       R.m.write(() {
         mojiR.w = day;
@@ -391,7 +390,7 @@ void main() {
       final cMojiR = untracked(() => S.mojiSignal(cfid).value);
       final plMojiR = untracked(() => S.mojiSignal(did).value);
       U.mojiPlannersNotifiers = {
-        did: ValueNotifier((Map<String, FlexibleMojiEvent>.from({did: FlexibleMojiEvent(cMojiR)}), 0))
+        did: FlutterSignal((Map<String, FlexibleMojiEvent>.from({did: FlexibleMojiEvent(cMojiR)}), 0))
       };
       R.m.write(() {
         pMojiR.c[cfid] = generateOrderKeys(1).first;
@@ -612,7 +611,7 @@ void main() {
       final cMojiR = untracked(() => S.mojiSignal(cfid).value);
       final plMojiR = untracked(() => S.mojiSignal(did).value);
       U.mojiPlannersNotifiers = {
-        did: ValueNotifier((Map<String, FlexibleMojiEvent>.from({did: FlexibleMojiEvent(cMojiR)}), 0))
+        did: FlutterSignal((Map<String, FlexibleMojiEvent>.from({did: FlexibleMojiEvent(cMojiR)}), 0))
       };
       R.m.write(() {
         pMojiR.c[cfid] = order.first;

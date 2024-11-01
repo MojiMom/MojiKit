@@ -7,6 +7,7 @@ import 'package:mojikit/mojikit.dart';
 import 'package:realm/realm.dart';
 
 void main() {
+  SignalsObserver.instance = null;
   setUpAll(() async {
     R.m = Realm(Configuration.local([Moji.schema], path: await U.newTestRealm()));
     R.p = Realm(Configuration.local([Preferences.schema], path: await U.newTestRealm()));
