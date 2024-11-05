@@ -21,7 +21,17 @@ class MojiIntervalPickerState extends State<MojiIntervalPicker> {
 
   late final _interval = computed(() {
     final moji = _mojiR.value;
-    return moji.e?.difference(moji.s ?? U.zeroDateTime).inMinutes ?? moji.i ?? kDefaultMojiEventDuration.inMinutes;
+    final intervalPickerState = S.intervalPickerState.value;
+    final startTime = moji.s?.toLocal();
+    final endTime = moji.e?.toLocal();
+    switch (intervalPickerState) {
+      case IntervalPickerState.start:
+        return (startTime?.hour ?? 0) * 60 + (startTime?.minute ?? 0);
+      case IntervalPickerState.end:
+        return (endTime?.hour ?? 0) * 60 + (endTime?.minute ?? 0);
+      default:
+        return endTime?.difference(startTime ?? U.zeroDateTime).inMinutes ?? moji.i ?? kDefaultMojiEventDuration.inMinutes;
+    }
   });
 
   Moji? mojiBC;
@@ -88,16 +98,37 @@ class MojiIntervalPickerState extends State<MojiIntervalPicker> {
             duration: Duration(minutes: interval),
             onChange: (Duration newDuration) {
               var round = (newDuration.inMinutes / 5).round() * 5;
+
               if (interval != round) {
                 HapticFeedback.lightImpact();
+                final mojiIntervalPickerState = untracked(() => S.intervalPickerState.value);
+
                 final sTime = R.m.write<DateTime?>(() {
                   Duration eventDuration = Duration.zero;
-                  final eTime = mojiR.e?.toUtc();
                   final sTime = mojiR.s?.toUtc();
-                  if (eTime != null && sTime != null) {
-                    eventDuration = eTime.difference(sTime);
-                    mojiR.e = sTime.add(Duration(minutes: round)).toUtc();
+                  final eTime = mojiR.e?.toUtc();
+                  if (sTime != null && eTime != null) {
+                    switch (mojiIntervalPickerState) {
+                      case IntervalPickerState.duration:
+                        final newEndTime = sTime.add(Duration(minutes: round)).toUtc();
+                        if (newEndTime.isAfter(sTime) && newEndTime.day == sTime.day) {
+                          mojiR.e = newEndTime;
+                        }
+                      case IntervalPickerState.start:
+                        final newStartTime = DateTime(sTime.year, sTime.month, sTime.day).add(Duration(minutes: round)).toUtc();
+                        if (newStartTime.isBefore(eTime) && eTime.difference(newStartTime).inMinutes >= kMinMojiEventDuration.inMinutes) {
+                          mojiR.s = newStartTime;
+                        }
+                      case IntervalPickerState.end:
+                        final newEndTime = DateTime(sTime.year, sTime.month, sTime.day).add(Duration(minutes: round)).toUtc();
+                        if (newEndTime.isAfter(sTime) && newEndTime.day == sTime.day) {
+                          mojiR.e = newEndTime;
+                        }
+                      default:
+                    }
+                    eventDuration = mojiR.e?.difference(mojiR.s ?? U.zeroDateTime) ?? Duration.zero;
                   }
+
                   if (eventDuration.inMinutes <= 0) {
                     mojiR.i = round;
                   }

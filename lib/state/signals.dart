@@ -102,7 +102,7 @@ class S {
   static final Signal<String> currentMojiText = signal(kEmptyString);
   static final Signal<String> linkingCalendar = signal(kEmptyString);
 
-  static final Signal<bool> shouldShowIntervalPicker = signal(false);
+  static final Signal<IntervalPickerState> intervalPickerState = signal(IntervalPickerState.none);
   static final Signal<bool> shouldShowMojiPicker = signal(false);
   static final Signal<bool> shouldTraverseFocus = signal(false);
   static final Signal<bool> shouldAddChildMoji = signal(false);
