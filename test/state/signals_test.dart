@@ -252,5 +252,11 @@ void main() {
 
       expect(shouldShowPerformanceOverlay, isFalse);
     });
+
+    test('eventDragHandleMID returns correct initial value', () {
+      final eventDragHandleMID = S.eventDragHandleMID.value;
+
+      expect(eventDragHandleMID, equals(kEmptyString));
+    });
   });
 }

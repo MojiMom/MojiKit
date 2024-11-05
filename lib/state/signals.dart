@@ -91,6 +91,7 @@ class S {
   static final Signal<String?> implicitPID = signal(initialMojiDockTile.name);
   static final Signal<String?> selectedMID = signal(initialMojiDockTile.name);
   static final Signal<String?> selectedPID = signal(initialMojiDockTile.name);
+  static final Signal<String?> eventDragHandleMID = signal(kEmptyString);
   static final Signal<String?> pinnedMID = signal(kEmptyString);
   static final Signal<MojiDockTile?> implicitMojiDockTile = signal(initialMojiDockTile);
   static final Signal<MojiDockTile?> selectedMojiDockTile = signal(initialMojiDockTile);
