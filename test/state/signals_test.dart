@@ -157,10 +157,10 @@ void main() {
       expect(selectedMojiDockTile, equals(S.initialMojiDockTile));
     });
 
-    test('shouldShowIntervalPicker returns correct initial value', () {
-      final shouldShowIntervalPicker = S.shouldShowIntervalPicker.value;
+    test('intervalPickerState returns correct initial value', () {
+      final intervalPickerState = S.intervalPickerState.value;
 
-      expect(shouldShowIntervalPicker, isFalse);
+      expect(intervalPickerState, IntervalPickerState.none);
     });
 
     test('shouldShowMojiPicker returns correct initial value', () {

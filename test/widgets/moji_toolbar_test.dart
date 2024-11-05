@@ -82,23 +82,98 @@ void main() {
       expect(find.byType(HugeIcon), findsWidgets);
     });
 
-    testWidgets('MojiToolbar updates shouldShowIntervalPicker on tap', (WidgetTester tester) async {
+    testWidgets('MojiToolbar updates interval picker state to duraton on tap', (WidgetTester tester) async {
+      final mid = U.fid();
+      final mojiR = untracked(() => S.mojiSignal(mid).value);
+      R.m.write(() {
+        mojiR.s = DateTime(2023, 1, 1).toUtc();
+        mojiR.e = mojiR.s?.add(Duration(minutes: 5));
+      });
+
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
             body: MojiToolbar(
-              mojiId: 'testMojiId',
+              mojiId: mid,
             ),
           ),
         ),
       );
 
-      // Simulate tapping the GestureDetector for shouldShowIntervalPicker
-      await tester.tap(find.byType(GestureDetector).at(1));
+      // Simulate tapping
+      await tester.tap(find.byKey(ValueKey(IntervalPickerState.duration)));
       await tester.pumpAndSettle();
 
       // Verify the state after the tap
-      expect(S.shouldShowIntervalPicker.value, isTrue);
+      expect(S.intervalPickerState.value, IntervalPickerState.duration);
+
+      // Toggle it
+      await tester.tap(find.byKey(ValueKey(IntervalPickerState.duration)));
+
+      // Verify the state after the tap
+      expect(S.intervalPickerState.value, IntervalPickerState.none);
+    });
+
+    testWidgets('MojiToolbar updates interval picker state to start on tap', (WidgetTester tester) async {
+      final mid = U.fid();
+      final mojiR = untracked(() => S.mojiSignal(mid).value);
+      R.m.write(() {
+        mojiR.s = DateTime(2023, 1, 1).toUtc();
+        mojiR.e = mojiR.s?.add(Duration(minutes: 5));
+      });
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: MojiToolbar(
+              mojiId: mid,
+            ),
+          ),
+        ),
+      );
+
+      // Simulate tapping
+      await tester.tap(find.byKey(ValueKey(IntervalPickerState.start)));
+      await tester.pumpAndSettle();
+
+      // Verify the state after the tap
+      expect(S.intervalPickerState.value, IntervalPickerState.start);
+
+      // Toggle it
+      await tester.tap(find.byKey(ValueKey(IntervalPickerState.start)));
+
+      // Verify the state after the tap
+      expect(S.intervalPickerState.value, IntervalPickerState.none);
+    });
+
+    testWidgets('MojiToolbar updates interval picker state to end on tap', (WidgetTester tester) async {
+      final mid = U.fid();
+      final mojiR = untracked(() => S.mojiSignal(mid).value);
+      R.m.write(() {
+        mojiR.s = DateTime(2023, 1, 1).toUtc();
+        mojiR.e = mojiR.s?.add(Duration(minutes: 5));
+      });
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: MojiToolbar(
+              mojiId: mid,
+            ),
+          ),
+        ),
+      );
+      // Simulate tapping
+      await tester.tap(find.byKey(ValueKey(IntervalPickerState.end)));
+      await tester.pumpAndSettle();
+
+      // Verify the state after the tap
+      expect(S.intervalPickerState.value, IntervalPickerState.end);
+
+      // Toggle it
+      await tester.tap(find.byKey(ValueKey(IntervalPickerState.end)));
+
+      expect(S.intervalPickerState.value, IntervalPickerState.none);
     });
 
     testWidgets('MojiToolbar shows calendar on tap', (WidgetTester tester) async {
