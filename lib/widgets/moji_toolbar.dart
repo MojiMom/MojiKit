@@ -236,104 +236,90 @@ class _MojiToolbarState extends State<MojiToolbar> {
               ),
               Watch((context) {
                 final startTime = _mojiR.value.s;
-                return Visibility(
-                  visible: startTime != null,
-                  child: GestureDetector(
-                    key: ValueKey(IntervalPickerState.start),
-                    onTap: () {
-                      final shouldToggleIntervalPicker = untracked(() => S.intervalPickerState.value) == IntervalPickerState.start;
-                      batch(() {
-                        if (shouldToggleIntervalPicker) {
-                          S.intervalPickerState.set(IntervalPickerState.none);
-                        } else {
-                          S.intervalPickerState.set(IntervalPickerState.start);
-                        }
-                        S.shouldShowMojiPicker.set(false);
-                        S.selectedHeaderView.set(MMHeaderView.plan);
-                        S.fCalendarController.set(FCalendarController.date());
-                      });
-                    },
-                    child: Watch((context) {
-                      final dye = _result.value?.$3;
-                      return Container(
-                        constraints: const BoxConstraints(minWidth: 45),
-                        decoration: BoxDecoration(
-                          color: dye?.light,
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        margin: const EdgeInsets.only(left: 5.0, right: 5.0),
-                        padding: const EdgeInsets.only(left: 5, right: 5),
-                        child: Center(
-                          child: Watch(
-                            (context) {
-                              final dye = _result.value?.$3;
-                              final startTime = _mojiR.value.s?.toLocal();
-                              if (startTime == null) return const SizedBox.shrink();
-                              return Text(
-                                DateFormat('h:mm').format(startTime),
-                                style: TextStyle(
-                                  fontFamily: kDefaultFontFamily,
-                                  fontFamilyFallback: const [kUnicodeMojiFamily],
-                                  color: dye?.ultraDark,
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                      );
-                    }),
-                  ),
-                );
-              }),
-              Watch((context) {
                 final endTime = _mojiR.value.e;
                 return Visibility(
-                  visible: endTime != null,
-                  child: GestureDetector(
-                    key: ValueKey(IntervalPickerState.end),
-                    onTap: () {
-                      final shouldToggleIntervalPicker = untracked(() => S.intervalPickerState.value) == IntervalPickerState.end;
-                      batch(() {
-                        if (shouldToggleIntervalPicker) {
-                          S.intervalPickerState.set(IntervalPickerState.none);
-                        } else {
-                          S.intervalPickerState.set(IntervalPickerState.end);
-                        }
-                        S.shouldShowMojiPicker.set(false);
-                        S.selectedHeaderView.set(MMHeaderView.plan);
-                        S.fCalendarController.set(FCalendarController.date());
-                      });
-                    },
-                    child: Watch((context) {
-                      final dye = _result.value?.$3;
-                      return Container(
-                        constraints: const BoxConstraints(minWidth: 45),
-                        decoration: BoxDecoration(
-                          color: dye?.light,
-                          borderRadius: BorderRadius.circular(5),
+                  visible: startTime != null && endTime != null,
+                  child: Watch((context) {
+                    final dye = _result.value?.$3;
+                    return Container(
+                      constraints: const BoxConstraints(minWidth: 115),
+                      decoration: BoxDecoration(color: dye?.light, borderRadius: BorderRadius.circular(5)),
+                      margin: const EdgeInsets.only(left: 5.0, right: 5.0),
+                      padding: const EdgeInsets.only(left: 5, right: 5),
+                      child: Center(
+                        child: Row(
+                          children: [
+                            GestureDetector(
+                              key: ValueKey(IntervalPickerState.start),
+                              onTap: () {
+                                final shouldToggleIntervalPicker = untracked(() => S.intervalPickerState.value) == IntervalPickerState.start;
+                                batch(() {
+                                  if (shouldToggleIntervalPicker) {
+                                    S.intervalPickerState.set(IntervalPickerState.none);
+                                  } else {
+                                    S.intervalPickerState.set(IntervalPickerState.start);
+                                  }
+                                  S.shouldShowMojiPicker.set(false);
+                                  S.selectedHeaderView.set(MMHeaderView.plan);
+                                  S.fCalendarController.set(FCalendarController.date());
+                                });
+                              },
+                              child: Watch(
+                                (context) {
+                                  final dye = _result.value?.$3;
+                                  final startTime = _mojiR.value.s?.toLocal();
+                                  if (startTime == null) return const SizedBox.shrink();
+                                  return Text(
+                                    DateFormat('h:mm').format(startTime),
+                                    style: TextStyle(
+                                      fontFamily: kDefaultFontFamily,
+                                      fontFamilyFallback: const [kUnicodeMojiFamily],
+                                      color: dye?.ultraDark,
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                            GestureDetector(
+                              key: ValueKey(IntervalPickerState.end),
+                              onTap: () {
+                                final shouldToggleIntervalPicker = untracked(() => S.intervalPickerState.value) == IntervalPickerState.end;
+                                batch(() {
+                                  if (shouldToggleIntervalPicker) {
+                                    S.intervalPickerState.set(IntervalPickerState.none);
+                                  } else {
+                                    S.intervalPickerState.set(IntervalPickerState.end);
+                                  }
+                                  S.shouldShowMojiPicker.set(false);
+                                  S.selectedHeaderView.set(MMHeaderView.plan);
+                                  S.fCalendarController.set(FCalendarController.date());
+                                });
+                              },
+                              child: Watch((context) {
+                                return Center(
+                                  child: Watch(
+                                    (context) {
+                                      final dye = _result.value?.$3;
+                                      final endTime = _mojiR.value.e?.toLocal();
+                                      if (endTime == null) return const SizedBox.shrink();
+                                      return Text(
+                                        ' - ${DateFormat('h:mm a').format(endTime)}',
+                                        style: TextStyle(
+                                          fontFamily: kDefaultFontFamily,
+                                          fontFamilyFallback: const [kUnicodeMojiFamily],
+                                          color: dye?.ultraDark,
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                );
+                              }),
+                            ),
+                          ],
                         ),
-                        margin: const EdgeInsets.only(left: 5.0, right: 5.0),
-                        padding: const EdgeInsets.only(left: 5, right: 5),
-                        child: Center(
-                          child: Watch(
-                            (context) {
-                              final dye = _result.value?.$3;
-                              final endTime = _mojiR.value.e?.toLocal();
-                              if (endTime == null) return const SizedBox.shrink();
-                              return Text(
-                                DateFormat('h:mm').format(endTime),
-                                style: TextStyle(
-                                  fontFamily: kDefaultFontFamily,
-                                  fontFamilyFallback: const [kUnicodeMojiFamily],
-                                  color: dye?.ultraDark,
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                      );
-                    }),
-                  ),
+                      ),
+                    );
+                  }),
                 );
               }),
               GestureDetector(

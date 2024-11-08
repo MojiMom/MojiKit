@@ -91,17 +91,16 @@ class MojiIntervalPickerState extends State<MojiIntervalPicker> {
         child: Watch((context) {
           final interval = _interval.value;
           final mojiR = _mojiR.value;
+          final mojiIntervalPickerState = S.intervalPickerState.value;
           return DurationPicker(
-            key: ValueKey(widget.mid),
+            key: ValueKey('${widget.mid}:$mojiIntervalPickerState'),
             height: double.maxFinite,
             width: double.maxFinite,
             duration: Duration(minutes: interval),
             onChange: (Duration newDuration) {
               var round = (newDuration.inMinutes / 5).round() * 5;
-
               if (interval != round) {
                 HapticFeedback.lightImpact();
-                final mojiIntervalPickerState = untracked(() => S.intervalPickerState.value);
 
                 final sTime = R.m.write<DateTime?>(() {
                   Duration eventDuration = Duration.zero;
