@@ -235,7 +235,7 @@ void main() {
       );
 
       // Simulate tapping the delete GestureDetector
-      await tester.tap(find.byType(GestureDetector).at(3));
+      await tester.tap(find.byType(GestureDetector).at(4));
       await tester.pumpAndSettle();
 
       // Verify that the moji was deleted (you can add more detailed checks here if needed)
