@@ -45,7 +45,7 @@ class _Moji {
   @Indexed(RealmIndexType.regular)
   int? i; // Interval
   @Indexed(RealmIndexType.regular)
-  int? m; // MojiCodePoint
+  String? m; // Moji SVG
   @Indexed(RealmIndexType.regular)
   int? n; // Notify
 
@@ -77,7 +77,7 @@ class _Moji {
   Moji copyWith({
     String? a,
     String? d,
-    int? m,
+    String? m,
     String? p,
     String? t,
     Map<String, String>? c,

@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:intl/intl.dart';
@@ -234,10 +235,11 @@ class _MojiKitAppState extends State<MojiKitApp> {
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       crossAxisAlignment: CrossAxisAlignment.center,
                                       children: [
-                                        HugeIcon(
-                                          icon: hugeIconsMap[mojiDockTile.m] ?? HugeIcons.strokeRoundedQuestion,
-                                          size: kMojiTileIconSize,
-                                          color: dye.dark,
+                                        SvgPicture.asset(
+                                          'assets/mojis/${mojiDockTile.m}',
+                                          width: kMojiTileIconSize,
+                                          height: kMojiTileIconSize,
+                                          colorFilter: ColorFilter.mode(dye.dark, BlendMode.srcIn),
                                         ),
                                         Expanded(
                                           child: Container(

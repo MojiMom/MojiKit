@@ -8,7 +8,7 @@ void main() {
         'testId',
         a: 'author',
         d: 'dye',
-        m: 123,
+        m: 'brain-02-stroke-rounded.svg',
         p: 'parent',
         t: 'text',
         c: {'cardKey': 'cardValue'},
@@ -31,7 +31,7 @@ void main() {
 
       expect(json['a'], 'author');
       expect(json['d'], 'dye');
-      expect(json['m'], 123);
+      expect(json['m'], 'brain-02-stroke-rounded.svg');
       expect(json['p'], 'parent');
       expect(json['t'], 'text');
       expect(json['c'], {'cardKey': 'cardValue'});

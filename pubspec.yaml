@@ -26,6 +26,7 @@ dependencies:
   path_provider: 2.1.4
   google_fonts: 6.2.1
   flutter_app_group_directory: 1.0.1+1
+  flutter_svg: 2.0.14
   forui: 
     git:
       url: https://github.com/MojiMom/forui
@@ -57,3 +58,7 @@ dev_dependencies:
 
 dependency_overrides:
   collection: ^1.19.0
+
+flutter:
+  assets:
+    - assets/hugeicons/

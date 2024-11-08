@@ -1,5 +1,6 @@
 import 'package:duration/duration.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:forui/forui.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:intl/intl.dart';
@@ -117,10 +118,11 @@ class _MojiToolbarState extends State<MojiToolbar> {
                           return Watch(
                             (context) {
                               final dye = _result.value?.$3 ?? Dyes.grey.value;
-                              return HugeIcon(
-                                icon: hugeIconsMap[pMoji.m] ?? HugeIcons.strokeRoundedQuestion,
-                                color: dye.ultraDark,
-                                size: 17,
+                              return SvgPicture.asset(
+                                'assets/hugeicons/${pMoji.m}',
+                                colorFilter: ColorFilter.mode(dye.ultraDark, BlendMode.srcIn),
+                                width: 17,
+                                height: 17,
                               );
                             },
                           );

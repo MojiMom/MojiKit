@@ -7,7 +7,7 @@ void main() {
       final json = {
         'a': 'author',
         'd': 'dye',
-        'm': 123,
+        'm': 'brain-02-stroke-rounded.svg',
         'p': 'parent',
         't': 'text',
         'c': {'cardKey': 'cardValue'},
@@ -31,7 +31,7 @@ void main() {
       expect(moji.id, 'documentID');
       expect(moji.a, 'author');
       expect(moji.d, 'dye');
-      expect(moji.m, 123);
+      expect(moji.m, 'brain-02-stroke-rounded.svg');
       expect(moji.p, 'parent');
       expect(moji.t, 'text');
       expect(moji.c['cardKey'], 'cardValue');

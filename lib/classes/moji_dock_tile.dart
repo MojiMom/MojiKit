@@ -2,19 +2,19 @@ import 'package:mojikit/mojikit.dart';
 import 'package:signals/signals.dart';
 
 enum MojiDockTile implements Comparable<MojiDockTile> {
-  r(mcp: 1602),
-  o(mcp: 509),
-  g(mcp: 4018),
-  t(mcp: 3813),
-  b(mcp: 1949),
-  i(mcp: 3898),
-  p(mcp: 1367),
-  c(mcp: 3588);
+  r(svg: 'google-doc-stroke-rounded.svg'),
+  o(svg: 'brain-02-stroke-rounded.svg'),
+  g(svg: 'wellness-stroke-rounded.svg'),
+  t(svg: 'tv-01-stroke-rounded.svg'),
+  b(svg: 'laptop-programming-stroke-rounded.svg'),
+  i(svg: 'user-multiple-02-stroke-rounded.svg'),
+  p(svg: 'favourite-stroke-rounded.svg'),
+  c(svg: 'task-01-stroke-rounded.svg');
 
-  const MojiDockTile({required int mcp}) : _mcp = mcp;
-  final int _mcp;
+  const MojiDockTile({required String svg}) : _svg = svg;
+  final String _svg;
 
-  int get mcp => _mcp;
+  String get svg => _svg;
   Computed<Dye> get dye {
     switch (this) {
       case MojiDockTile.r:

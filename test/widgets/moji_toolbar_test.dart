@@ -23,9 +23,9 @@ void main() {
       final mojiR = untracked(() => S.mojiSignal(mid).value);
       final sTime = DateTime(2023, 1, 1).toUtc();
       R.m.write(() {
-        pMojiR.m = 124;
+        pMojiR.m = 'wellness-stroke-rounded.svg';
         pMojiR.p = MojiDockTile.g.name;
-        mojiR.m = 123;
+        mojiR.m = 'brain-02-stroke-rounded.svg';
         mojiR.p = pid;
         mojiR.s = sTime;
         mojiR.e = sTime.add(Duration(hours: 1));

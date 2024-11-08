@@ -36,7 +36,7 @@ class Moji extends _Moji with RealmEntity, RealmObjectBase, RealmObject {
     bool? o,
     bool? y,
     int? i,
-    int? m,
+    String? m,
     int? n,
   }) {
     RealmObjectBase.set(this, 'id', id);
@@ -205,9 +205,9 @@ class Moji extends _Moji with RealmEntity, RealmObjectBase, RealmObject {
   set i(int? value) => RealmObjectBase.set(this, 'i', value);
 
   @override
-  int? get m => RealmObjectBase.get<int>(this, 'm') as int?;
+  String? get m => RealmObjectBase.get<String>(this, 'm') as String?;
   @override
-  set m(int? value) => RealmObjectBase.set(this, 'm', value);
+  set m(String? value) => RealmObjectBase.set(this, 'm', value);
 
   @override
   int? get n => RealmObjectBase.get<int>(this, 'n') as int?;
@@ -350,7 +350,7 @@ class Moji extends _Moji with RealmEntity, RealmObjectBase, RealmObject {
           optional: true, indexType: RealmIndexType.regular),
       SchemaProperty('i', RealmPropertyType.int,
           optional: true, indexType: RealmIndexType.regular),
-      SchemaProperty('m', RealmPropertyType.int,
+      SchemaProperty('m', RealmPropertyType.string,
           optional: true, indexType: RealmIndexType.regular),
       SchemaProperty('n', RealmPropertyType.int,
           optional: true, indexType: RealmIndexType.regular),

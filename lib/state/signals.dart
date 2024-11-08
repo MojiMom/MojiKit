@@ -54,11 +54,11 @@ class S {
       } else {
         // Otherwise write a new moji to realm and use the result
         moji = R.m.write<Moji>(() {
-          int? m;
+          String? m;
           String? d, p;
           if (id.length == 1 && MojiDockTile.values.any((mdt) => mdt.name == id)) {
             final dMoji = MojiDockTile.fromString(id);
-            m = dMoji.mcp;
+            m = dMoji.svg;
             d = dMoji.name;
             p = '';
           }

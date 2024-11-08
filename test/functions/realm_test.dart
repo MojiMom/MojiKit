@@ -489,6 +489,7 @@ void main() {
       final cfid = U.fid();
       final opfid = U.fid();
       final npfid = U.fid();
+      final svg = 'brain-02-stroke-rounded.svg';
 
       final opMojiR = untracked(() => S.mojiSignal(opfid).value);
       final cMojiR = untracked(() => S.mojiSignal(cfid).value);
@@ -498,14 +499,14 @@ void main() {
       R.m.write(() {
         opMojiR.h[cfid] = orderKeys.first;
         cMojiR.p = opfid;
-        cMojiR.m = 123;
+        cMojiR.m = svg;
       });
 
       R.updateMoji(cfid, text: text, npid: npfid);
 
       expect(cMojiR.t, text);
       expect(cMojiR.p, npfid);
-      expect(cMojiR.m, 123);
+      expect(cMojiR.m, svg);
       expect(opMojiR.c.length, 0);
       expect(opMojiR.h.length, 0);
       expect(npMojiR.h.length, 1);
@@ -514,7 +515,7 @@ void main() {
 
       expect(cMojiR.t, null);
       expect(cMojiR.p, opfid);
-      expect(cMojiR.m, 123);
+      expect(cMojiR.m, svg);
       expect(opMojiR.c.length, 0);
       expect(opMojiR.h.length, 1);
       expect(npMojiR.h.length, 0);
@@ -643,7 +644,7 @@ void main() {
       final mwwid = U.fid();
       final mwwcid = U.fid();
       final mtid = U.fid();
-      const mcp = 123;
+      const svg = 'brain-02-stroke-rounded.svg';
       final order = generateOrderKeys(2);
 
       final pMojiR = untracked(() => S.mojiSignal(pfid).value);
@@ -656,10 +657,10 @@ void main() {
         mojiWWR.c[mwwcid] = order.first;
         mojiWWR.h[mtid] = order.last;
         mojiWWR.p = pfid;
-        mojiWWR.m = mcp;
+        mojiWWR.m = svg;
         mojiWWcR.p = mwwid;
         mojiTargetR.p = pfid;
-        mojiTargetR.m = mcp;
+        mojiTargetR.m = svg;
       });
 
       R.mergeMojiTiles(mojiWWR, mojiTargetR);
@@ -717,7 +718,7 @@ void main() {
         rMojiR.p = cfid;
         rMojiR.s = sTime;
         tmojiR.p = cfid;
-        tmojiR.m = 123;
+        tmojiR.m = 'brain-02-stroke-rounded.svg';
       });
 
       R.fixMojiRelations();

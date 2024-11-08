@@ -11,15 +11,15 @@ void main() {
   });
 
   group('MojiDockTile tests', () {
-    test('MojiDockTile values have correct mcp', () {
-      expect(MojiDockTile.r.mcp, 1602);
-      expect(MojiDockTile.o.mcp, 509);
-      expect(MojiDockTile.g.mcp, 4018);
-      expect(MojiDockTile.t.mcp, 3813);
-      expect(MojiDockTile.b.mcp, 1949);
-      expect(MojiDockTile.i.mcp, 3898);
-      expect(MojiDockTile.p.mcp, 1367);
-      expect(MojiDockTile.c.mcp, 3588);
+    test('MojiDockTile values have correct svg', () {
+      expect(MojiDockTile.r.svg, 'google-doc-stroke-rounded.svg');
+      expect(MojiDockTile.o.svg, 'brain-02-stroke-rounded.svg');
+      expect(MojiDockTile.g.svg, 'wellness-stroke-rounded.svg');
+      expect(MojiDockTile.t.svg, 'tv-01-stroke-rounded.svg');
+      expect(MojiDockTile.b.svg, 'laptop-programming-stroke-rounded.svg');
+      expect(MojiDockTile.i.svg, 'user-multiple-02-stroke-rounded.svg');
+      expect(MojiDockTile.p.svg, 'favourite-stroke-rounded.svg');
+      expect(MojiDockTile.c.svg, 'task-01-stroke-rounded.svg');
     });
 
     test('MojiDockTile dye returns correct Dye instance', () {

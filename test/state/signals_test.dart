@@ -44,7 +44,7 @@ void main() {
       await expectLater(stream, emitsInOrder([U.emptyMoji]));
     });
 
-    test('mojiSignal updates the moji code point and the dye when the id is a valid dock tile id', () async {
+    test('mojiSignal updates the moji svg and the dye when the id is a valid dock tile id', () async {
       final id = MojiDockTile.g.name;
 
       final signal = S.mojiSignal(id);
@@ -52,7 +52,7 @@ void main() {
       final moji = await stream.first;
 
       expect(moji.id, equals(id));
-      expect(moji.m, equals(MojiDockTile.g.mcp));
+      expect(moji.m, equals(MojiDockTile.g.svg));
       expect(moji.d, equals(MojiDockTile.g.name));
     });
 

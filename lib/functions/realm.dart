@@ -411,7 +411,7 @@ class R {
     }
   }
 
-  static void addChildMoji({required String pid, required String cfid, int? mcp, String? text}) {
+  static void addChildMoji({required String pid, required String cfid, String? svg, String? text}) {
     // Get the parent moji from realm
     final pMojiR = untracked(() => S.mojiSignal(pid).value);
     // Create the child moji
@@ -421,7 +421,7 @@ class R {
       // If the parent moji exists
       if (pMojiR.id.isNotEmpty) {
         // If the child moji is a tile
-        if (mcp != null) {
+        if (svg != null) {
           // If the parent moji doesn't already contain the child id
           if (pMojiR.h.containsKey(cfid) != true) {
             // Generate an lexicographical id poisitioned at the beginning of the children of the parent
@@ -449,8 +449,8 @@ class R {
         pMojiR.w = U.zeroDateTime;
         // Update the child parent
         cMoji.p = pMojiR.id;
-        // Update the child moji code point
-        cMoji.m = mcp;
+        // Update the child moji svg
+        cMoji.m = svg;
         // Update the child moji text
         cMoji.t = text;
         // Clear the write time of child moji
@@ -505,7 +505,7 @@ class R {
     }
   }
 
-  static void updateMoji(String mid, {String? text, int? mcp, String? npid, bool shouldUpdateOrigin = false}) {
+  static void updateMoji(String mid, {String? text, String? svg, String? npid, bool shouldUpdateOrigin = false}) {
     // Create a list of mojis to update
     final Set<String> mojisToUpdate = {};
     // Create a list of mojis before changes
@@ -601,10 +601,10 @@ class R {
         mojiR.t = text;
       }
 
-      // If the moji code point is not null
-      if (mcp != null) {
-        // Update the moji code point
-        mojiR.m = mcp;
+      // If the moji svg is not null
+      if (svg != null) {
+        // Update the moji svg
+        mojiR.m = svg;
       }
 
       // If the parent id is not null
