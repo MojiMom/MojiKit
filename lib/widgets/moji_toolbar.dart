@@ -325,6 +325,32 @@ class _MojiToolbarState extends State<MojiToolbar> {
               GestureDetector(
                 onTap: () {
                   final mojiR = untracked(() => _mojiR.value);
+                  if (mojiR.id.isNotEmpty) {
+                    R.finishMoji(mojiR.id);
+                  }
+                },
+                child: Watch((context) {
+                  final dye = _result.value?.$3 ?? Dyes.grey.value;
+                  return Container(
+                    constraints: const BoxConstraints(minWidth: 45),
+                    decoration: BoxDecoration(
+                      color: dye.light,
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    margin: const EdgeInsets.only(left: 5.0, right: 5.0),
+                    child: Center(
+                      child: HugeIcon(
+                        icon: HugeIcons.strokeRoundedTick04,
+                        color: dye.ultraDark,
+                        size: 15,
+                      ),
+                    ),
+                  );
+                }),
+              ),
+              GestureDetector(
+                onTap: () {
+                  final mojiR = untracked(() => _mojiR.value);
                   if (mojiR.p == null) return;
                   final isMojiTile = mojiR.m != null;
                   R.deleteMojis({mojiR.id});
@@ -356,32 +382,6 @@ class _MojiToolbarState extends State<MojiToolbar> {
                           size: 15,
                         );
                       }),
-                    ),
-                  );
-                }),
-              ),
-              GestureDetector(
-                onTap: () {
-                  final mojiR = untracked(() => _mojiR.value);
-                  if (mojiR.id.isNotEmpty) {
-                    R.finishMoji(mojiR.id);
-                  }
-                },
-                child: Watch((context) {
-                  final dye = _result.value?.$3 ?? Dyes.grey.value;
-                  return Container(
-                    constraints: const BoxConstraints(minWidth: 45),
-                    decoration: BoxDecoration(
-                      color: dye.light,
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    margin: const EdgeInsets.only(left: 5.0, right: 5.0),
-                    child: Center(
-                      child: HugeIcon(
-                        icon: HugeIcons.strokeRoundedTick04,
-                        color: dye.ultraDark,
-                        size: 15,
-                      ),
                     ),
                   );
                 }),
