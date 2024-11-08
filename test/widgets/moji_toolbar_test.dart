@@ -260,12 +260,18 @@ void main() {
         ),
       );
 
-      // Simulate tapping the finish GestureDetector
-      await tester.tap(find.byType(GestureDetector).last);
+      expect(mojiR.f, isNull);
+
+      await tester.tap(find.byType(GestureDetector).at(3));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byType(GestureDetector).at(3));
       await tester.pumpAndSettle();
 
-      // Verify that the moji was finished (you can add more detailed checks here if needed)
-      // This part assumes you have a way to verify that R.finishMoji was called, such as a mock or spy
+      expect(mojiR.f, U.zeroDateTime);
+
+      U.mojiChanges.undo();
+
+      expect(mojiR.f, isNotNull);
     });
   });
 }
