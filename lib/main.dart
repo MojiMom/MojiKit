@@ -85,8 +85,7 @@ class _MojiKitAppState extends State<MojiKitApp> {
                     minimum: const EdgeInsets.only(bottom: 15),
                     child: Scaffold(
                       appBar: AppBar(
-                        toolbarHeight:
-                            defaultTargetPlatform == TargetPlatform.iOS || defaultTargetPlatform == TargetPlatform.android ? 50 : 90,
+                        toolbarHeight: defaultTargetPlatform == TargetPlatform.iOS || defaultTargetPlatform == TargetPlatform.android ? 50 : 90,
                         elevation: 0.0,
                         systemOverlayStyle: darkness
                             ? SystemUiOverlayStyle.light.copyWith(
@@ -227,53 +226,50 @@ class _MojiKitAppState extends State<MojiKitApp> {
                               final (mojiDockTile, mojiDockTileDye) = mojiDockTiles[index];
                               return Watch(key: ValueKey(mojiDockTile.id), (context) {
                                 final dye = mojiDockTileDye.value;
-                                return ReorderableDragStartListener(
-                                  index: index,
-                                  child: Padding(
-                                    padding: EdgeInsets.only(right: 15),
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: [
-                                        SvgPicture.asset(
-                                          'assets/mojis/${mojiDockTile.m}',
-                                          width: kMojiTileIconSize,
-                                          height: kMojiTileIconSize,
-                                          colorFilter: ColorFilter.mode(dye.dark, BlendMode.srcIn),
-                                        ),
-                                        Expanded(
-                                          child: Container(
-                                            margin: EdgeInsets.only(top: 5),
-                                            decoration: BoxDecoration(
-                                              color: dye.ultraLight,
-                                              borderRadius: BorderRadius.circular(15),
-                                              border: Border.all(
-                                                width: 6,
-                                                color: dye.dark.withValues(alpha: 1.0),
-                                              ),
+                                return Padding(
+                                  padding: EdgeInsets.only(right: 15),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      SvgPicture.asset(
+                                        'assets/hugeicons/${mojiDockTile.m}',
+                                        width: kMojiTileIconSize,
+                                        height: kMojiTileIconSize,
+                                        colorFilter: ColorFilter.mode(dye.dark, BlendMode.srcIn),
+                                      ),
+                                      Expanded(
+                                        child: Container(
+                                          margin: EdgeInsets.only(top: 5),
+                                          decoration: BoxDecoration(
+                                            color: dye.ultraLight,
+                                            borderRadius: BorderRadius.circular(15),
+                                            border: Border.all(
+                                              width: 6,
+                                              color: dye.dark.withValues(alpha: 1.0),
                                             ),
-                                            child: FocusScope(
-                                              child: FocusTraversalGroup(
-                                                policy: WidgetOrderTraversalPolicy(
-                                                  requestFocusCallback: (node, {alignment, alignmentPolicy, curve, duration}) {
-                                                    if (untracked(() => S.shouldTraverseFocus.value)) {
-                                                      node.requestFocus();
-                                                      S.shouldTraverseFocus.set(false);
-                                                    }
-                                                  },
-                                                ),
-                                                child: MojiTree(
-                                                  key: ValueKey('mojiTree:${mojiDockTile.id}'),
-                                                  mid: mojiDockTile.id,
-                                                  dye: dye,
-                                                  mojiPlannerWidth: 500,
-                                                ),
+                                          ),
+                                          child: FocusScope(
+                                            child: FocusTraversalGroup(
+                                              policy: WidgetOrderTraversalPolicy(
+                                                requestFocusCallback: (node, {alignment, alignmentPolicy, curve, duration}) {
+                                                  if (untracked(() => S.shouldTraverseFocus.value)) {
+                                                    node.requestFocus();
+                                                    S.shouldTraverseFocus.set(false);
+                                                  }
+                                                },
+                                              ),
+                                              child: MojiTree(
+                                                key: ValueKey('mojiTree:${mojiDockTile.id}'),
+                                                mid: mojiDockTile.id,
+                                                dye: dye,
+                                                mojiPlannerWidth: 500,
                                               ),
                                             ),
                                           ),
                                         ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
                                 );
                               });
