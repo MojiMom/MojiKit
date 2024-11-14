@@ -29,5 +29,6 @@ const kTestRealmFileName = 'test.realm';
 const kGoogleCalendarTokenKey = 'g';
 const kMojiKitPackageName = 'app.mojimom.mojikit';
 const kMojiMomPackageName = 'app.mojimom.app';
+const kDemoEmail = 'demo@mojimom.app';
 
 enum IntervalPickerState { none, duration, start, end }
