@@ -329,7 +329,9 @@ class DragAndDropTreeTile extends StatelessWidget {
             S.flyingMoji.set(U.emptyMoji);
           },
           onDragCompleted: () {
-            treeController.rebuild();
+            if (context.mounted) {
+              treeController.rebuild();
+            }
           },
           node: entry.node,
           longPressDelay: longPressDelay,
