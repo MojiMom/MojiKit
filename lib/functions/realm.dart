@@ -957,8 +957,7 @@ class R {
           // If the moji calendars doesn't already contain the new moji calendar
           if (mojiCalendarsR.c.containsKey(mojiCalendarR.id) != true) {
             // Generate an lexicographical id poisitioned at the beginning
-            final lid =
-                mojiCalendarsR.c.isEmpty ? generateOrderKeys(1).first : between(next: (mojiCalendarsR.c.values.toList()..sort()).first);
+            final lid = mojiCalendarsR.c.isEmpty ? generateOrderKeys(1).first : between(next: (mojiCalendarsR.c.values.toList()..sort()).first);
             // Insert the new moji calendar at the beginning of the children list of the moji calendars
             mojiCalendarsR.c[mojiCalendarR.id] = lid;
             // Reset the write time of the moji
@@ -1113,14 +1112,6 @@ class R {
   static Future<void> syncLocalUnwrittenMojis({Set<String>? mojiIDs, bool closeFirestore = false}) async {
     // If we are not online
     if (R.online != true) {
-      // Don't do anything
-      return;
-    }
-
-    // Always get the latest mojis first in order to avoid conflicts
-    final gotLatestMojis = await R.syncServerWrittenMojis();
-    // If we didn't get the latest mojis
-    if (gotLatestMojis != true) {
       // Don't do anything
       return;
     }
