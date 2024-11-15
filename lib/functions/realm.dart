@@ -653,12 +653,14 @@ class R {
     }
   }
 
-  static void updateMojis(List<Moji> mojis) async {
+  static void updateMojis(List<Moji> mojis, {bool shouldUpdateExternalOrigins = true}) async {
     // Start a write transaction
     R.m.write(() {
       R.m.addAll<Moji>(mojis, update: true);
     });
-    updateMojiOrigins(mojis.map((m) => m.id).toSet());
+    if (shouldUpdateExternalOrigins) {
+      updateMojiOrigins(mojis.map((m) => m.id).toSet());
+    }
   }
 
   static Moji getMoji(String mid) {
