@@ -398,7 +398,7 @@ void main() {
         cMojiR.p = pfid;
       });
 
-      R.addMojiToPlannerIfNeeded(pMojiR, cMojiR, cStartTime: sTime, cEndTime: sTime);
+      R.addMojiToPlannerIfNeeded(pMojiR, [cMojiR], cStartTime: sTime, cEndTime: sTime);
 
       expect(pMojiR.l, {cfid: sTime});
       expect(pMojiR.c.length, 0);
