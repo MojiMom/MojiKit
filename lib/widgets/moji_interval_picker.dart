@@ -104,24 +104,26 @@ class MojiIntervalPickerState extends State<MojiIntervalPicker> {
 
                 final sTime = R.m.write<DateTime?>(() {
                   Duration eventDuration = Duration.zero;
-                  final sTime = mojiR.s?.toUtc();
-                  final eTime = mojiR.e?.toUtc();
+                  final sTime = mojiR.s?.toLocal();
+                  final eTime = mojiR.e?.toLocal();
                   if (sTime != null && eTime != null) {
                     switch (mojiIntervalPickerState) {
                       case IntervalPickerState.duration:
-                        final newEndTime = sTime.add(Duration(minutes: round)).toUtc();
-                        if (newEndTime.isAfter(sTime) && newEndTime.toLocal().day == sTime.toLocal().day) {
-                          mojiR.e = newEndTime;
+                        final newEndTime = sTime.add(Duration(minutes: round));
+                        if (newEndTime.isAfter(sTime) && newEndTime.day == sTime.day) {
+                          mojiR.e = newEndTime.toUtc();
                         }
                       case IntervalPickerState.start:
-                        final newStartTime = DateTime(sTime.year, sTime.month, sTime.day).add(Duration(minutes: round)).toUtc();
-                        if (newStartTime.isBefore(eTime) && eTime.difference(newStartTime).inMinutes >= kMinMojiEventDuration.inMinutes) {
-                          mojiR.s = newStartTime;
+                        final newStartTime = DateTime(sTime.year, sTime.month, sTime.day).add(Duration(minutes: round));
+                        if (newStartTime.isBefore(eTime) &&
+                            newStartTime.toLocal().day == sTime.day &&
+                            eTime.difference(newStartTime).inMinutes >= kMinMojiEventDuration.inMinutes) {
+                          mojiR.s = newStartTime.toUtc();
                         }
                       case IntervalPickerState.end:
-                        final newEndTime = DateTime(sTime.year, sTime.month, sTime.day).add(Duration(minutes: round)).toUtc();
-                        if (newEndTime.isAfter(sTime) && newEndTime.toLocal().day == sTime.toLocal().day) {
-                          mojiR.e = newEndTime;
+                        final newEndTime = DateTime(sTime.year, sTime.month, sTime.day).add(Duration(minutes: round));
+                        if (newEndTime.isAfter(sTime) && newEndTime.day == sTime.toLocal().day) {
+                          mojiR.e = newEndTime.toUtc();
                         }
                       default:
                     }
