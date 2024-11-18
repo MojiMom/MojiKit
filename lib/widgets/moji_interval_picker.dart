@@ -110,7 +110,7 @@ class MojiIntervalPickerState extends State<MojiIntervalPicker> {
                     switch (mojiIntervalPickerState) {
                       case IntervalPickerState.duration:
                         final newEndTime = sTime.add(Duration(minutes: round)).toUtc();
-                        if (newEndTime.isAfter(sTime) && newEndTime.day == sTime.day) {
+                        if (newEndTime.isAfter(sTime) && newEndTime.toLocal().day == sTime.toLocal().day) {
                           mojiR.e = newEndTime;
                         }
                       case IntervalPickerState.start:
@@ -120,7 +120,7 @@ class MojiIntervalPickerState extends State<MojiIntervalPicker> {
                         }
                       case IntervalPickerState.end:
                         final newEndTime = DateTime(sTime.year, sTime.month, sTime.day).add(Duration(minutes: round)).toUtc();
-                        if (newEndTime.isAfter(sTime) && newEndTime.day == sTime.day) {
+                        if (newEndTime.isAfter(sTime) && newEndTime.toLocal().day == sTime.toLocal().day) {
                           mojiR.e = newEndTime;
                         }
                       default:
