@@ -310,22 +310,25 @@ class R {
     // Create a list of mojis before changes
     final List<Moji> mojiLBC = [];
     // Start a write transaction
-    R.m.write(() {
-      for (final cMoji in cMojis) {
-        final sTime = cStartTime?.toUtc() ?? cMoji.s?.toUtc();
-        final eTime = cEndTime?.toUtc() ?? cMoji.e?.toUtc();
-        // Get the original child moji from realm as the provided child moji has modifications already
-        final cMojiR = untracked(() => S.mojiSignal(cMoji.id).value);
-        // If it exists
-        if (cMojiR.id.isNotEmpty) {
-          // Add a copy of the child moji to the list of the mojis before changes
-          mojiLBC.add(cMojiR.copyWith());
-        }
+    for (final cMoji in cMojis) {
+      final sTime = cStartTime?.toUtc() ?? cMoji.s?.toUtc();
+      final eTime = cEndTime?.toUtc() ?? cMoji.e?.toUtc();
+      // Get the original child moji from realm as the provided child moji has modifications already
+      final cMojiR = untracked(() => S.mojiSignal(cMoji.id).value);
+      // Get the moji planner from realm
+      Moji? mojiPlannerR;
+      if (sTime != null) {
+        final did = U.did(sTime);
+        mojiPlannerR = untracked(() => S.mojiSignal(did).value);
+      }
+
+      // If it exists
+      if (cMojiR.id.isNotEmpty) {
+        // Add a copy of the child moji to the list of the mojis before changes
+        mojiLBC.add(cMojiR.copyWith());
+      }
+      R.m.write(() {
         if (sTime != null) {
-          // Derive the day id
-          final did = U.did(sTime);
-          // Get the moji planner from realm
-          final mojiPlannerR = untracked(() => S.mojiSignal(did).value);
           // Create a copy of the parent moji before changes
           final pMojiBC = pMoji.copyWith();
           // Update the parent
@@ -364,7 +367,7 @@ class R {
           }
 
           // If the moji planner exists
-          if (mojiPlannerR.id.isNotEmpty) {
+          if (mojiPlannerR != null && mojiPlannerR.id.isNotEmpty) {
             // Add a copy of the moji planner to the list of the mojis before changes
             mojiLBC.add(mojiPlannerR.copyWith());
             // If the moji planner log doesn't already contain the child id
@@ -379,8 +382,8 @@ class R {
             // If the moji planner doesn't exist
           }
         }
-      }
-    });
+      });
+    }
 
     if (mojisToUpdate.isNotEmpty) {
       U.mojiChanges.add(
