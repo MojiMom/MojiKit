@@ -304,115 +304,133 @@ class R {
     return mojiDockTiles;
   }
 
-  static void addMojiToPlannerIfNeeded(Moji pMoji, List<Moji> cMojis, {DateTime? cStartTime, DateTime? cEndTime, bool shouldUpdateMojis = true}) {
+  static void addMojiToPlannerIfNeeded(Moji pMoji, List<Moji> cMojis,
+      {DateTime? cStartTime, DateTime? cEndTime, bool shouldUpdateMojis = true, bool isUndoAllowed = true}) {
     // Create a list of mojis to update
     final Set<String> mojisToUpdate = {};
     // Create a list of mojis before changes
     final List<Moji> mojiLBC = [];
-    // Start a write transaction
-    for (final cMoji in cMojis) {
-      final sTime = cStartTime?.toUtc() ?? cMoji.s?.toUtc();
-      final eTime = cEndTime?.toUtc() ?? cMoji.e?.toUtc();
-      // Get the original child moji from realm as the provided child moji has modifications already
-      final cMojiR = untracked(() => S.mojiSignal(cMoji.id).value);
-      // Get the moji planner from realm
-      Moji? mojiPlannerR;
-      if (sTime != null) {
-        final did = U.did(sTime);
-        mojiPlannerR = untracked(() => S.mojiSignal(did).value);
-      }
-
-      // If it exists
-      if (cMojiR.id.isNotEmpty) {
-        // Add a copy of the child moji to the list of the mojis before changes
-        mojiLBC.add(cMojiR.copyWith());
-      }
+    // If there are child mojis
+    if (cMojis.isNotEmpty) {
+      // Start a write transaction
       R.m.write(() {
-        if (sTime != null) {
-          // Create a copy of the parent moji before changes
-          final pMojiBC = pMoji.copyWith();
-          // Update the parent
-          cMojiR.p = pMoji.id;
-          // Update the start time
-          cMojiR.s = sTime.toUtc();
-          // Update the end time
-          cMojiR.e = eTime?.toUtc();
-          // Update the Text
-          cMojiR.t = cMoji.t;
-          // Reset the write time of the moji
-          cMojiR.w = U.zeroDateTime;
-          // Remember to update the child moji
-          mojisToUpdate.add(cMojiR.id);
-          // If the parent moji log doesn't already contain the child id
-          if (pMoji.l.containsKey(cMojiR.id) != true) {
-            // Add the child id to the children map of the parent with the calculated order key
-            pMoji.l[cMojiR.id] = sTime.toUtc();
-            // Reset the write time of the moji
-            pMoji.w = U.zeroDateTime;
-          }
-          // If the parent children contain the child id
-          if (pMoji.c.containsKey(cMojiR.id)) {
-            // Remove the child id from the children list of the parent
-            pMoji.c.remove(cMojiR.id);
-            // Reset the write time of the moji
-            pMoji.w = U.zeroDateTime;
+        for (final cMoji in cMojis) {
+          final sTime = cStartTime?.toUtc() ?? cMoji.s?.toUtc();
+          final eTime = cEndTime?.toUtc() ?? cMoji.e?.toUtc();
+          // Get the original child moji from realm as the provided child moji has modifications already
+          final cMojiR = R.m.find<Moji>(cMoji.id) ?? Moji(cMoji.id);
+
+          // Get the moji planner from realm
+          Moji? mojiPlannerR;
+
+          // If the start time exists
+          if (sTime != null) {
+            final did = U.did(sTime);
+            mojiPlannerR = R.m.find<Moji>(did) ?? Moji(did);
           }
 
-          // If the parent moji write time is zeroed out
-          if (pMoji.w == U.zeroDateTime) {
-            // Add a copy of the parent moji to the list of the mojis before changes
-            mojiLBC.add(pMojiBC);
-            // Remember to update the parent moji
-            mojisToUpdate.add(pMoji.id);
+          // If it exists and if undo is allowed
+          if (cMojiR.id.isNotEmpty && isUndoAllowed) {
+            // Add a copy of the child moji to the list of the mojis before changes
+            mojiLBC.add(cMojiR.copyWith());
           }
 
-          // If the moji planner exists
-          if (mojiPlannerR != null && mojiPlannerR.id.isNotEmpty) {
-            // Add a copy of the moji planner to the list of the mojis before changes
-            mojiLBC.add(mojiPlannerR.copyWith());
-            // If the moji planner log doesn't already contain the child id
-            if (mojiPlannerR.l.containsKey(cMojiR.id) != true) {
-              // Add the child moji id with the generated lexicographical id
-              mojiPlannerR.l[cMojiR.id] = sTime.toUtc();
+          if (sTime != null) {
+            // Create a copy of the parent moji before changes
+            final pMojiBC = isUndoAllowed ? pMoji.copyWith() : U.emptyMoji;
+            // Update the parent
+            cMojiR.p = pMoji.id;
+            // Update the start time
+            cMojiR.s = sTime.toUtc();
+            // Update the end time
+            cMojiR.e = eTime?.toUtc();
+            // Update the Text
+            cMojiR.t = cMoji.t;
+            // Reset the write time of the moji
+            cMojiR.w = U.zeroDateTime;
+            // Remember to update the child moji
+            mojisToUpdate.add(cMojiR.id);
+            // If the parent moji log doesn't already contain the child id
+            if (pMoji.l.containsKey(cMojiR.id) != true) {
+              // Add the child id to the children map of the parent with the calculated order key
+              pMoji.l[cMojiR.id] = sTime.toUtc();
               // Reset the write time of the moji
-              mojiPlannerR.w = U.zeroDateTime;
-              // Remember to update the moji planner
-              mojisToUpdate.add(mojiPlannerR.id);
+              pMoji.w = U.zeroDateTime;
             }
-            // If the moji planner doesn't exist
+            // If the parent children contain the child id
+            if (pMoji.c.containsKey(cMojiR.id)) {
+              // Remove the child id from the children list of the parent
+              pMoji.c.remove(cMojiR.id);
+              // Reset the write time of the moji
+              pMoji.w = U.zeroDateTime;
+            }
+
+            // If the parent moji write time is zeroed out
+            if (pMoji.w == U.zeroDateTime) {
+              // If undo is allowed
+              if (isUndoAllowed) {
+                // Add a copy of the parent moji to the list of the mojis before changes
+                mojiLBC.add(pMojiBC);
+              }
+              // Remember to update the parent moji
+              mojisToUpdate.add(pMoji.id);
+            }
+
+            // If the moji planner exists
+            if (mojiPlannerR != null && mojiPlannerR.id.isNotEmpty) {
+              // If undo is allowed
+              if (isUndoAllowed) {
+                // Add a copy of the moji planner to the list of the mojis before changes
+                mojiLBC.add(mojiPlannerR.copyWith());
+              }
+              // If the moji planner log doesn't already contain the child id
+              if (mojiPlannerR.l.containsKey(cMojiR.id) != true) {
+                // Add the child moji id with the generated lexicographical id
+                mojiPlannerR.l[cMojiR.id] = sTime.toUtc();
+                // Reset the write time of the moji
+                mojiPlannerR.w = U.zeroDateTime;
+                // Remember to update the moji planner
+                mojisToUpdate.add(mojiPlannerR.id);
+              }
+              // If the moji planner doesn't exist
+            }
           }
         }
       });
     }
 
     if (mojisToUpdate.isNotEmpty) {
-      U.mojiChanges.add(
-        Change<List<Moji>>(
-          mojiLBC,
-          () {},
-          (mojiLBC) {
-            // Restore the mojis to their previous state
-            R.updateMojis(mojiLBC);
-            // Sync the unwritten mojis
-            syncLocalUnwrittenMojis(mojiIDs: mojiLBC.map((e) => e.id).toSet());
-            final days = mojiLBC.map((e) {
-              final sTime = e.s?.toUtc();
-              if (sTime != null) {
-                return DateTime.utc(sTime.year, sTime.month, sTime.day);
+      // if undo is allowed
+      if (isUndoAllowed) {
+        U.mojiChanges.add(
+          Change<List<Moji>>(
+            mojiLBC,
+            () {},
+            (mojiLBC) {
+              // Restore the mojis to their previous state
+              R.updateMojis(mojiLBC);
+              // Sync the unwritten mojis
+              syncLocalUnwrittenMojis(mojiIDs: mojiLBC.map((e) => e.id).toSet());
+              final days = mojiLBC.map((e) {
+                final sTime = e.s?.toUtc();
+                if (sTime != null) {
+                  return DateTime.utc(sTime.year, sTime.month, sTime.day);
+                }
+                return U.zeroDateTime;
+              }).toSet();
+              for (final day in days) {
+                // Get the planner width
+                final plannerWidth = R.p.find<Preferences>(kLocalPreferences)?.mojiPlannerWidth ?? kDefaultMojiPlannerWidth;
+                // Get the day id and the flexible moji events for the day
+                final (did, flexibleMojiEvents) = U.getFlexibleMojiEventsForDay(day, plannerWidth);
+                // Update the value of the moji planner notifier if it exists
+                U.mojiPlannersNotifiers[did]?.value = (flexibleMojiEvents, DateTime.now().millisecondsSinceEpoch);
               }
-              return U.zeroDateTime;
-            }).toSet();
-            for (final day in days) {
-              // Get the planner width
-              final plannerWidth = R.p.find<Preferences>(kLocalPreferences)?.mojiPlannerWidth ?? kDefaultMojiPlannerWidth;
-              // Get the day id and the flexible moji events for the day
-              final (did, flexibleMojiEvents) = U.getFlexibleMojiEventsForDay(day, plannerWidth);
-              // Update the value of the moji planner notifier if it exists
-              U.mojiPlannersNotifiers[did]?.value = (flexibleMojiEvents, DateTime.now().millisecondsSinceEpoch);
-            }
-          },
-        ),
-      );
+            },
+          ),
+        );
+      }
+
       // If the mojis should be updated
       if (shouldUpdateMojis) {
         // Update the moji origins
@@ -834,7 +852,7 @@ class R {
     }
   }
 
-  static void deleteMojis(Set<String> mids) {
+  static void deleteMojis(Set<String> mids, {bool isUndoAllowed = true}) {
     // Create a list of mojis to update
     final Set<String> mojisToUpdate = {};
     // Create a list of mojis before changes
@@ -844,8 +862,11 @@ class R {
       final mojiR = untracked(() => S.mojiSignal(mid).value);
       // If it exists
       if (mojiR.id.isNotEmpty) {
-        // Add a copy of the moji to the list of mojis before changes
-        mojiLBC.add(mojiR.copyWith());
+        // If undo is allowed
+        if (isUndoAllowed) {
+          // Add a copy of the moji to the list of mojis before changes
+          mojiLBC.add(mojiR.copyWith());
+        }
         // Get the parent moji id
         final pid = mojiR.p;
         // If it has a parent
@@ -854,8 +875,10 @@ class R {
           final pMojiR = untracked(() => S.mojiSignal(pid).value);
           // If the parent moji exists
           if (pMojiR.id.isNotEmpty) {
-            // Add a copy of the parent moji to the list of mojis before changes
-            mojiLBC.add(pMojiR.copyWith());
+            if (isUndoAllowed) {
+              // Add a copy of the parent moji to the list of mojis before changes
+              mojiLBC.add(pMojiR.copyWith());
+            }
             // Start a write transaction
             R.m.write(() {
               // Remove the moji from the parent moji's children
@@ -889,8 +912,11 @@ class R {
           final mojiPlannerR = untracked(() => S.mojiSignal(did).value);
           // If the moji planner exists
           if (mojiPlannerR.id.isNotEmpty) {
-            // Add a copy of the moji planner to the list of mojis before changes
-            mojiLBC.add(mojiPlannerR.copyWith());
+            // If undo is allowed
+            if (isUndoAllowed) {
+              // Add a copy of the moji planner to the list of mojis before changes
+              mojiLBC.add(mojiPlannerR.copyWith());
+            }
             // Start a write transaction
             R.m.write(() {
               // Remove the moji from the moji planner moji's children
@@ -916,30 +942,33 @@ class R {
 
     // If there are mojis to update
     if (mojisToUpdate.isNotEmpty) {
-      U.mojiChanges.add(
-        Change<List<Moji>>(
-          mojiLBC,
-          () {},
-          (mojiLBC) {
-            R.updateMojis(mojiLBC);
-            // For each moji before changes
-            for (final moji in mojiLBC) {
-              // Get the start time of the moji
-              final sTime = moji.s?.toUtc();
-              // If the moji has a start time
-              if (sTime != null) {
-                // Get the planner width
-                final plannerWidth = R.p.find<Preferences>(kLocalPreferences)?.mojiPlannerWidth ?? kDefaultMojiPlannerWidth;
-                // Get the day id and the flexible moji events for the day
-                final (did, flexibleMojiEvents) = U.getFlexibleMojiEventsForDay(sTime, plannerWidth);
-                // Update the value of the moji planner notifier if it exists
-                U.mojiPlannersNotifiers[did]?.value = (flexibleMojiEvents, DateTime.now().millisecondsSinceEpoch);
+      // If undo is allowed
+      if (isUndoAllowed) {
+        U.mojiChanges.add(
+          Change<List<Moji>>(
+            mojiLBC,
+            () {},
+            (mojiLBC) {
+              R.updateMojis(mojiLBC);
+              // For each moji before changes
+              for (final moji in mojiLBC) {
+                // Get the start time of the moji
+                final sTime = moji.s?.toUtc();
+                // If the moji has a start time
+                if (sTime != null) {
+                  // Get the planner width
+                  final plannerWidth = R.p.find<Preferences>(kLocalPreferences)?.mojiPlannerWidth ?? kDefaultMojiPlannerWidth;
+                  // Get the day id and the flexible moji events for the day
+                  final (did, flexibleMojiEvents) = U.getFlexibleMojiEventsForDay(sTime, plannerWidth);
+                  // Update the value of the moji planner notifier if it exists
+                  U.mojiPlannersNotifiers[did]?.value = (flexibleMojiEvents, DateTime.now().millisecondsSinceEpoch);
+                }
               }
-            }
-            syncLocalUnwrittenMojis(mojiIDs: mojiLBC.map((e) => e.id).toSet());
-          },
-        ),
-      );
+              syncLocalUnwrittenMojis(mojiIDs: mojiLBC.map((e) => e.id).toSet());
+            },
+          ),
+        );
+      }
       syncLocalUnwrittenMojis(mojiIDs: mojisToUpdate);
     }
 
