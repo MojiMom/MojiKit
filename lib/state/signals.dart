@@ -1,6 +1,9 @@
+import 'dart:isolate';
+
 import 'package:flutter/cupertino.dart';
 import 'package:forui/forui.dart';
 import 'package:mojikit/mojikit.dart';
+import 'package:realm/realm.dart';
 import 'package:signals/signals.dart';
 
 class S {
@@ -85,8 +88,7 @@ class S {
 
   static final recalculateMojiTilesAt = signal(0);
 
-  static final initialMojiDockTile =
-      MojiDockTile.fromString(untracked(() => preferencesSignal(kLocalPreferences).value.selectedMojiDockTileName));
+  static final initialMojiDockTile = MojiDockTile.fromString(untracked(() => preferencesSignal(kLocalPreferences).value.selectedMojiDockTileName));
 
   static final Signal<String?> implicitPID = signal(initialMojiDockTile.name);
   static final Signal<String?> selectedMID = signal(initialMojiDockTile.name);
@@ -156,12 +158,32 @@ class S {
               // Sync the unwritten mojis
               R.syncLocalUnwrittenMojis();
               // Get the calendar ids
-              final calendarIds = untracked(() => S.mojiSignal(kMojiCalendars).value.c.keys);
-              // For each calendar
-              for (final calendarId in calendarIds) {
-                // Get the modified calendar events
-                R.getModifiedCalendarEvents(calendarId);
-              }
+              final calendarIds = untracked(() => S.mojiSignal(kMojiCalendars).value.c.keys).toList();
+              // Get the path of the moji realm database
+              final mojiPath = R.m.config.path;
+              // Get the path of the preferences realm database
+              final preferencesPath = R.p.config.path;
+              // Get the get modified calendar events function
+              final getModifiedCalendarEventsFunction = R.getModifiedCalendarEvents;
+              // Get the online status
+              final online = R.online;
+              // Run the in a separate isolate
+              await Isolate.run(() async {
+                SignalsObserver.instance = null;
+                // Initialize realm
+                R.m = Realm(Configuration.local([Moji.schema], path: mojiPath));
+                // Initialize the preferences schema
+                R.p = Realm(Configuration.local([Preferences.schema], path: preferencesPath));
+                // Set the get modified calendar events function
+                R.getModifiedCalendarEvents = getModifiedCalendarEventsFunction;
+                // Set the online status
+                R.online = online;
+                // For each calendar id
+                for (final calendarId in calendarIds) {
+                  // Get the modified calendar events
+                  await R.getModifiedCalendarEvents(calendarId);
+                }
+              });
             }
           }();
           yield cDate;

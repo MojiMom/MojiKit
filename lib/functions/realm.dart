@@ -14,7 +14,9 @@ import 'package:lexicographical_order/lexicographical_order.dart';
 
 class R {
   static void Function(Set<String>) updateMojiOrigins = (_) {};
-  static void Function(String) getModifiedCalendarEvents = (_) {};
+  static Future<void> Function(String) getModifiedCalendarEvents = (_) {
+    return Future.value();
+  };
   static bool online = false;
   static late Realm m;
   static late Realm p;
