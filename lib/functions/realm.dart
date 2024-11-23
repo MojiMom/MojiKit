@@ -854,7 +854,7 @@ class R {
     }
   }
 
-  static void deleteMojis(Set<String> mids, {bool isUndoAllowed = true}) {
+  static void deleteMojis(Set<String> mids, {bool isUndoAllowed = true, bool shouldUpdateMojis = true}) {
     // Create a list of mojis to update
     final Set<String> mojisToUpdate = {};
     // Create a list of mojis before changes
@@ -971,7 +971,9 @@ class R {
           ),
         );
       }
-      syncLocalUnwrittenMojis(mojiIDs: mojisToUpdate);
+      if (shouldUpdateMojis) {
+        syncLocalUnwrittenMojis(mojiIDs: mojisToUpdate);
+      }
     }
 
     // Refresh the moji bar with it's own value to force a refresh
