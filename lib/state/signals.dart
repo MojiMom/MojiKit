@@ -183,6 +183,8 @@ class S {
                   // Get the modified calendar events
                   await R.getModifiedCalendarEvents(calendarId);
                 }
+                // Wait for the sync to complete
+                await R.syncLocalUnwrittenMojis();
               });
             }
           }();
