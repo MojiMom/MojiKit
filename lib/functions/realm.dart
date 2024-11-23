@@ -318,7 +318,7 @@ class R {
           final sTime = cStartTime?.toUtc() ?? cMoji.s?.toUtc();
           final eTime = cEndTime?.toUtc() ?? cMoji.e?.toUtc();
           // Get the original child moji from realm as the provided child moji has modifications already
-          final cMojiR = R.m.find<Moji>(cMoji.id) ?? Moji(cMoji.id);
+          final cMojiR = R.m.find<Moji>(cMoji.id) ?? R.m.add<Moji>(Moji(cMoji.id), update: true);
 
           // Get the moji planner from realm
           Moji? mojiPlannerR;
@@ -326,7 +326,7 @@ class R {
           // If the start time exists
           if (sTime != null) {
             final did = U.did(sTime);
-            mojiPlannerR = R.m.find<Moji>(did) ?? Moji(did);
+            mojiPlannerR = R.m.find<Moji>(did) ?? R.m.add<Moji>(Moji(did), update: true);
           }
 
           // If it exists and if undo is allowed
