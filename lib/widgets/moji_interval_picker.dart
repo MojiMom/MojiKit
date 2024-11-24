@@ -88,7 +88,7 @@ class MojiIntervalPickerState extends State<MojiIntervalPicker> {
             );
           }
         },
-        child: Watch((context) {
+        child: Watch((context, _) {
           final interval = _interval.value;
           final mojiR = _mojiR.value;
           final mojiIntervalPickerState = S.intervalPickerState.value;

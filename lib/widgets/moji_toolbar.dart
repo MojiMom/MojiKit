@@ -91,7 +91,7 @@ class _MojiToolbarState extends State<MojiToolbar> {
                     S.fCalendarController.set(FCalendarController.date());
                   });
                 },
-                child: Watch((context) {
+                child: Watch((context, _) {
                   final shouldShowMojiPicker = S.shouldShowMojiPicker.value;
                   final dye = _result.value?.$3 ?? Dyes.grey.value;
                   return AnimatedContainer(
@@ -107,7 +107,7 @@ class _MojiToolbarState extends State<MojiToolbar> {
                     ),
                     margin: const EdgeInsets.only(right: 5.0),
                     padding: const EdgeInsets.only(left: 5, right: 5),
-                    child: Watch((context) {
+                    child: Watch((context, _) {
                       final mojiTileParents = _result.value?.$2;
                       if (mojiTileParents == null) return const SizedBox.shrink();
                       return ListView.separated(
@@ -116,7 +116,7 @@ class _MojiToolbarState extends State<MojiToolbar> {
                         itemBuilder: (context, index) {
                           final pMoji = mojiTileParents[index];
                           return Watch(
-                            (context) {
+                            (context, _) {
                               final dye = _result.value?.$3 ?? Dyes.grey.value;
                               return SvgPicture.asset(
                                 'assets/hugeicons/${pMoji.m}',
@@ -151,7 +151,7 @@ class _MojiToolbarState extends State<MojiToolbar> {
                     S.fCalendarController.set(FCalendarController.date());
                   });
                 },
-                child: Watch((context) {
+                child: Watch((context, _) {
                   final dye = _result.value?.$3;
                   return Container(
                     constraints: const BoxConstraints(minWidth: 45),
@@ -163,7 +163,7 @@ class _MojiToolbarState extends State<MojiToolbar> {
                     padding: const EdgeInsets.only(left: 5, right: 5),
                     child: Center(
                       child: Watch(
-                        (context) {
+                        (context, _) {
                           final dye = _result.value?.$3;
                           final durationString = _durationString.value;
                           if (durationString == null) return const SizedBox.shrink();
@@ -202,7 +202,7 @@ class _MojiToolbarState extends State<MojiToolbar> {
                     });
                   }
                 },
-                child: Watch((context) {
+                child: Watch((context, _) {
                   final fCalendarController = S.fCalendarController.value;
                   final dye = _result.value?.$3 ?? Dyes.grey.value;
                   return AnimatedContainer(
@@ -220,7 +220,7 @@ class _MojiToolbarState extends State<MojiToolbar> {
                     padding: const EdgeInsets.only(left: 5, right: 5),
                     margin: const EdgeInsets.only(left: 5.0, right: 5.0),
                     child: Center(
-                      child: Watch((context) {
+                      child: Watch((context, _) {
                         final dye = _result.value?.$3;
                         final text = _dayString.value;
                         return Text(
@@ -236,12 +236,12 @@ class _MojiToolbarState extends State<MojiToolbar> {
                   );
                 }),
               ),
-              Watch((context) {
+              Watch((context, _) {
                 final startTime = _mojiR.value.s;
                 final endTime = _mojiR.value.e;
                 return Visibility(
                   visible: startTime != null && endTime != null,
-                  child: Watch((context) {
+                  child: Watch((context, _) {
                     final dye = _result.value?.$3;
                     return Container(
                       constraints: const BoxConstraints(minWidth: 115),
@@ -267,7 +267,7 @@ class _MojiToolbarState extends State<MojiToolbar> {
                                 });
                               },
                               child: Watch(
-                                (context) {
+                                (context, _) {
                                   final dye = _result.value?.$3;
                                   final startTime = _mojiR.value.s?.toLocal();
                                   if (startTime == null) return const SizedBox.shrink();
@@ -297,10 +297,10 @@ class _MojiToolbarState extends State<MojiToolbar> {
                                   S.fCalendarController.set(FCalendarController.date());
                                 });
                               },
-                              child: Watch((context) {
+                              child: Watch((context, _) {
                                 return Center(
                                   child: Watch(
-                                    (context) {
+                                    (context, _) {
                                       final dye = _result.value?.$3;
                                       final endTime = _mojiR.value.e?.toLocal();
                                       if (endTime == null) return const SizedBox.shrink();
@@ -331,7 +331,7 @@ class _MojiToolbarState extends State<MojiToolbar> {
                     R.finishMoji(mojiR.id);
                   }
                 },
-                child: Watch((context) {
+                child: Watch((context, _) {
                   final dye = _result.value?.$3 ?? Dyes.grey.value;
                   return Container(
                     constraints: const BoxConstraints(minWidth: 45),
@@ -363,7 +363,7 @@ class _MojiToolbarState extends State<MojiToolbar> {
                     S.implicitPID.set(isMojiTile ? mojiR.p : null);
                   });
                 },
-                child: Watch((context) {
+                child: Watch((context, _) {
                   final dye = _result.value?.$3;
                   return Container(
                     constraints: const BoxConstraints(minWidth: 45),
@@ -376,7 +376,7 @@ class _MojiToolbarState extends State<MojiToolbar> {
                       right: 5.0,
                     ),
                     child: Center(
-                      child: Watch((context) {
+                      child: Watch((context, _) {
                         final dye = _result.value?.$3 ?? Dyes.grey.value;
                         return HugeIcon(
                           icon: HugeIcons.strokeRoundedDelete02,

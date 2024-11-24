@@ -127,7 +127,7 @@ class _MojiCardState extends State<MojiCard> {
           final shouldBeFocused = untracked(() => S.selectedMID.value) == widget.id && widget.renderedByMojiIsland != true;
           return Visibility(visible: _focusNode.hasFocus != true && shouldBeFocused != true && _controller.text.trim().isEmpty, child: child);
         },
-        child: Watch((context) {
+        child: Watch((context, _) {
           return Text(
             'Enter Text..',
             style: TextStyle(
@@ -175,7 +175,7 @@ class _MojiCardState extends State<MojiCard> {
         _focusNode.requestFocus();
       },
       child: Watch(
-        (context) {
+        (context, _) {
           final isMojiFlying = _isMojiFlying.value;
           final dye = _dyeAndParents.value.$1;
           final isSelected = S.selectedMID.value == widget.id;
@@ -204,7 +204,7 @@ class _MojiCardState extends State<MojiCard> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(left: 1.5),
-                    child: Watch((context) {
+                    child: Watch((context, _) {
                       final dye = _dyeAndParents.value.$1;
                       return Theme(
                         data: ThemeData(
@@ -214,13 +214,13 @@ class _MojiCardState extends State<MojiCard> {
                             selectionHandleColor: dye.extraDark,
                           ),
                         ),
-                        child: Watch((context) {
+                        child: Watch((context, _) {
                           final dye = _dyeAndParents.value.$1;
                           return CupertinoTheme(
                             data: CupertinoThemeData(
                               primaryColor: dye.extraDark,
                             ),
-                            child: Watch((context) {
+                            child: Watch((context, _) {
                               final dye = _dyeAndParents.value.$1;
                               return TextField(
                                 onTapOutside: (event) {
@@ -305,8 +305,7 @@ class _MojiCardState extends State<MojiCard> {
                                     } else {
                                       final mojiR = untracked(() => _mojiR.value);
                                       if (mojiR.id.isNotEmpty) {
-                                        R.updateMoji(widget.id,
-                                            text: value, npid: isPlaceholder ? selectedMID : null, shouldUpdateOrigin: true);
+                                        R.updateMoji(widget.id, text: value, npid: isPlaceholder ? selectedMID : null, shouldUpdateOrigin: true);
                                         R.addSiblingMoji(mojiR, sfid: cfid);
                                         widget.node?.parent?.insertChild((widget.node?.index ?? 0) + 1, Node(id: cfid));
                                       }
@@ -332,7 +331,7 @@ class _MojiCardState extends State<MojiCard> {
                   Visibility(
                     visible: widget.shouldShowParentMojis,
                     child: Watch(
-                      (context) {
+                      (context, _) {
                         final mojiR = _mojiR.value;
                         if (mojiR.p == null) return const SizedBox();
                         return MojiToolbar(mojiId: widget.id);

@@ -9,7 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  signals: 6.0.0-rc.1
+  signals: 6.0.0-rc.3
   intl: 0.19.0
   dart_firebase_admin: 0.4.0
   firebaseapis: 0.2.0

@@ -62,7 +62,7 @@ class _MojiKitAppState extends State<MojiKitApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Watch(
-        (context) {
+        (context, _) {
           final darkness = S.darkness.value;
           return MojiColorFiltered(
             darkness: darkness,
@@ -72,7 +72,7 @@ class _MojiKitAppState extends State<MojiKitApp> {
                   barrierColor: darkness ? Colors.white.withValues(alpha: 0.5) : Colors.black.withValues(alpha: 0.5),
                 ),
               ),
-              child: Watch((context) {
+              child: Watch((context, _) {
                 final dye = _dye.value;
                 return ColoredBox(
                   color: U.ultraLightBackground(dye),
@@ -124,7 +124,7 @@ class _MojiKitAppState extends State<MojiKitApp> {
                                   child: Center(
                                     child: RotatedBox(
                                       quarterTurns: 3,
-                                      child: Watch((context) {
+                                      child: Watch((context, _) {
                                         final dye = _dye.value;
                                         return HugeIcon(icon: HugeIcons.strokeRoundedMoon02, color: dye.dark, size: 21);
                                       }),
@@ -134,7 +134,7 @@ class _MojiKitAppState extends State<MojiKitApp> {
                               ),
                               for (final headerView in MMHeaderView.values)
                                 Watch(
-                                  (context) {
+                                  (context, _) {
                                     final dye = _dye.value;
                                     final sHeaderView = S.selectedHeaderView.value;
                                     return Opacity(
@@ -173,13 +173,13 @@ class _MojiKitAppState extends State<MojiKitApp> {
                                     U.mojiChanges.undo();
                                   }
                                 },
-                                child: Watch((context) {
+                                child: Watch((context, _) {
                                   final dye = _dye.value;
                                   return Container(
                                     padding: const EdgeInsets.all(4),
                                     decoration: BoxDecoration(shape: BoxShape.circle, color: dye.lighter),
                                     child: Center(
-                                      child: Watch((context) {
+                                      child: Watch((context, _) {
                                         final dye = _dye.value;
                                         return HugeIcon(icon: HugeIcons.strokeRoundedArrowTurnBackward, color: dye.darker, size: 21);
                                       }),
@@ -194,7 +194,7 @@ class _MojiKitAppState extends State<MojiKitApp> {
                       extendBodyBehindAppBar: false,
                       extendBody: true,
                       resizeToAvoidBottomInset: false,
-                      body: Watch((context) {
+                      body: Watch((context, _) {
                         final mojiDockTiles = _mojiDockTilesWithDye.value;
                         return Container(
                           color: U.ultraLightBackground(dye),
@@ -224,7 +224,7 @@ class _MojiKitAppState extends State<MojiKitApp> {
                             },
                             itemBuilder: (context, index) {
                               final (mojiDockTile, mojiDockTileDye) = mojiDockTiles[index];
-                              return Watch(key: ValueKey(mojiDockTile.id), (context) {
+                              return Watch(key: ValueKey(mojiDockTile.id), (context, _) {
                                 final dye = mojiDockTileDye.value;
                                 return Padding(
                                   padding: EdgeInsets.only(right: 15),
