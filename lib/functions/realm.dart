@@ -874,7 +874,7 @@ class R {
     }
   }
 
-  static void deleteMojis(Set<String> mids, {bool isUndoAllowed = true, bool shouldUpdateMojis = true}) {
+  static void deleteMojis(Set<String> mids, {bool isUndoAllowed = true, bool shouldUpdateMojis = true, permanently = false}) {
     // Create a list of mojis to update
     final Set<String> mojisToUpdate = {};
     // Create a list of mojis before changes
@@ -911,11 +911,18 @@ class R {
               pMojiR.l.remove(mojiR.id);
               // Remove the moji from the parent moji's quick access
               pMojiR.q.remove(mojiR.id);
-              // If it's not already added to the junk map
-              if (pMojiR.j.containsKey(mojiR.id) != true) {
-                // Add it to the top of the junk map
-                pMojiR.j[mojiR.id] = DateTime.now().toUtc();
+              // If we are not deleting it permanently
+              if (permanently != true) {
+                // If it's not already added to the junk map
+                if (pMojiR.j.containsKey(mojiR.id) != true) {
+                  // Add it to the top of the junk map
+                  pMojiR.j[mojiR.id] = DateTime.now().toUtc();
+                }
+              } else {
+                // Remove it from the junk map in case it was there
+                pMojiR.j.remove(mojiR.id);
               }
+
               // Reset the write time of the moji
               pMojiR.w = U.zeroDateTime;
               // Add the parent moji to the list of mojis to update
@@ -947,10 +954,17 @@ class R {
               mojiPlannerR.h.remove(mojiR.id);
               // Remove the moji from the moji planner moji's log
               mojiPlannerR.l.remove(mojiR.id);
-              // If it's not already added to the junk list
-              if (mojiPlannerR.j.containsKey(mojiR.id) != true) {
-                // Add it to the top of the junk list
-                mojiPlannerR.j[mojiR.id] = DateTime.now().toUtc();
+              // If we are not deleting it permanently
+              if (permanently != true) {
+                // If it's not already added to the junk list
+                if (mojiPlannerR.j.containsKey(mojiR.id) != true) {
+                  // Add it to the top of the junk list
+                  mojiPlannerR.j[mojiR.id] = DateTime.now().toUtc();
+                }
+                // If we are deleting it permanently
+              } else {
+                // Remove it from the junk list in case it was there
+                mojiPlannerR.j.remove(mojiR.id);
               }
               // Reset the write time of the moji
               mojiPlannerR.w = U.zeroDateTime;

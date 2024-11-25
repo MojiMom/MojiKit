@@ -638,6 +638,20 @@ void main() {
       expect(plMojiR.j, isEmpty);
       expect(cMojiR.p, pfid);
       expect(cMojiR.s, sTime);
+
+      R.m.write(() {
+        pMojiR.c[cfid] = order.first;
+        cMojiR.s = sTime;
+        cMojiR.p = pfid;
+        plMojiR.l[cfid] = sTime.toUtc();
+      });
+
+      R.deleteMojis({cfid}, permanently: true);
+
+      expect(pMojiR.c, isEmpty);
+      expect(pMojiR.j, isEmpty);
+      expect(plMojiR.l, isEmpty);
+      expect(plMojiR.j, isEmpty);
     });
 
     test('mergeMojiTiles', () async {
