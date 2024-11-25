@@ -337,21 +337,41 @@ class R {
             mojiLBC.add(cMojiR.copyWith());
           }
 
-          if (sTime != null) {
+          if (sTime != null && eTime != null) {
             // Create a copy of the parent moji before changes
             final pMojiBC = isUndoAllowed ? pMoji.copyWith() : U.emptyMoji;
-            // Update the parent
-            cMojiR.p = pMoji.id;
-            // Update the start time
-            cMojiR.s = sTime.toUtc();
-            // Update the end time
-            cMojiR.e = eTime?.toUtc();
-            // Update the Text
-            cMojiR.t = cMoji.t;
-            // Reset the write time of the moji
-            cMojiR.w = U.zeroDateTime;
-            // Remember to update the child moji
-            mojisToUpdate.add(cMojiR.id);
+            // If the parent differs
+            if (cMojiR.p != pMoji.id) {
+              // Update the parent
+              cMojiR.p = pMoji.id;
+              // Reset the write time of the moji
+              cMojiR.w = U.zeroDateTime;
+            }
+            // If the start time differs
+            if (cMojiR.s?.toUtc().isAtSameMomentAs(sTime.toUtc()) != true) {
+              // Update the start time
+              cMojiR.s = sTime.toUtc();
+              // Reset the write time of the moji
+              cMojiR.w = U.zeroDateTime;
+            }
+            // If the end time differs
+            if (cMojiR.e?.toUtc().isAtSameMomentAs(eTime.toUtc()) != true) {
+              // Update the end time
+              cMojiR.e = eTime.toUtc();
+              // Reset the write time of the moji
+              cMojiR.w = U.zeroDateTime;
+            }
+            if (cMojiR.t?.trim() != cMoji.t?.trim()) {
+              // Update the Text
+              cMojiR.t = cMoji.t;
+              // Reset the write time of the moji
+              cMojiR.w = U.zeroDateTime;
+            }
+            // If the moji write time is zeroed out
+            if (cMojiR.w?.isAtSameMomentAs(U.zeroDateTime) == true) {
+              // Remember to update the child moji
+              mojisToUpdate.add(cMojiR.id);
+            }
             // If the parent moji log doesn't already contain the child id
             if (pMoji.l.containsKey(cMojiR.id) != true) {
               // Add the child id to the children map of the parent with the calculated order key

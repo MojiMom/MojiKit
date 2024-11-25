@@ -237,7 +237,7 @@ void main() {
       final cMojiR = untracked(() => S.mojiSignal(cfid).value);
       U.activeTreeControllers[npfid] = (
         Node(id: npfid),
-        TreeController<Node>(roots: [Node(id: cfid), Node(id: opfid), Node(id: npfid)], childrenProvider: (Node node) => node.children)
+        TreeController<Node>(roots: [Node(id: cfid), Node(id: opfid), Node(id: npfid)], childrenProvider: (Node node) => node.children),
       );
 
       R.m.write(() {
@@ -383,6 +383,8 @@ void main() {
 
     test('addMojiToPlannerIfNeeded', () async {
       final sTime = DateTime(2021, 1, 1, 0, 0, 0, 0, 0).toUtc();
+      final nsTime = sTime.add(Duration(minutes: 5));
+      final eTime = nsTime.add(kDefaultMojiEventDuration);
       final did = U.did(sTime);
       final pfid = U.fid();
       final cfid = U.fid();
@@ -394,15 +396,15 @@ void main() {
       };
       R.m.write(() {
         pMojiR.c[cfid] = generateOrderKeys(1).first;
-        cMojiR.s = sTime;
-        cMojiR.p = pfid;
+        cMojiR.t = 'test';
+        cMojiR.s = sTime.toUtc();
       });
 
-      R.addMojiToPlannerIfNeeded(pMojiR, [cMojiR], cStartTime: sTime, cEndTime: sTime);
+      R.addMojiToPlannerIfNeeded(pMojiR, [Moji(cfid, s: nsTime.toUtc())], cStartTime: nsTime, cEndTime: eTime);
 
-      expect(pMojiR.l, {cfid: sTime});
+      expect(pMojiR.l, {cfid: nsTime});
       expect(pMojiR.c.length, 0);
-      expect(plMojiR.l, {cfid: sTime});
+      expect(plMojiR.l, {cfid: nsTime});
 
       U.mojiChanges.undo();
 
