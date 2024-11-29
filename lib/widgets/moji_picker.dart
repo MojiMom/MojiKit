@@ -50202,7 +50202,7 @@ final hugeIconsMap = <String, List<String>>{
     "material",
     "substance"
   ],
-  "re:-stroke-rounded.svg": [
+  "re-stroke-rounded.svg": [
     "re",
     "circle",
     "rounded",
