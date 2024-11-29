@@ -118,6 +118,8 @@ class S {
   static final Signal<double> additionalTopOffsetFromHandle = signal(0.0);
   static final Signal<double> softwareKeyboardHeight = signal(0.0);
 
+  static final TrackedSignal<AppLifecycleState> appLifecycleState = trackedSignal(AppLifecycleState.resumed);
+
   static final Signal<DateTime> lastInteractionAt = signal(DateTime.now());
   // The current moji planner index
   static final currentMojiPlannerIndex = signal(() {
@@ -168,7 +170,7 @@ class S {
               // Get the online status
               final online = R.online;
               // Run the in a separate isolate
-              await Isolate.run(() async {
+              final sTimes = await Isolate.run(() async {
                 SignalsObserver.instance = null;
                 // Initialize realm
                 R.m = Realm(Configuration.local([Moji.schema], path: mojiPath));
@@ -178,12 +180,29 @@ class S {
                 R.getModifiedCalendarEvents = getModifiedCalendarEventsFunction;
                 // Set the online status
                 R.online = online;
+                // Create a set to hold all the start times
+                final allStartTimes = <DateTime>{};
                 // For each calendar id
                 for (final calendarId in calendarIds) {
                   // Get the modified calendar events
                   await R.getModifiedCalendarEvents(calendarId);
+                  // Get the start times of the modified calendar events
+                  final sTimes = await R.getModifiedCalendarEvents(calendarId);
+                  // Add them to the set of start times
+                  allStartTimes.addAll(sTimes);
                 }
+                // Return the set of start times
+                return allStartTimes;
               });
+              // Get the planner width
+              final plannerWidth = untracked(() => S.preferencesSignal(kLocalPreferences).value).mojiPlannerWidth ?? kDefaultMojiPlannerWidth;
+              // For each start time
+              for (final sTime in sTimes) {
+                // Get the day id and the flexible moji events for the day
+                final (did, flexibleMojiEvents) = U.getFlexibleMojiEventsForDay(sTime, plannerWidth);
+                // Update the value of the moji planner notifier if it exists
+                U.mojiPlannersNotifiers[did]?.value = (flexibleMojiEvents, DateTime.now().millisecondsSinceEpoch);
+              }
               // Wait for the sync to complete
               await R.syncLocalUnwrittenMojis();
             }
