@@ -61,6 +61,26 @@ dev_dependencies:
 
 dependency_overrides:
   collection: ^1.19.0
+  preact_signals:
+    git:
+      url: https://github.com/MojiMom/signals.dart
+      path: packages/preact_signals
+      ref: 152ba6cb23c5ee6167211fb26a5ac2dd84706b48
+  signals_core:
+    git:
+      url: https://github.com/MojiMom/signals.dart
+      path: packages/signals_core
+      ref: 152ba6cb23c5ee6167211fb26a5ac2dd84706b48
+  signals_flutter:
+    git:
+      url: https://github.com/MojiMom/signals.dart
+      path: packages/signals_flutter
+      ref: 152ba6cb23c5ee6167211fb26a5ac2dd84706b48
+  signals_lint:
+    git:
+      url: https://github.com/MojiMom/signals.dart
+      path: packages/signals_lint
+      ref: 152ba6cb23c5ee6167211fb26a5ac2dd84706b48
 
 flutter:
   assets:
