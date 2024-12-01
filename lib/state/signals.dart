@@ -184,8 +184,6 @@ class S {
                 final allStartTimes = <DateTime>{};
                 // For each calendar id
                 for (final calendarId in calendarIds) {
-                  // Get the modified calendar events
-                  await R.getModifiedCalendarEvents(calendarId);
                   // Get the start times of the modified calendar events
                   final sTimes = await R.getModifiedCalendarEvents(calendarId);
                   // Add them to the set of start times
