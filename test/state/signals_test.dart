@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lexicographical_order/lexicographical_order.dart';
 import 'package:signals/signals.dart';
@@ -109,6 +110,9 @@ void main() {
     });
 
     test('now stream signal updates every second', () async {
+      R.getModifiedCalendarEvents = (day) async {
+        return Future.value({DateTime(2022, 04, 02)});
+      };
       final calendars = untracked(() => S.mojiSignal(kMojiCalendars).value);
       final order = generateOrderKeys(1);
       final calendarId = base64Encode(utf8.encode('test@example.com'));
@@ -127,6 +131,7 @@ void main() {
 
       expect(nowValues.length, greaterThanOrEqualTo(2));
     });
+
     test('selectedMID returns correct initial value', () {
       final selectedMID = S.selectedMID.value;
 
@@ -257,6 +262,12 @@ void main() {
       final eventDragHandleMID = S.eventDragHandleMID.value;
 
       expect(eventDragHandleMID, equals(kEmptyString));
+    });
+
+    test('appLifecycleState returns correct initial value', () {
+      final appLifecycleState = S.appLifecycleState.value;
+
+      expect(appLifecycleState, equals(AppLifecycleState.resumed));
     });
   });
 }

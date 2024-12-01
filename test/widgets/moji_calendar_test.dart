@@ -61,7 +61,7 @@ void main() {
       await tester.tap(find.byType(FCalendar));
       await tester.pumpAndSettle();
 
-      await tester.tap(find.text(relativeDay.day.toString()));
+      await tester.tap(find.text(relativeDay.day.toString()).first);
       await tester.pumpAndSettle();
 
       await tester.pumpAndSettle();

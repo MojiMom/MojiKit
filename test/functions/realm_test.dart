@@ -14,6 +14,10 @@ void main() {
     return Future.value();
   });
   group('realm', () {
+    test('getModifiedCalendarEvents returns an empty set if not set', () async {
+      final result = await R.getModifiedCalendarEvents('test@example.com');
+      expect(result, isEmpty);
+    });
     test('syncServerWrittenMojis when offline', () async {
       final result = await R.syncServerWrittenMojis();
       expect(result, false);
