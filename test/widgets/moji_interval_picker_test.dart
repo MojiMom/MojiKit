@@ -4,6 +4,7 @@ import 'package:mojikit/mojikit.dart';
 import 'package:realm/realm.dart';
 import 'package:flutter/material.dart';
 import 'package:signals/signals_flutter.dart';
+import 'package:signals/signals_flutter_extended.dart';
 
 void main() {
   setUpAll(() async {
@@ -15,7 +16,7 @@ void main() {
   group('MojiIntervalPicker widget tests', () {
     testWidgets('MojiIntervalPicker updates interval correctly on duration change when handing a moji tile', (WidgetTester tester) async {
       final mid = U.fid();
-      final mojiR = untracked(() => S.mojiSignal(mid).value);
+      final mojiR = S.mojiSignal(mid).untrackedValue;
       final sTime = DateTime(2023, 1, 1).toUtc();
       final did = U.did(sTime);
       S.intervalPickerState.set(IntervalPickerState.duration);
@@ -33,7 +34,7 @@ void main() {
                 key: ValueKey(MojiIntervalPicker),
                 mid: mid,
                 mojiPlannerWidth: 500,
-                dye: untracked(() => Dyes.green.value),
+                dye: Dyes.green.untrackedValue,
               ),
             ),
           ),
@@ -51,7 +52,7 @@ void main() {
 
     testWidgets('MojiIntervalPicker updates interval correctly on duration change when handing a moji event', (WidgetTester tester) async {
       final mid = U.fid();
-      final mojiR = untracked(() => S.mojiSignal(mid).value);
+      final mojiR = S.mojiSignal(mid).untrackedValue;
       final sTime = DateTime(2023, 1, 1).toUtc();
       final did = U.did(sTime);
       S.intervalPickerState.set(IntervalPickerState.duration);
@@ -75,7 +76,7 @@ void main() {
                 key: ValueKey(MojiIntervalPicker),
                 mid: mid,
                 mojiPlannerWidth: 500,
-                dye: untracked(() => Dyes.green.value),
+                dye: Dyes.green.untrackedValue,
               ),
             ),
           ),
@@ -93,7 +94,7 @@ void main() {
 
     testWidgets('MojiIntervalPicker updates start time correctly on duration change', (WidgetTester tester) async {
       final mid = U.fid();
-      final mojiR = untracked(() => S.mojiSignal(mid).value);
+      final mojiR = S.mojiSignal(mid).untrackedValue;
       final sTime = DateTime(2023, 1, 1, 1, 15);
       final did = U.did(sTime);
       S.intervalPickerState.set(IntervalPickerState.start);
@@ -116,7 +117,7 @@ void main() {
               child: MojiIntervalPicker(
                 mid: mid,
                 mojiPlannerWidth: 500.0,
-                dye: untracked(() => Dyes.green.value),
+                dye: Dyes.green.untrackedValue,
               ),
             ),
           ),
@@ -134,7 +135,7 @@ void main() {
 
     testWidgets('MojiIntervalPicker updates end time correctly on duration change', (WidgetTester tester) async {
       final mid = U.fid();
-      final mojiR = untracked(() => S.mojiSignal(mid).value);
+      final mojiR = S.mojiSignal(mid).untrackedValue;
       final sTime = DateTime(2023, 1, 1, 1);
       final did = U.did(sTime);
       S.intervalPickerState.set(IntervalPickerState.end);
@@ -157,7 +158,7 @@ void main() {
               child: MojiIntervalPicker(
                 mid: mid,
                 mojiPlannerWidth: 500,
-                dye: untracked(() => Dyes.green.value),
+                dye: Dyes.green.untrackedValue,
               ),
             ),
           ),

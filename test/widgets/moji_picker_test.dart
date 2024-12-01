@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mojikit/mojikit.dart';
 import 'package:flutter/material.dart';
 import 'package:realm/realm.dart';
-import 'package:signals/signals.dart';
+import 'package:signals/signals_flutter_extended.dart';
 
 void main() {
   setUpAll(() async {
@@ -18,7 +18,7 @@ void main() {
           home: Scaffold(
             body: MojiPicker(
               id: 'testMojiId',
-              dye: untracked(() => Dyes.green.value),
+              dye: Dyes.green.untrackedValue,
               shouldAddChildMoji: false,
             ),
           ),
@@ -35,7 +35,7 @@ void main() {
           home: Scaffold(
             body: MojiPicker(
               id: 'testMojiId',
-              dye: untracked(() => Dyes.green.value),
+              dye: Dyes.green.untrackedValue,
               shouldAddChildMoji: false,
             ),
           ),
@@ -66,7 +66,7 @@ void main() {
           home: Scaffold(
             body: MojiPicker(
               id: 'testMojiId',
-              dye: untracked(() => Dyes.green.value),
+              dye: Dyes.green.untrackedValue,
               shouldAddChildMoji: true,
             ),
           ),

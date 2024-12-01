@@ -6,7 +6,7 @@ import 'package:lexicographical_order/lexicographical_order.dart';
 import 'package:mojikit/mojikit.dart';
 import 'package:flutter/material.dart';
 import 'package:realm/realm.dart';
-import 'package:signals/signals.dart';
+import 'package:signals/signals_flutter_extended.dart';
 
 void main() {
   setUpAll(() async {
@@ -19,8 +19,8 @@ void main() {
     testWidgets('MojiToolbar initializes correctly with mojiId', (WidgetTester tester) async {
       final mid = U.fid();
       final pid = U.fid();
-      final pMojiR = untracked(() => S.mojiSignal(pid).value);
-      final mojiR = untracked(() => S.mojiSignal(mid).value);
+      final pMojiR = S.mojiSignal(pid).untrackedValue;
+      final mojiR = S.mojiSignal(mid).untrackedValue;
       final sTime = DateTime(2023, 1, 1).toUtc();
       R.m.write(() {
         pMojiR.m = 'wellness-stroke-rounded.svg';
@@ -84,7 +84,7 @@ void main() {
 
     testWidgets('MojiToolbar updates interval picker state to duraton on tap', (WidgetTester tester) async {
       final mid = U.fid();
-      final mojiR = untracked(() => S.mojiSignal(mid).value);
+      final mojiR = S.mojiSignal(mid).untrackedValue;
       R.m.write(() {
         mojiR.s = DateTime(2023, 1, 1).toUtc();
         mojiR.e = mojiR.s?.add(Duration(minutes: 5));
@@ -116,7 +116,7 @@ void main() {
 
     testWidgets('MojiToolbar updates interval picker state to start on tap', (WidgetTester tester) async {
       final mid = U.fid();
-      final mojiR = untracked(() => S.mojiSignal(mid).value);
+      final mojiR = S.mojiSignal(mid).untrackedValue;
       R.m.write(() {
         mojiR.s = DateTime(2023, 1, 1).toUtc();
         mojiR.e = mojiR.s?.add(Duration(minutes: 5));
@@ -148,7 +148,7 @@ void main() {
 
     testWidgets('MojiToolbar updates interval picker state to end on tap', (WidgetTester tester) async {
       final mid = U.fid();
-      final mojiR = untracked(() => S.mojiSignal(mid).value);
+      final mojiR = S.mojiSignal(mid).untrackedValue;
       R.m.write(() {
         mojiR.s = DateTime(2023, 1, 1).toUtc();
         mojiR.e = mojiR.s?.add(Duration(minutes: 5));
@@ -216,8 +216,8 @@ void main() {
     testWidgets('MojiToolbar handles delete action correctly', (WidgetTester tester) async {
       final cid = U.fid();
       final pid = U.fid();
-      final pMojiR = untracked(() => S.mojiSignal(pid).value);
-      final cMojiR = untracked(() => S.mojiSignal(cid).value);
+      final pMojiR = S.mojiSignal(pid).untrackedValue;
+      final cMojiR = S.mojiSignal(cid).untrackedValue;
 
       R.m.write(() {
         cMojiR.p = pid;
@@ -246,7 +246,7 @@ void main() {
 
     testWidgets('MojiToolbar handles finish action correctly', (WidgetTester tester) async {
       final mid = U.fid();
-      final mojiR = untracked(() => S.mojiSignal(mid).value);
+      final mojiR = S.mojiSignal(mid).untrackedValue;
       R.m.write(() {
         mojiR.p = MojiDockTile.g.name;
       });

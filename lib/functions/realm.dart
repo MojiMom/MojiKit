@@ -7,6 +7,7 @@ import 'package:dart_firebase_admin/dart_firebase_admin.dart';
 import 'package:dart_firebase_admin/firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:realm/realm.dart';
+import 'package:signals/signals_flutter_extended.dart';
 import 'package:undo/undo.dart';
 import 'package:signals/signals.dart';
 import 'package:mojikit/mojikit.dart';
@@ -23,7 +24,7 @@ class R {
 
   static updateMojiPlannerWidth(double? width) async {
     if (width != null) {
-      final existingPreferences = untracked(() => S.preferencesSignal(kLocalPreferences).value);
+      final existingPreferences = S.preferencesSignal(kLocalPreferences).untrackedValue;
       // If the preferences exists
       if (existingPreferences.id.isNotEmpty) {
         R.p.write(() {
@@ -35,7 +36,7 @@ class R {
 
   static updateDarkness(bool? darkness) async {
     if (darkness != null) {
-      final existingPreferences = untracked(() => S.preferencesSignal(kLocalPreferences).value);
+      final existingPreferences = S.preferencesSignal(kLocalPreferences).untrackedValue;
       // If the preferences exists
       if (existingPreferences.id.isNotEmpty) {
         R.p.write(() {
@@ -47,7 +48,7 @@ class R {
 
   static String updateDockMojiChildrenAndGetLastParent(String mid, {bool includeSelf = false}) {
     // Get the moji from realm
-    final moji = untracked(() => S.mojiSignal(mid).value);
+    final moji = S.mojiSignal(mid).untrackedValue;
     // If the moji doesn't exist
     if (moji.p == null) {
       // Return an empty string
@@ -86,11 +87,11 @@ class R {
 
   static void changeParent(String mid, String opid, String npid, int oIndex, int nIndex) {
     // Get the moji from realm
-    final mojiR = untracked(() => S.mojiSignal(mid).value);
+    final mojiR = S.mojiSignal(mid).untrackedValue;
     // Get the old parent moji from realm
-    final oParentR = untracked(() => S.mojiSignal(opid).value);
+    final oParentR = S.mojiSignal(opid).untrackedValue;
     // Get the new parent moji
-    final nParentR = untracked(() => S.mojiSignal(npid).value);
+    final nParentR = S.mojiSignal(npid).untrackedValue;
 
     // Create a list of mojis to update
     final Set<String> mojisToUpdate = {};
@@ -233,7 +234,7 @@ class R {
     // Create a list of mojis to update
     final Set<String> mojisToUpdate = {};
     // Get the moji from realm
-    final mojiR = untracked(() => S.mojiSignal(mid).value);
+    final mojiR = S.mojiSignal(mid).untrackedValue;
 
     // If the moji exists
     if (mojiR.id.isNotEmpty) {
@@ -276,7 +277,7 @@ class R {
     // As long as there is a parent id
     while (pid != null && pid.isNotEmpty) {
       // Get the parent moji from realm
-      final pMojiR = untracked(() => S.mojiSignal('$pid').value);
+      final pMojiR = S.mojiSignal(pid).untrackedValue;
       // Re-assign the parent id
       pid = pMojiR.p;
       // If the parent is now null
@@ -298,7 +299,7 @@ class R {
     final mojiDockTiles = <Moji>[];
     final mojiDockTileIds = MojiDockTile.values.map((m) => m.name).toList();
     for (final mojiDockTileId in mojiDockTileIds) {
-      final mojiDockTile = untracked(() => S.mojiSignal(mojiDockTileId).value);
+      final mojiDockTile = S.mojiSignal(mojiDockTileId).untrackedValue;
       if (mojiDockTile.id.isNotEmpty) {
         mojiDockTiles.add(mojiDockTile);
       }
@@ -465,9 +466,9 @@ class R {
 
   static void addChildMoji({required String pid, required String cfid, String? svg, String? text}) {
     // Get the parent moji from realm
-    final pMojiR = untracked(() => S.mojiSignal(pid).value);
+    final pMojiR = S.mojiSignal(pid).untrackedValue;
     // Create the child moji
-    final cMoji = untracked(() => S.mojiSignal(cfid).value);
+    final cMoji = S.mojiSignal(cfid).untrackedValue;
     // Start a write transaction
     R.m.write(() {
       // If the parent moji exists
@@ -517,7 +518,7 @@ class R {
     final pid = moji.p;
     if (pid != null) {
       // Get the parent moji from realm
-      final pMojiR = untracked(() => S.mojiSignal(pid).value);
+      final pMojiR = S.mojiSignal(pid).untrackedValue;
       // If the parent moji exists
       if (pMojiR.id.isNotEmpty) {
         final sortedChildrenList = (pMojiR.c.entries.toList()..sort((a, b) => a.value.compareTo(b.value))).map((entry) => entry.key).toList();
@@ -526,7 +527,7 @@ class R {
         // If the position is not -1
         if (position != -1) {
           // Create the child moji
-          final cMojiR = untracked(() => S.mojiSignal(sfid).value);
+          final cMojiR = S.mojiSignal(sfid).untrackedValue;
           // Get the current lid
           final currentLID = pMojiR.c[moji.id];
           // Create a placeholder for the next lid
@@ -563,18 +564,18 @@ class R {
     // Create a list of mojis before changes
     final List<Moji> mojiLBC = [];
     // Get the moji from realm
-    final mojiR = untracked(() => S.mojiSignal(mid).value);
+    final mojiR = S.mojiSignal(mid).untrackedValue;
 
     // If the parent id is not null
     if (npid != null) {
       // Get the new parent moji from realm
-      final npMojiR = untracked(() => S.mojiSignal(npid).value);
+      final npMojiR = S.mojiSignal(npid).untrackedValue;
       // Get the old parent id
       final opid = mojiR.p;
       // If the old parent id is not null and the moji is not a calendar
       if (opid != null && mojiR.x[kGoogleCalendarTokenKey] == null) {
         // Get the old parent moji from realm
-        final opMojiR = untracked(() => S.mojiSignal(opid).value);
+        final opMojiR = S.mojiSignal(opid).untrackedValue;
         // If the old parent moji exists
         if (opMojiR.id.isNotEmpty) {
           // Start a write transaction
@@ -695,7 +696,7 @@ class R {
   }
 
   static void clearQuickAccessMojis(String mid) {
-    final mojiR = untracked(() => S.mojiSignal(mid).value);
+    final mojiR = S.mojiSignal(mid).untrackedValue;
     // If the moji exists
     if (mojiR.id.isNotEmpty) {
       // Start a write transaction
@@ -716,14 +717,14 @@ class R {
   }
 
   static Moji getMoji(String mid) {
-    return untracked(() => S.mojiSignal(mid).value);
+    return S.mojiSignal(mid).untrackedValue;
   }
 
   static void finishMoji(String mid) {
     // Create a list of mojis before changes
     final List<Moji> mojiLBC = [];
     // Get the moji from realm
-    final moji = untracked(() => S.mojiSignal(mid).value);
+    final moji = S.mojiSignal(mid).untrackedValue;
     // If the moji exists
     if (moji.id.isNotEmpty) {
       // Add a copy of the moji to the list of mojis before changes
@@ -764,7 +765,7 @@ class R {
     // Get all the mojis from realm
     final mojisR = <Moji>[];
     for (final mid in mids ?? {}) {
-      final moji = untracked(() => S.mojiSignal(mid).value);
+      final moji = S.mojiSignal(mid).untrackedValue;
       if (moji.id.isNotEmpty) {
         mojisR.add(moji);
       }
@@ -787,7 +788,7 @@ class R {
 
   static void deleteMojiFromPlanner(String mid) {
     // Get the moji from realm
-    final mojiR = untracked(() => S.mojiSignal(mid).value);
+    final mojiR = S.mojiSignal(mid).untrackedValue;
     // Create a list of mojis to update
     final Set<String> mojisToUpdate = {};
     // If the moji exists
@@ -799,7 +800,7 @@ class R {
         // Derive the day id
         final did = U.did(sTime);
         // Get the moji planner from realm
-        final mojiPlannerR = untracked(() => S.mojiSignal(did).value);
+        final mojiPlannerR = S.mojiSignal(did).untrackedValue;
         // If the moji planner exists
         if (mojiPlannerR.id.isNotEmpty) {
           // If the moji planner contains the moji
@@ -881,7 +882,7 @@ class R {
     final List<Moji> mojiLBC = [];
     for (final mid in mids) {
       // Get the moji that needs to be deleted from realm
-      final mojiR = untracked(() => S.mojiSignal(mid).value);
+      final mojiR = S.mojiSignal(mid).untrackedValue;
       // If it exists
       if (mojiR.id.isNotEmpty) {
         // If undo is allowed
@@ -894,7 +895,7 @@ class R {
         // If it has a parent
         if (pid != null) {
           // Get the parent moji from realm
-          final pMojiR = untracked(() => S.mojiSignal(pid).value);
+          final pMojiR = S.mojiSignal(pid).untrackedValue;
           // If the parent moji exists
           if (pMojiR.id.isNotEmpty) {
             if (isUndoAllowed) {
@@ -938,7 +939,7 @@ class R {
           // Derive the day id
           final did = U.did(sTime);
           // Get the moji planner from realm
-          final mojiPlannerR = untracked(() => S.mojiSignal(did).value);
+          final mojiPlannerR = S.mojiSignal(did).untrackedValue;
           // If the moji planner exists
           if (mojiPlannerR.id.isNotEmpty) {
             // If undo is allowed
@@ -1017,9 +1018,9 @@ class R {
   static void addMojiCalendar(String email, String refreshToken) {
     email = base64Encode(utf8.encode(email));
     // Get the moji calendar corresponding to the email from realm
-    final mojiCalendarR = untracked(() => S.mojiSignal(email).value);
+    final mojiCalendarR = S.mojiSignal(email).untrackedValue;
     // Get the moji calendars
-    final mojiCalendarsR = untracked(() => S.mojiSignal(kMojiCalendars).value);
+    final mojiCalendarsR = S.mojiSignal(kMojiCalendars).untrackedValue;
     final Set<String> mojisToUpdate = {};
     // If the moji calendar exists
     if (mojiCalendarR.id.isNotEmpty) {
@@ -1085,7 +1086,7 @@ class R {
       // Initialize the preferences schema
       R.p = Realm(Configuration.local([Preferences.schema], path: preferencesPath));
       // Get the preferences
-      final preferences = untracked(() => S.preferencesSignal(kLocalPreferences).value);
+      final preferences = S.preferencesSignal(kLocalPreferences).untrackedValue;
       // Get the last successful sync time
       final lastSuccessfullSyncSinceEpoch = preferences.lastSuccessfulSyncTime ?? U.zeroDateTime;
       // Get the current author instance
@@ -1150,7 +1151,7 @@ class R {
       // If we have a newer latest time from the fetched mojis
       if (latestTimeFromFetchedMojis.millisecondsSinceEpoch != U.zeroDateTime.millisecondsSinceEpoch) {
         // Get the existing preferences from realm
-        final existingPreferences = untracked(() => S.preferencesSignal(kLocalPreferences).value);
+        final existingPreferences = S.preferencesSignal(kLocalPreferences).untrackedValue;
         // If the preferences exists
         if (existingPreferences.id.isNotEmpty) {
           // Start a write transaction
@@ -1172,7 +1173,7 @@ class R {
     });
 
     // Get the planner width
-    final plannerWidth = untracked(() => S.preferencesSignal(kLocalPreferences).value).mojiPlannerWidth ?? kDefaultMojiPlannerWidth;
+    final plannerWidth = S.preferencesSignal(kLocalPreferences).untrackedValue.mojiPlannerWidth ?? kDefaultMojiPlannerWidth;
     // For each moji planner day id that needs to be refreshed
     for (final day in mojiPlannersToRefresh) {
       // Get the day id and the flexible moji events for the day
@@ -1231,7 +1232,7 @@ class R {
       if (mojiIDs != null) {
         // Get all mojis from realm
         for (final mojiId in mojiIDs) {
-          final moji = untracked(() => S.mojiSignal(mojiId).value);
+          final moji = S.mojiSignal(mojiId).untrackedValue;
           if (moji.id.isNotEmpty) {
             mojisR.add(moji);
           }
@@ -1324,7 +1325,7 @@ class R {
         if (successfulWrites.isNotEmpty) {
           final existingMojis = <Moji>[];
           for (final successfulWrite in successfulWrites) {
-            final moji = untracked(() => S.mojiSignal(successfulWrite).value);
+            final moji = S.mojiSignal(successfulWrite).untrackedValue;
             if (moji.id.isNotEmpty) {
               existingMojis.add(moji);
             }
@@ -1342,7 +1343,7 @@ class R {
         if (failedWrites.isNotEmpty) {
           final existingMojis = <Moji>[];
           for (final failedWrite in failedWrites) {
-            final moji = untracked(() => S.mojiSignal(failedWrite).value);
+            final moji = S.mojiSignal(failedWrite).untrackedValue;
             if (moji.id.isNotEmpty) {
               existingMojis.add(moji);
             }
@@ -1572,7 +1573,7 @@ class R {
     // Get all the descendants of the moji with wings from realm
     final mojiWWDRs = <Moji>[];
     for (final mid in mojiWWD) {
-      final moji = untracked(() => S.mojiSignal(mid).value);
+      final moji = S.mojiSignal(mid).untrackedValue;
       if (moji.id.isNotEmpty) {
         mojiWWDRs.add(moji);
       }
@@ -1616,7 +1617,7 @@ class R {
       // If it exists
       if (mojiWWPID != null) {
         // Get the moji with wings parent from realm
-        final mojiWWPR = untracked(() => S.mojiSignal(mojiWWPID).value);
+        final mojiWWPR = S.mojiSignal(mojiWWPID).untrackedValue;
         // If it exists
         if (mojiWWPR.id.isNotEmpty) {
           // Add a copy of the moji with wings parent to the list of mojis before changes

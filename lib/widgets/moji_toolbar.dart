@@ -6,6 +6,7 @@ import 'package:hugeicons/hugeicons.dart';
 import 'package:intl/intl.dart';
 import 'package:mojikit/mojikit.dart';
 import 'package:signals/signals_flutter.dart';
+import 'package:signals/signals_flutter_extended.dart';
 
 class MojiToolbar extends StatefulWidget {
   final String mojiId;
@@ -83,7 +84,7 @@ class _MojiToolbarState extends State<MojiToolbar> {
             children: [
               GestureDetector(
                 onTap: () {
-                  final shouldShowMojiPicker = untracked(() => S.shouldShowMojiPicker.value) == true;
+                  final shouldShowMojiPicker = S.shouldShowMojiPicker.untrackedValue == true;
                   final mojiR = _mojiR.value;
                   batch(() {
                     S.selectedMID.set(mojiR.id);
@@ -139,7 +140,7 @@ class _MojiToolbarState extends State<MojiToolbar> {
               GestureDetector(
                 key: ValueKey(IntervalPickerState.duration),
                 onTap: () {
-                  final shouldToggleIntervalPicker = untracked(() => S.intervalPickerState.value) == IntervalPickerState.duration;
+                  final shouldToggleIntervalPicker = S.intervalPickerState.untrackedValue == IntervalPickerState.duration;
                   batch(() {
                     if (shouldToggleIntervalPicker) {
                       S.intervalPickerState.set(IntervalPickerState.none);
@@ -183,7 +184,7 @@ class _MojiToolbarState extends State<MojiToolbar> {
               ),
               GestureDetector(
                 onTap: () {
-                  final existingDateController = untracked(() => S.fCalendarController.value);
+                  final existingDateController = S.fCalendarController.untrackedValue;
                   if (existingDateController?.value != null) {
                     batch(() {
                       S.fCalendarController.set(FCalendarController.date());
@@ -255,7 +256,7 @@ class _MojiToolbarState extends State<MojiToolbar> {
                             GestureDetector(
                               key: ValueKey(IntervalPickerState.start),
                               onTap: () {
-                                final shouldToggleIntervalPicker = untracked(() => S.intervalPickerState.value) == IntervalPickerState.start;
+                                final shouldToggleIntervalPicker = S.intervalPickerState.untrackedValue == IntervalPickerState.start;
                                 batch(() {
                                   if (shouldToggleIntervalPicker) {
                                     S.intervalPickerState.set(IntervalPickerState.none);
@@ -286,7 +287,7 @@ class _MojiToolbarState extends State<MojiToolbar> {
                             GestureDetector(
                               key: ValueKey(IntervalPickerState.end),
                               onTap: () {
-                                final shouldToggleIntervalPicker = untracked(() => S.intervalPickerState.value) == IntervalPickerState.end;
+                                final shouldToggleIntervalPicker = S.intervalPickerState.untrackedValue == IntervalPickerState.end;
                                 batch(() {
                                   if (shouldToggleIntervalPicker) {
                                     S.intervalPickerState.set(IntervalPickerState.none);
@@ -327,7 +328,7 @@ class _MojiToolbarState extends State<MojiToolbar> {
               }),
               GestureDetector(
                 onTap: () {
-                  final mojiR = untracked(() => _mojiR.value);
+                  final mojiR = _mojiR.untrackedValue;
                   if (mojiR.id.isNotEmpty) {
                     R.finishMoji(mojiR.id);
                   }
@@ -353,7 +354,7 @@ class _MojiToolbarState extends State<MojiToolbar> {
               ),
               GestureDetector(
                 onTap: () {
-                  final mojiR = untracked(() => _mojiR.value);
+                  final mojiR = _mojiR.untrackedValue;
                   if (mojiR.p == null) return;
                   final isMojiTile = mojiR.m != null;
                   R.deleteMojis({mojiR.id});

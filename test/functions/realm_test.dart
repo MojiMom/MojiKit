@@ -5,6 +5,7 @@ import 'package:mojikit/mojikit.dart';
 import 'package:realm/realm.dart';
 import 'package:lexicographical_order/lexicographical_order.dart';
 import 'package:signals/signals_flutter.dart';
+import 'package:signals/signals_flutter_extended.dart';
 
 void main() {
   setUpAll(() async {
@@ -27,7 +28,7 @@ void main() {
       final fid = 'test_moji_id';
       final firestore = U.createFirestoreEmulator();
       final day = DateTime(2023, 1, 1).toUtc();
-      final mojiR = untracked(() => S.mojiSignal(fid).value);
+      final mojiR = S.mojiSignal(fid).untrackedValue;
       final did = U.did(day);
       U.mojiPlannersNotifiers = {
         did: FlutterSignal((Map<String, FlexibleMojiEvent>.from({did: FlexibleMojiEvent(mojiR)}), 0))
@@ -47,7 +48,7 @@ void main() {
     test('syncLocalUnwrittenMojis when online', () async {
       final firestore = U.createFirestoreEmulator();
       final mid = U.fid();
-      final mojiR = untracked(() => S.mojiSignal(mid).value);
+      final mojiR = S.mojiSignal(mid).untrackedValue;
       R.m.write(() {
         mojiR.w = null;
         mojiR.t = 'test';
@@ -65,7 +66,7 @@ void main() {
 
     test('syncLocalUnwrittenMojis should zero out the write time of failed writes', () async {
       final mid = U.fid();
-      final mojiR = untracked(() => S.mojiSignal(mid).value);
+      final mojiR = S.mojiSignal(mid).untrackedValue;
       R.m.write(() {
         mojiR.w = null;
         mojiR.t = 'test';
@@ -83,7 +84,7 @@ void main() {
     test('syncLocalUnwrittenMojis when direcrly provided with moji ids', () async {
       final firestore = U.createFirestoreEmulator();
       final mid = U.fid();
-      final mojiR = untracked(() => S.mojiSignal(mid).value);
+      final mojiR = S.mojiSignal(mid).untrackedValue;
       R.m.write(() {
         mojiR.t = 'test';
       });
@@ -101,7 +102,7 @@ void main() {
     test('updateDarkness', () async {
       R.updateDarkness(true);
 
-      final preferences = untracked(() => S.preferencesSignal(kLocalPreferences).value);
+      final preferences = S.preferencesSignal(kLocalPreferences).untrackedValue;
 
       expect(preferences.darkness, true);
     });
@@ -109,7 +110,7 @@ void main() {
     test('updateMojiPlannerWidth', () async {
       R.updateMojiPlannerWidth(200.0);
 
-      final preferences = untracked(() => S.preferencesSignal(kLocalPreferences).value);
+      final preferences = S.preferencesSignal(kLocalPreferences).untrackedValue;
 
       expect(preferences.mojiPlannerWidth, 200.0);
     });
@@ -117,8 +118,8 @@ void main() {
     test('clear', () async {
       final mojiId = U.fid();
       final preferencesId = kLocalPreferences;
-      untracked(() => S.mojiSignal(mojiId).value);
-      untracked(() => S.preferencesSignal(preferencesId).value);
+      S.mojiSignal(mojiId).untrackedValue;
+      S.preferencesSignal(preferencesId).untrackedValue;
 
       final allMojis = R.m.all<Moji>();
       final allPreferences = R.p.all<Preferences>();
@@ -135,12 +136,12 @@ void main() {
     test('addMojiCalendar when it doesnt exist', () async {
       final email = 'test@example.com';
       final refreshToken = 'refreshToken123';
-      final calendarsR = untracked(() => S.mojiSignal(kMojiCalendars).value);
+      final calendarsR = S.mojiSignal(kMojiCalendars).untrackedValue;
 
       R.addMojiCalendar(email, refreshToken);
 
       final encodedEmail = base64Encode(utf8.encode(email));
-      final mojiCalendar = untracked(() => S.mojiSignal(encodedEmail).value);
+      final mojiCalendar = S.mojiSignal(encodedEmail).untrackedValue;
       expect(calendarsR.c.length, 1);
       expect(calendarsR.c.keys.first, mojiCalendar.id);
       expect(mojiCalendar.x, {kGoogleCalendarTokenKey: refreshToken});
@@ -150,7 +151,7 @@ void main() {
       final email = 'test@example.com';
       final refreshToken = 'refreshToken123';
       final encodedEmail = base64Encode(utf8.encode(email));
-      final calendarR = untracked(() => S.mojiSignal(encodedEmail).value);
+      final calendarR = S.mojiSignal(encodedEmail).untrackedValue;
 
       R.m.write(() {
         calendarR.x[kGoogleCalendarTokenKey] = refreshToken;
@@ -158,7 +159,7 @@ void main() {
 
       R.addMojiCalendar(email, refreshToken);
 
-      final mojiCalendarsR = untracked(() => S.mojiSignal(kMojiCalendars).value);
+      final mojiCalendarsR = S.mojiSignal(kMojiCalendars).untrackedValue;
       expect(mojiCalendarsR.c.length, 1);
       expect(mojiCalendarsR.c.keys.first, calendarR.id);
       expect(calendarR.x, {kGoogleCalendarTokenKey: refreshToken});
@@ -188,8 +189,8 @@ void main() {
       final mojiId = U.fid();
       final startTime = DateTime(2018, 1, 1).toUtc();
       final plannerId = U.did(startTime);
-      final plMoji = untracked(() => S.mojiSignal(plannerId).value);
-      final eMoji = untracked(() => S.mojiSignal(mojiId).value);
+      final plMoji = S.mojiSignal(plannerId).untrackedValue;
+      final eMoji = S.mojiSignal(mojiId).untrackedValue;
 
       R.m.write(() {
         plMoji.l[mojiId] = startTime;
@@ -204,8 +205,8 @@ void main() {
 
     test('getDockMojiTiles', () async {
       final dockTileIds = [MojiDockTile.r.name, MojiDockTile.o.name];
-      untracked(() => S.mojiSignal(dockTileIds[0]).value);
-      untracked(() => S.mojiSignal(dockTileIds[1]).value);
+      S.mojiSignal(dockTileIds[0]).untrackedValue;
+      S.mojiSignal(dockTileIds[1]).untrackedValue;
       final dockMojis = R.getDockMojiTiles();
       expect(dockMojis.map((m) => m.id).toList(), containsAll(dockTileIds));
     });
@@ -215,9 +216,9 @@ void main() {
       final cfid1 = U.fid();
       final cfid2 = U.fid();
       final order = generateOrderKeys(2);
-      final dMojiR = untracked(() => S.mojiSignal(dfid).value);
-      final cMoji1R = untracked(() => S.mojiSignal(cfid1).value);
-      final cMoji2R = untracked(() => S.mojiSignal(cfid2).value);
+      final dMojiR = S.mojiSignal(dfid).untrackedValue;
+      final cMoji1R = S.mojiSignal(cfid1).untrackedValue;
+      final cMoji2R = S.mojiSignal(cfid2).untrackedValue;
       R.m.write(() {
         dMojiR.c[cfid1] = order.first;
         dMojiR.c[cfid2] = order.last;
@@ -236,9 +237,9 @@ void main() {
       final npfid = U.fid();
       final cfid = U.fid();
       final order = generateOrderKeys(1);
-      final opMojiR = untracked(() => S.mojiSignal(opfid).value);
-      final npMojiR = untracked(() => S.mojiSignal(npfid).value);
-      final cMojiR = untracked(() => S.mojiSignal(cfid).value);
+      final opMojiR = S.mojiSignal(opfid).untrackedValue;
+      final npMojiR = S.mojiSignal(npfid).untrackedValue;
+      final cMojiR = S.mojiSignal(cfid).untrackedValue;
       U.activeTreeControllers[npfid] = (
         Node(id: npfid),
         TreeController<Node>(roots: [Node(id: cfid), Node(id: opfid), Node(id: npfid)], childrenProvider: (Node node) => node.children),
@@ -340,7 +341,7 @@ void main() {
       final cfid = U.fid();
       final cfid2 = U.fid();
       final orderKeys = generateOrderKeys(1);
-      final mojiR = untracked(() => S.mojiSignal(cfid).value);
+      final mojiR = S.mojiSignal(cfid).untrackedValue;
 
       R.m.write(() {
         mojiR.p = MojiDockTile.g.name;
@@ -361,9 +362,9 @@ void main() {
       final dfid = MojiDockTile.r.name;
       final pfid = U.fid();
       final cfid = U.fid();
-      final cMojiR = untracked(() => S.mojiSignal(cfid).value);
-      final pMojiR = untracked(() => S.mojiSignal(pfid).value);
-      final dMojiR = untracked(() => S.mojiSignal(dfid).value);
+      final cMojiR = S.mojiSignal(cfid).untrackedValue;
+      final pMojiR = S.mojiSignal(pfid).untrackedValue;
+      final dMojiR = S.mojiSignal(dfid).untrackedValue;
       R.m.write(() {
         dMojiR.d = dfid;
         pMojiR.p = dfid;
@@ -378,8 +379,8 @@ void main() {
     test('getDockMojiTiles', () async {
       final dfid1 = MojiDockTile.r.name;
       final dfid2 = MojiDockTile.o.name;
-      untracked(() => S.mojiSignal(dfid1).value);
-      untracked(() => S.mojiSignal(dfid2).value);
+      S.mojiSignal(dfid1).untrackedValue;
+      S.mojiSignal(dfid2).untrackedValue;
 
       final dMojiTiles = R.getDockMojiTiles();
       expect(dMojiTiles.map((m) => m.id).toList(), containsAll([dfid1, dfid2]));
@@ -392,9 +393,9 @@ void main() {
       final did = U.did(sTime);
       final pfid = U.fid();
       final cfid = U.fid();
-      final pMojiR = untracked(() => S.mojiSignal(pfid).value);
-      final cMojiR = untracked(() => S.mojiSignal(cfid).value);
-      final plMojiR = untracked(() => S.mojiSignal(did).value);
+      final pMojiR = S.mojiSignal(pfid).untrackedValue;
+      final cMojiR = S.mojiSignal(cfid).untrackedValue;
+      final plMojiR = S.mojiSignal(did).untrackedValue;
       U.mojiPlannersNotifiers = {
         did: FlutterSignal((Map<String, FlexibleMojiEvent>.from({did: FlexibleMojiEvent(cMojiR)}), 0))
       };
@@ -423,8 +424,8 @@ void main() {
       final pfid = U.fid();
       final cfid = U.fid();
       const text = 'Test child';
-      final pMojiR = untracked(() => S.mojiSignal(pfid).value);
-      final cMojiR = untracked(() => S.mojiSignal(cfid).value);
+      final pMojiR = S.mojiSignal(pfid).untrackedValue;
+      final cMojiR = S.mojiSignal(cfid).untrackedValue;
 
       R.addChildMoji(pid: pfid, cfid: cfid, text: text);
 
@@ -440,9 +441,9 @@ void main() {
       final cfid2 = U.fid();
       final sfid = U.fid();
       final order = generateOrderKeys(2);
-      final pMojiR = untracked(() => S.mojiSignal(pfid).value);
-      final cMojiR = untracked(() => S.mojiSignal(cfid1).value);
-      final sMojiR = untracked(() => S.mojiSignal(sfid).value);
+      final pMojiR = S.mojiSignal(pfid).untrackedValue;
+      final cMojiR = S.mojiSignal(cfid1).untrackedValue;
+      final sMojiR = S.mojiSignal(sfid).untrackedValue;
 
       R.m.write(() {
         pMojiR.c[cfid1] = order.first;
@@ -462,9 +463,9 @@ void main() {
       final opfid = U.fid();
       final npfid = U.fid();
 
-      final opMojiR = untracked(() => S.mojiSignal(opfid).value);
-      final cMojiR = untracked(() => S.mojiSignal(cfid).value);
-      final npMojiR = untracked(() => S.mojiSignal(npfid).value);
+      final opMojiR = S.mojiSignal(opfid).untrackedValue;
+      final cMojiR = S.mojiSignal(cfid).untrackedValue;
+      final npMojiR = S.mojiSignal(npfid).untrackedValue;
       const text = 'Updated text';
       final orderKeys = generateOrderKeys(1);
       R.m.write(() {
@@ -497,9 +498,9 @@ void main() {
       final npfid = U.fid();
       final svg = 'brain-02-stroke-rounded.svg';
 
-      final opMojiR = untracked(() => S.mojiSignal(opfid).value);
-      final cMojiR = untracked(() => S.mojiSignal(cfid).value);
-      final npMojiR = untracked(() => S.mojiSignal(npfid).value);
+      final opMojiR = S.mojiSignal(opfid).untrackedValue;
+      final cMojiR = S.mojiSignal(cfid).untrackedValue;
+      final npMojiR = S.mojiSignal(npfid).untrackedValue;
       const text = 'Updated text';
       final orderKeys = generateOrderKeys(1);
       R.m.write(() {
@@ -530,7 +531,7 @@ void main() {
     test('clearQuickAccessMojis', () async {
       final cfid = U.fid();
       final order = generateOrderKeys(2);
-      final mojiR = untracked(() => S.mojiSignal(cfid).value);
+      final mojiR = S.mojiSignal(cfid).untrackedValue;
       R.m.write(() {
         mojiR.p = MojiDockTile.g.name;
         mojiR.q['quick1'] = order.first;
@@ -544,14 +545,14 @@ void main() {
 
     test('getMoji', () async {
       final cfid = U.fid();
-      untracked(() => S.mojiSignal(cfid).value);
+      S.mojiSignal(cfid).untrackedValue;
       final mojiR = R.getMoji(cfid);
       expect(mojiR.id, cfid);
     });
 
     test('finishMoji', () async {
       final cfid = U.fid();
-      final mojiR = untracked(() => S.mojiSignal(cfid).value);
+      final mojiR = S.mojiSignal(cfid).untrackedValue;
 
       R.finishMoji(cfid);
 
@@ -574,8 +575,8 @@ void main() {
     test('getAllMojis', () async {
       final cfid1 = U.fid();
       final cfid2 = U.fid();
-      untracked(() => S.mojiSignal(cfid1).value);
-      untracked(() => S.mojiSignal(cfid2).value);
+      S.mojiSignal(cfid1).untrackedValue;
+      S.mojiSignal(cfid2).untrackedValue;
       final allMojis = R.getAllMojis({cfid1, cfid2, ''});
       expect(allMojis.length, 2);
       expect(allMojis.map((m) => m.id).toList(), [cfid1, cfid2]);
@@ -583,7 +584,7 @@ void main() {
 
     test('clear', () async {
       final cfid = U.fid();
-      untracked(() => S.mojiSignal(cfid).value);
+      S.mojiSignal(cfid).untrackedValue;
 
       R.clear();
 
@@ -595,8 +596,8 @@ void main() {
       final sTime = DateTime(2017, 1, 1).toUtc();
       final did = U.did(sTime);
       final cfid = U.fid();
-      final plMojiR = untracked(() => S.mojiSignal(did).value);
-      final eMojiR = untracked(() => S.mojiSignal(cfid).value);
+      final plMojiR = S.mojiSignal(did).untrackedValue;
+      final eMojiR = S.mojiSignal(cfid).untrackedValue;
       R.m.write(() {
         plMojiR.l[cfid] = sTime.toUtc();
         eMojiR.p = MojiDockTile.g.name;
@@ -614,9 +615,9 @@ void main() {
       final pfid = U.fid();
       final cfid = U.fid();
       final order = generateOrderKeys(1);
-      final pMojiR = untracked(() => S.mojiSignal(pfid).value);
-      final cMojiR = untracked(() => S.mojiSignal(cfid).value);
-      final plMojiR = untracked(() => S.mojiSignal(did).value);
+      final pMojiR = S.mojiSignal(pfid).untrackedValue;
+      final cMojiR = S.mojiSignal(cfid).untrackedValue;
+      final plMojiR = S.mojiSignal(did).untrackedValue;
       U.mojiPlannersNotifiers = {
         did: FlutterSignal((Map<String, FlexibleMojiEvent>.from({did: FlexibleMojiEvent(cMojiR)}), 0))
       };
@@ -667,10 +668,11 @@ void main() {
       const svg = 'brain-02-stroke-rounded.svg';
       final order = generateOrderKeys(2);
 
-      final pMojiR = untracked(() => S.mojiSignal(pfid).value);
-      final mojiWWR = untracked(() => S.mojiSignal(mwwid).value);
-      final mojiWWcR = untracked(() => S.mojiSignal(mwwcid).value);
-      final mojiTargetR = untracked(() => S.mojiSignal(mtid).value);
+      final pMojiR = S.mojiSignal(pfid).untrackedValue;
+      final mojiWWR = S.mojiSignal(mwwid).untrackedValue;
+      final mojiWWcR = S.mojiSignal(mwwcid).untrackedValue;
+      final mojiTargetR = S.mojiSignal(mtid).untrackedValue;
+
       R.m.write(() {
         pMojiR.c[mwwid] = order.first;
         pMojiR.c[mtid] = order.last;
@@ -717,12 +719,12 @@ void main() {
       final sTime = DateTime(2020, 1, 1, 0, 0, 0, 0, 0).toUtc();
       final did = U.did(sTime);
       final order = generateOrderKeys(2);
-      final pMojiR = untracked(() => S.mojiSignal(pfid).value);
-      final plMojiR = untracked(() => S.mojiSignal(did).value);
-      final cMojiR = untracked(() => S.mojiSignal(cfid).value);
-      final eMojiR = untracked(() => S.mojiSignal(efid).value);
-      final rMojiR = untracked(() => S.mojiSignal(rfid).value);
-      final tmojiR = untracked(() => S.mojiSignal(tfid).value);
+      final pMojiR = S.mojiSignal(pfid).untrackedValue;
+      final plMojiR = S.mojiSignal(did).untrackedValue;
+      final cMojiR = S.mojiSignal(cfid).untrackedValue;
+      final eMojiR = S.mojiSignal(efid).untrackedValue;
+      final rMojiR = S.mojiSignal(rfid).untrackedValue;
+      final tmojiR = S.mojiSignal(tfid).untrackedValue;
       R.m.write(() {
         pMojiR.p = MojiDockTile.g.name;
         plMojiR.j[rfid] = sTime;
@@ -764,11 +766,11 @@ void main() {
       final cStartTime = DateTime(cDate.year, cDate.month, cDate.day, sTime.hour, sTime.minute).toUtc();
       final oplid = U.did(sTime);
       final nplid = U.did(cDate);
-      final pMojiR = untracked(() => S.mojiSignal(pid).value);
-      final cMojiR = untracked(() => S.mojiSignal(cid).value);
-      final plMojiR = untracked(() => S.mojiSignal(oplid).value);
-      final nplMojiR = untracked(() => S.mojiSignal(nplid).value);
-      final oplMojiR = untracked(() => S.mojiSignal(oplid).value);
+      final pMojiR = S.mojiSignal(pid).untrackedValue;
+      final cMojiR = S.mojiSignal(cid).untrackedValue;
+      final plMojiR = S.mojiSignal(oplid).untrackedValue;
+      final nplMojiR = S.mojiSignal(nplid).untrackedValue;
+      final oplMojiR = S.mojiSignal(oplid).untrackedValue;
       R.m.write(() {
         pMojiR.p = MojiDockTile.g.name;
         pMojiR.l[cid] = sTime;

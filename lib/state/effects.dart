@@ -1,6 +1,7 @@
 import 'package:mojikit/mojikit.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:signals/signals_flutter.dart';
+import 'package:signals/signals_flutter_extended.dart';
 
 class E {
   static void setupSelectedMojiIdEffect() {
@@ -8,7 +9,7 @@ class E {
       final cMID = S.selectedMID.value;
       final oMID = S.selectedMID.previousValue;
       if (cMID != null && cMID != oMID && cMID.isEmpty) {
-        final cMojiDT = untracked(() => S.selectedMojiDockTile.value);
+        final cMojiDT = S.selectedMojiDockTile.untrackedValue;
         S.implicitMojiDockTile.set(cMojiDT);
       }
     });
@@ -20,7 +21,7 @@ class E {
       final oMojiDT = S.selectedMojiDockTile.previousValue;
       if (cMojiDT != oMojiDT) {
         if (cMojiDT != null) {
-          final existingPreferences = untracked(() => S.preferencesSignal(kLocalPreferences).value);
+          final existingPreferences = S.preferencesSignal(kLocalPreferences).untrackedValue;
           if (existingPreferences.id.isNotEmpty) {
             R.p.write(() {
               existingPreferences.selectedMojiDockTileName = cMojiDT.name;

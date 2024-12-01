@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:forui/forui.dart';
 import 'package:mojikit/mojikit.dart';
 import 'package:realm/realm.dart';
-import 'package:signals/signals.dart';
+import 'package:signals/signals_flutter_extended.dart';
 
 void main() {
   setUpAll(() async {
@@ -14,10 +14,10 @@ void main() {
 
   group('MojiCalendar Widget Tests', () {
     testWidgets('should render MojiCalendar correctly', (WidgetTester tester) async {
-      final dye = untracked(() => Dyes.green.value);
+      final dye = Dyes.green.untrackedValue;
       final relativeDay = DateTime.now();
       final mid = U.fid();
-      final mojiR = untracked(() => S.mojiSignal(mid).value);
+      final mojiR = S.mojiSignal(mid).untrackedValue;
       final fCalendarController = FCalendarController.date();
       // Arrange
       await tester.pumpWidget(
@@ -39,10 +39,10 @@ void main() {
     });
 
     testWidgets('should call R.changeMojiDay when a date is pressed', (WidgetTester tester) async {
-      final dye = untracked(() => Dyes.green.value);
+      final dye = Dyes.green.untrackedValue;
       final relativeDay = DateTime.now();
       final mid = U.fid();
-      final mojiR = untracked(() => S.mojiSignal(mid).value);
+      final mojiR = S.mojiSignal(mid).untrackedValue;
       final fCalendarController = FCalendarController.date();
       // Arrange
 
@@ -68,10 +68,10 @@ void main() {
     });
 
     testWidgets('should render calendar style correctly', (WidgetTester tester) async {
-      final dye = untracked(() => Dyes.green.value);
+      final dye = Dyes.green.untrackedValue;
       final relativeDay = DateTime.now();
       final mid = U.fid();
-      final mojiR = untracked(() => S.mojiSignal(mid).value);
+      final mojiR = S.mojiSignal(mid).untrackedValue;
       final fCalendarController = FCalendarController.date();
       // Arrange
       await tester.pumpWidget(

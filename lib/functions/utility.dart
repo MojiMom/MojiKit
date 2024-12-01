@@ -10,6 +10,7 @@ import 'package:intl/intl.dart';
 import 'package:mojikit/mojikit.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:signals/signals_flutter.dart';
+import 'package:signals/signals_flutter_extended.dart';
 import 'package:undo/undo.dart';
 import 'package:infinite_carousel/infinite_carousel.dart';
 import 'package:flutter/material.dart';
@@ -27,9 +28,9 @@ class U {
     final yid = U.did(DateTime(day.year, day.month, day.day - 1));
     final did = U.did(day);
     final tid = U.did(DateTime(day.year, day.month, day.day + 1));
-    final mojiPlannerY = untracked(() => S.mojiSignal(yid).value);
-    final mojiPlannerD = untracked(() => S.mojiSignal(did).value);
-    final mojiPlannerT = untracked(() => S.mojiSignal(tid).value);
+    final mojiPlannerY = S.mojiSignal(yid).untrackedValue;
+    final mojiPlannerD = S.mojiSignal(did).untrackedValue;
+    final mojiPlannerT = S.mojiSignal(tid).untrackedValue;
     final mojiEventIds = <String>{};
     for (final entries in [mojiPlannerY.l.entries, mojiPlannerD.l.entries, mojiPlannerT.l.entries]) {
       for (final entry in entries) {
@@ -87,18 +88,18 @@ class U {
   }
 
   static bool mojiHasExternalOrigin(Moji moji) {
-    return untracked(() => S.mojiSignal(kMojiCalendars).value.c.containsKey(moji.p));
+    return S.mojiSignal(kMojiCalendars).untrackedValue.c.containsKey(moji.p);
   }
 
   static Color ultraLightBackground(Dye dye) {
-    return untracked(() => S.darkness.value) == true ? Colors.white : dye.ultraLight;
+    return S.darkness.untrackedValue == true ? Colors.white : dye.ultraLight;
   }
 
   static final zeroDateTime = DateTime.fromMillisecondsSinceEpoch(0).toUtc();
 
   static final mojiChanges = ChangeStack();
 
-  static InfiniteScrollController mojiPlannerScrollController = InfiniteScrollController(initialItem: untracked(() => S.currentMojiPlannerIndex.value));
+  static InfiniteScrollController mojiPlannerScrollController = InfiniteScrollController(initialItem: S.currentMojiPlannerIndex.untrackedValue);
 
   static String? author;
 

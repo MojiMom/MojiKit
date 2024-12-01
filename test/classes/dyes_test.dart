@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mojikit/mojikit.dart';
 import 'package:realm/realm.dart';
-import 'package:signals/signals_flutter.dart';
+import 'package:signals/signals_flutter_extended.dart';
 
 void main() {
   setUpAll(() async {
@@ -14,13 +14,13 @@ void main() {
 
   group('Dyes class tests', () {
     test('the ultra dark dye is same as the reference', () {
-      final dye = untracked(() => Dyes.grey.value);
+      final dye = Dyes.grey.untrackedValue;
 
       expect(dye.ultraDark, Dyes.greyReference);
     });
 
     test('dyes return correct value based on darkness', () async {
-      final preferences = untracked(() => S.preferencesSignal(kLocalPreferences).value);
+      final preferences = S.preferencesSignal(kLocalPreferences).untrackedValue;
 
       expect(preferences.darkness, isNot(true));
 

@@ -3,7 +3,7 @@ import 'package:hugeicons/hugeicons.dart';
 import 'package:flutter_fancy_tree_view/flutter_fancy_tree_view.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:mojikit/mojikit.dart';
-import 'package:signals/signals.dart';
+import 'package:signals/signals_flutter_extended.dart';
 
 class MojiTree extends StatefulWidget {
   const MojiTree({required this.mid, required this.dye, required this.mojiPlannerWidth, super.key});
@@ -102,12 +102,12 @@ class DragAndDropTreeViewState extends State<DragAndDropTreeView> {
     autoScrollController = AutoScrollController(axis: Axis.vertical);
     super.initState();
     root = Node(id: widget.mid);
-    final oMoji = untracked(() => S.mojiSignal(widget.mid).value);
+    final oMoji = S.mojiSignal(widget.mid).untrackedValue;
     if (oMoji.id.isNotEmpty) {
       final oMojiCIDs = (oMoji.c.entries.toList()..sort((a, b) => a.value.compareTo(b.value))).map((entry) => entry.key).toList();
       final oMojiChildren = <Moji>[];
       for (final oMojiCID in oMojiCIDs) {
-        final oMojiC = untracked(() => S.mojiSignal(oMojiCID).value);
+        final oMojiC = S.mojiSignal(oMojiCID).untrackedValue;
         if (oMojiC.id.isNotEmpty) {
           oMojiChildren.add(oMojiC);
         }
@@ -116,7 +116,7 @@ class DragAndDropTreeViewState extends State<DragAndDropTreeView> {
         final cMojiCIDS = (oMojiC.c.entries.toList()..sort((a, b) => a.value.compareTo(b.value))).map((entry) => entry.key).toList();
         final cMojiChildren = <Moji>[];
         for (final cMojiCID in cMojiCIDS) {
-          final cMojiC = untracked(() => S.mojiSignal(cMojiCID).value);
+          final cMojiC = S.mojiSignal(cMojiCID).untrackedValue;
           if (cMojiC.id.isNotEmpty) {
             cMojiChildren.add(cMojiC);
           }
@@ -239,7 +239,7 @@ class DragAndDropTreeViewState extends State<DragAndDropTreeView> {
                   // Clear any existing children as we will be overriding them
                   cNode._children.clear();
                   // Get the child moji from realm
-                  final cMojiR = untracked(() => S.mojiSignal(cNode.id).value);
+                  final cMojiR = S.mojiSignal(cNode.id).untrackedValue;
                   // If the child moji exists
                   if (cMojiR.id.isNotEmpty) {
                     // Get the grand children ids
@@ -247,7 +247,7 @@ class DragAndDropTreeViewState extends State<DragAndDropTreeView> {
                     // Get the grand children mojis from realm
                     final gcMojisR = <Moji>[];
                     for (final gcID in gcIDs) {
-                      final gcMojiR = untracked(() => S.mojiSignal(gcID).value);
+                      final gcMojiR = S.mojiSignal(gcID).untrackedValue;
                       if (gcMojiR.id.isNotEmpty) {
                         gcMojisR.add(gcMojiR);
                       }
@@ -322,7 +322,7 @@ class DragAndDropTreeTile extends StatelessWidget {
         return TreeDraggable<Node>(
           onDragStarted: () {
             FocusManager.instance.primaryFocus?.unfocus();
-            final flyingMoji = untracked(() => S.mojiSignal(entry.node.id).value);
+            final flyingMoji = S.mojiSignal(entry.node.id).untrackedValue;
             S.flyingMoji.set(flyingMoji);
           },
           onDragEnd: (details) {

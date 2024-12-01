@@ -5,9 +5,10 @@ import 'package:forui/forui.dart';
 import 'package:mojikit/mojikit.dart';
 import 'package:realm/realm.dart';
 import 'package:signals/signals.dart';
+import 'package:signals/signals_flutter_extended.dart';
 
 class S {
-  static final preferencesSignal = readonlySignalContainer<Preferences, String>(
+  static final preferencesContainer = readonlySignalContainer<Preferences, String>(
     (id) {
       // Start with an empty preferences
       Preferences preferences;
@@ -40,8 +41,11 @@ class S {
     },
     cache: true,
   );
+  static ReadonlySignal<Preferences> preferencesSignal(String pid) {
+    return untracked(() => preferencesContainer(pid));
+  }
 
-  static final mojiSignal = readonlySignalContainer<Moji, String>(
+  static final mojiContainer = readonlySignalContainer<Moji, String>(
     (id) {
       if (id.isEmpty) {
         return Signal<Moji>(U.emptyMoji);
@@ -82,13 +86,17 @@ class S {
     cache: true,
   );
 
+  static ReadonlySignal<Moji> mojiSignal(mid) {
+    return untracked(() => mojiContainer(mid));
+  }
+
   static final mojiPlannerWidth = preferencesSignal(kLocalPreferences).select((p) => p().mojiPlannerWidth ?? kDefaultMojiPlannerWidth);
 
   static final darkness = preferencesSignal(kLocalPreferences).select((p) => p().darkness ?? false);
 
   static final recalculateMojiTilesAt = signal(0);
 
-  static final initialMojiDockTile = MojiDockTile.fromString(untracked(() => preferencesSignal(kLocalPreferences).value.selectedMojiDockTileName));
+  static final initialMojiDockTile = MojiDockTile.fromString(preferencesSignal(kLocalPreferences).untrackedValue.selectedMojiDockTileName);
 
   static final Signal<String?> implicitPID = signal(initialMojiDockTile.name);
   static final TrackedSignal<String?> selectedMID = trackedSignal(initialMojiDockTile.name);
@@ -133,7 +141,7 @@ class S {
         await Future.delayed(const Duration(seconds: 1));
         // Get the current time
         final cDate = DateTime.now();
-        final oDate = untracked(() => now.value.value);
+        final oDate = now.untrackedValue.value;
         // If the current day has changed
         if (cDate.day != oDate?.day) {
           // Derive the current day
@@ -142,7 +150,7 @@ class S {
           S.currentMojiPlannerIndex.set(daysSinceStartOfYear(today));
           // Update the moji planner scroll controller
           U.mojiPlannerScrollController.animateToItem(
-            untracked(() => S.currentMojiPlannerIndex.value),
+            S.currentMojiPlannerIndex.untrackedValue,
             duration: const Duration(milliseconds: 250),
             curve: Curves.ease,
           );
@@ -152,7 +160,7 @@ class S {
           // Create an async function in order to not delay the stream yield
           () async {
             // Get the existing syncing mojis status
-            final syncingMojis = untracked(() => S.syncingMojis.value);
+            final syncingMojis = S.syncingMojis.untrackedValue;
             // Update the now time and set the syncing mojis status to true
             S.syncingMojis.set(true);
             // If the mojis are not already syncing
@@ -160,7 +168,7 @@ class S {
               // Sync the unwritten mojis
               R.syncLocalUnwrittenMojis();
               // Get the calendar ids
-              final calendarIds = untracked(() => S.mojiSignal(kMojiCalendars).value.c.keys).toList();
+              final calendarIds = S.mojiSignal(kMojiCalendars).untrackedValue.c.keys.toList();
               // Get the path of the moji realm database
               final mojiPath = R.m.config.path;
               // Get the path of the preferences realm database
@@ -193,7 +201,7 @@ class S {
                 return allStartTimes;
               });
               // Get the planner width
-              final plannerWidth = untracked(() => S.preferencesSignal(kLocalPreferences).value).mojiPlannerWidth ?? kDefaultMojiPlannerWidth;
+              final plannerWidth = S.preferencesSignal(kLocalPreferences).untrackedValue.mojiPlannerWidth ?? kDefaultMojiPlannerWidth;
               // For each start time
               for (final sTime in sTimes) {
                 // Get the day id and the flexible moji events for the day

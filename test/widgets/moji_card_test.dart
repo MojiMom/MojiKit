@@ -6,7 +6,7 @@ import 'package:lexicographical_order/lexicographical_order.dart';
 import 'package:mojikit/mojikit.dart';
 import 'package:realm/realm.dart';
 import 'package:flutter/material.dart';
-import 'package:signals/signals.dart';
+import 'package:signals/signals_flutter_extended.dart';
 
 void main() {
   setUpAll(() async {
@@ -45,8 +45,7 @@ void main() {
 
     testWidgets('MojiCard removes empty node and deletes Moji when text is empty', (WidgetTester tester) async {
       final mockNode = Node(id: 'testNodeId');
-      U.activeTreeControllers[mockNode.id] =
-          (mockNode, TreeController<Node>(roots: [mockNode], childrenProvider: (Node node) => node.children));
+      U.activeTreeControllers[mockNode.id] = (mockNode, TreeController<Node>(roots: [mockNode], childrenProvider: (Node node) => node.children));
 
       await tester.pumpWidget(
         MaterialApp(
@@ -192,8 +191,8 @@ void main() {
       S.selectedHeaderView.set(MMHeaderView.thoughts);
       final pMojiId = U.fid();
       final cMojiId = U.fid();
-      final pMojiR = untracked(() => S.mojiSignal(pMojiId).value);
-      final cMojiR = untracked(() => S.mojiSignal(cMojiId).value);
+      final pMojiR = S.mojiSignal(pMojiId).untrackedValue;
+      final cMojiR = S.mojiSignal(cMojiId).untrackedValue;
       final orderKey = generateOrderKeys(2);
       R.m.write(() {
         pMojiR.c[cMojiId] = orderKey.first;
@@ -237,16 +236,15 @@ void main() {
       S.selectedHeaderView.set(MMHeaderView.thoughts);
       final pMojiId = U.fid();
       final cMojiId = U.fid();
-      final pMojiR = untracked(() => S.mojiSignal(pMojiId).value);
-      final cMojiR = untracked(() => S.mojiSignal(cMojiId).value);
+      final pMojiR = S.mojiSignal(pMojiId).untrackedValue;
+      final cMojiR = S.mojiSignal(cMojiId).untrackedValue;
       final order = generateOrderKeys(1);
       R.m.write(() {
         pMojiR.c[cMojiId] = order.first;
         cMojiR.p = pMojiId;
       });
 
-      U.activeTreeControllers[pMojiId] =
-          (Node(id: pMojiId), TreeController<Node>(roots: [Node(id: pMojiId)], childrenProvider: (Node node) => node.children));
+      U.activeTreeControllers[pMojiId] = (Node(id: pMojiId), TreeController<Node>(roots: [Node(id: pMojiId)], childrenProvider: (Node node) => node.children));
 
       R.m.write(() {
         pMojiR.p = MojiDockTile.g.name;
@@ -288,7 +286,7 @@ void main() {
     testWidgets('Can update itself when not on thoughts view', (WidgetTester tester) async {
       S.selectedHeaderView.set(MMHeaderView.plan);
       final pMojiId = U.fid();
-      final pMojiR = untracked(() => S.mojiSignal(pMojiId).value);
+      final pMojiR = S.mojiSignal(pMojiId).untrackedValue;
       final Widget app = MaterialApp(
         home: Material(
           child: Center(

@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:mojikit/mojikit.dart';
 import 'package:signals/signals.dart';
+import 'package:signals/signals_flutter_extended.dart';
 
 class MojiPicker extends StatefulWidget {
   const MojiPicker({required this.id, required this.dye, required this.shouldAddChildMoji, super.key});
@@ -60,7 +61,7 @@ class _MojiPickerState extends State<MojiPicker> {
                   Expanded(
                     child: TextField(
                       controller: _searchController,
-                      keyboardAppearance: untracked(() => S.darkness.value) ? Brightness.dark : Brightness.light,
+                      keyboardAppearance: S.darkness.untrackedValue ? Brightness.dark : Brightness.light,
                       decoration: InputDecoration.collapsed(
                         hintText: 'Search Moji',
                         hintStyle: TextStyle(
@@ -130,7 +131,7 @@ class _MojiPickerState extends State<MojiPicker> {
                     }
                     batch(() {
                       // Refresh the moji bar
-                      S.implicitPID.set(untracked(() => S.implicitPID.value), force: true);
+                      S.implicitPID.set(S.implicitPID.untrackedValue, force: true);
                       S.shouldShowMojiPicker.set(false);
                       S.shouldAddChildMoji.set(false);
                     });
@@ -563,33 +564,8 @@ final hugeIconsMap = <String, List<String>>{
     "routine",
     "dynamic"
   ],
-  "activity-04-stroke-rounded.svg": [
-    "activity",
-    "exercise",
-    "movement",
-    "action",
-    "task",
-    "engagement",
-    "effort",
-    "workout",
-    "event",
-    "endeavor",
-    "exercise"
-  ],
-  "acute-stroke-rounded.svg": [
-    "acute",
-    "angle",
-    "geometry",
-    "sharp",
-    "math",
-    "corner",
-    "triangle",
-    "measurement",
-    "degrees",
-    "precision",
-    "shape",
-    "figure"
-  ],
+  "activity-04-stroke-rounded.svg": ["activity", "exercise", "movement", "action", "task", "engagement", "effort", "workout", "event", "endeavor", "exercise"],
+  "acute-stroke-rounded.svg": ["acute", "angle", "geometry", "sharp", "math", "corner", "triangle", "measurement", "degrees", "precision", "shape", "figure"],
   "add-01-stroke-rounded.svg": [
     "add",
     "increase",
@@ -607,20 +583,7 @@ final hugeIconsMap = <String, List<String>>{
     "improve",
     "expand"
   ],
-  "add-02-stroke-rounded.svg": [
-    "add",
-    "increase",
-    "plus",
-    "mathematics",
-    "sum",
-    "addition",
-    "symbol",
-    "calculation",
-    "combine",
-    "growth",
-    "math",
-    "augment"
-  ],
+  "add-02-stroke-rounded.svg": ["add", "increase", "plus", "mathematics", "sum", "addition", "symbol", "calculation", "combine", "growth", "math", "augment"],
   "add-circle-half-dot-stroke-rounded.svg": [
     "add",
     "circle",
@@ -2620,20 +2583,7 @@ final hugeIconsMap = <String, List<String>>{
     "sharing",
     "kindness"
   ],
-  "alpha-circle-stroke-rounded.svg": [
-    "alpha",
-    "circle",
-    "letter",
-    "alphabet",
-    "A",
-    "round",
-    "symbol",
-    "geometry",
-    "shape",
-    "design",
-    "typography",
-    "graphic"
-  ],
+  "alpha-circle-stroke-rounded.svg": ["alpha", "circle", "letter", "alphabet", "A", "round", "symbol", "geometry", "shape", "design", "typography", "graphic"],
   "alpha-square-stroke-rounded.svg": [
     "alpha",
     "letter",
@@ -3064,20 +3014,7 @@ final hugeIconsMap = <String, List<String>>{
     "symbol",
     "navigation"
   ],
-  "angle-stroke-rounded.svg": [
-    "angle",
-    "geometry",
-    "math",
-    "shape",
-    "measure",
-    "degree",
-    "corner",
-    "triangle",
-    "direction",
-    "point",
-    "arc",
-    "vertex"
-  ],
+  "angle-stroke-rounded.svg": ["angle", "geometry", "math", "shape", "measure", "degree", "corner", "triangle", "direction", "point", "arc", "vertex"],
   "angry-bird-stroke-rounded.svg": [
     "angry",
     "bird",
@@ -3959,20 +3896,7 @@ final hugeIconsMap = <String, List<String>>{
     "route",
     "path"
   ],
-  "arrow-left-03-stroke-rounded.svg": [
-    "arrow",
-    "left",
-    "direction",
-    "navigate",
-    "point",
-    "move",
-    "back",
-    "reverse",
-    "indicate",
-    "sign",
-    "symbol",
-    "guide"
-  ],
+  "arrow-left-03-stroke-rounded.svg": ["arrow", "left", "direction", "navigate", "point", "move", "back", "reverse", "indicate", "sign", "symbol", "guide"],
   "arrow-left-04-stroke-rounded.svg": [
     "arrow",
     "left",
@@ -4195,19 +4119,7 @@ final hugeIconsMap = <String, List<String>>{
     "guide",
     "transition"
   ],
-  "arrow-right-02-stroke-rounded.svg": [
-    "arrow",
-    "direction",
-    "right",
-    "point",
-    "navigate",
-    "indicator",
-    "forward",
-    "movement",
-    "path",
-    "sign",
-    "progress"
-  ],
+  "arrow-right-02-stroke-rounded.svg": ["arrow", "direction", "right", "point", "navigate", "indicator", "forward", "movement", "path", "sign", "progress"],
   "arrow-right-03-stroke-rounded.svg": [
     "arrow",
     "right",
@@ -8852,19 +8764,7 @@ final hugeIconsMap = <String, List<String>>{
     "outline",
     "trim"
   ],
-  "border-top-02-stroke-rounded.svg": [
-    "border",
-    "top",
-    "design",
-    "edge",
-    "frame",
-    "boundary",
-    "line",
-    "decoration",
-    "style",
-    "visual",
-    "graphic"
-  ],
+  "border-top-02-stroke-rounded.svg": ["border", "top", "design", "edge", "frame", "boundary", "line", "decoration", "style", "visual", "graphic"],
   "border-vertical-stroke-rounded.svg": [
     "border",
     "vertical",
@@ -9191,21 +9091,7 @@ final hugeIconsMap = <String, List<String>>{
     "yeast",
     "wholegrain"
   ],
-  "bread-03-stroke-rounded.svg": [
-    "bread",
-    "bake",
-    "food",
-    "grain",
-    "loaf",
-    "dough",
-    "crust",
-    "nutrition",
-    "slice",
-    "bakery",
-    "fresh",
-    "cook",
-    "yeast"
-  ],
+  "bread-03-stroke-rounded.svg": ["bread", "bake", "food", "grain", "loaf", "dough", "crust", "nutrition", "slice", "bakery", "fresh", "cook", "yeast"],
   "bread-04-stroke-rounded.svg": [
     "bread",
     "bake",
@@ -12272,19 +12158,7 @@ final hugeIconsMap = <String, List<String>>{
     "sun",
     "casual"
   ],
-  "cap-round-stroke-rounded.svg": [
-    "cap",
-    "hat",
-    "fashion",
-    "headwear",
-    "clothing",
-    "accessory",
-    "style",
-    "head",
-    "cover",
-    "garment",
-    "apparel"
-  ],
+  "cap-round-stroke-rounded.svg": ["cap", "hat", "fashion", "headwear", "clothing", "accessory", "style", "head", "cover", "garment", "apparel"],
   "cap-straight-stroke-rounded.svg": [
     "cap",
     "hat",
@@ -15279,21 +15153,7 @@ final hugeIconsMap = <String, List<String>>{
     "authentication",
     "locksmith"
   ],
-  "circle-stroke-rounded.svg": [
-    "circle",
-    "shape",
-    "geometry",
-    "round",
-    "loop",
-    "ring",
-    "arc",
-    "outline",
-    "form",
-    "border",
-    "curve",
-    "design",
-    "soft"
-  ],
+  "circle-stroke-rounded.svg": ["circle", "shape", "geometry", "round", "loop", "ring", "arc", "outline", "form", "border", "curve", "design", "soft"],
   "circle-unlock-01-stroke-rounded.svg": [
     "circle",
     "unlock",
@@ -15469,20 +15329,7 @@ final hugeIconsMap = <String, List<String>>{
     "service",
     "consultation"
   ],
-  "clip-stroke-rounded.svg": [
-    "clip",
-    "stationery",
-    "office",
-    "paper",
-    "hold",
-    "attach",
-    "binding",
-    "organize",
-    "document",
-    "fasten",
-    "secure",
-    "accessory"
-  ],
+  "clip-stroke-rounded.svg": ["clip", "stationery", "office", "paper", "hold", "attach", "binding", "organize", "document", "fasten", "secure", "accessory"],
   "clipboard-stroke-rounded.svg": [
     "clipboard",
     "office",
@@ -16167,19 +16014,7 @@ final hugeIconsMap = <String, List<String>>{
     "bank",
     "budget"
   ],
-  "coins-02-stroke-rounded.svg": [
-    "coin",
-    "currency",
-    "money",
-    "finance",
-    "wealth",
-    "metal",
-    "economy",
-    "cash",
-    "coinage",
-    "investment",
-    "savings"
-  ],
+  "coins-02-stroke-rounded.svg": ["coin", "currency", "money", "finance", "wealth", "metal", "economy", "cash", "coinage", "investment", "savings"],
   "coins-bitcoin-stroke-rounded.svg": [
     "coin",
     "bitcoin",
@@ -17359,20 +17194,7 @@ final hugeIconsMap = <String, List<String>>{
     "gastronomy",
     "preparation"
   ],
-  "cookie-stroke-rounded.svg": [
-    "cookie",
-    "biscuit",
-    "sweet",
-    "dessert",
-    "bake",
-    "delicious",
-    "snack",
-    "treat",
-    "food",
-    "confectionery",
-    "sugar",
-    "pastry"
-  ],
+  "cookie-stroke-rounded.svg": ["cookie", "biscuit", "sweet", "dessert", "bake", "delicious", "snack", "treat", "food", "confectionery", "sugar", "pastry"],
   "coordinate-01-stroke-rounded.svg": [
     "coordinate",
     "geometry",
@@ -17839,20 +17661,7 @@ final hugeIconsMap = <String, List<String>>{
     "calculation",
     "machine"
   ],
-  "crab-stroke-rounded.svg": [
-    "crab",
-    "animal",
-    "sea",
-    "marine",
-    "beach",
-    "shellfish",
-    "crustacean",
-    "ocean",
-    "claw",
-    "wildlife",
-    "creature",
-    "seashore"
-  ],
+  "crab-stroke-rounded.svg": ["crab", "animal", "sea", "marine", "beach", "shellfish", "crustacean", "ocean", "claw", "wildlife", "creature", "seashore"],
   "crane-stroke-rounded.svg": [
     "crane",
     "construction",
@@ -18703,18 +18512,7 @@ final hugeIconsMap = <String, List<String>>{
     "controller",
     "action"
   ],
-  "cursor-pointer-01-stroke-rounded.svg": [
-    "cursor",
-    "pointer",
-    "click",
-    "navigation",
-    "select",
-    "mouse",
-    "control",
-    "computer",
-    "icon",
-    "pointer-device"
-  ],
+  "cursor-pointer-01-stroke-rounded.svg": ["cursor", "pointer", "click", "navigation", "select", "mouse", "control", "computer", "icon", "pointer-device"],
   "cursor-pointer-02-stroke-rounded.svg": [
     "cursor",
     "pointer",
@@ -20543,19 +20341,7 @@ final hugeIconsMap = <String, List<String>>{
     "elegance",
     "ornament"
   ],
-  "diamond-02-stroke-rounded.svg": [
-    "diamond",
-    "gem",
-    "jewel",
-    "precious",
-    "stone",
-    "luxury",
-    "wealth",
-    "sparkle",
-    "shine",
-    "crystal",
-    "treasure"
-  ],
+  "diamond-02-stroke-rounded.svg": ["diamond", "gem", "jewel", "precious", "stone", "luxury", "wealth", "sparkle", "shine", "crystal", "treasure"],
   "diamond-stroke-rounded.svg": [
     "diamond",
     "gem",
@@ -20655,21 +20441,7 @@ final hugeIconsMap = <String, List<String>>{
     "dots",
     "face"
   ],
-  "dice-faces-05-stroke-rounded.svg": [
-    "dice",
-    "face",
-    "cube",
-    "game",
-    "chance",
-    "luck",
-    "play",
-    "number",
-    "gambling",
-    "random",
-    "dot",
-    "roll",
-    "recreation"
-  ],
+  "dice-faces-05-stroke-rounded.svg": ["dice", "face", "cube", "game", "chance", "luck", "play", "number", "gambling", "random", "dot", "roll", "recreation"],
   "dice-faces-06-stroke-rounded.svg": [
     "dice",
     "face",
@@ -21706,20 +21478,7 @@ final hugeIconsMap = <String, List<String>>{
     "symbol",
     "religious"
   ],
-  "domino-stroke-rounded.svg": [
-    "domino",
-    "game",
-    "tile",
-    "dot",
-    "play",
-    "strategy",
-    "board",
-    "match",
-    "leisure",
-    "tile game",
-    "spot",
-    "entertainment"
-  ],
+  "domino-stroke-rounded.svg": ["domino", "game", "tile", "dot", "play", "strategy", "board", "match", "leisure", "tile game", "spot", "entertainment"],
   "door-01-stroke-rounded.svg": [
     "door",
     "entry",
@@ -22018,20 +21777,7 @@ final hugeIconsMap = <String, List<String>>{
     "user",
     "navigation"
   ],
-  "drag-04-stroke-rounded.svg": [
-    "drag",
-    "move",
-    "pull",
-    "slide",
-    "shift",
-    "adjust",
-    "position",
-    "relocate",
-    "transfer",
-    "gesture",
-    "control",
-    "interaction"
-  ],
+  "drag-04-stroke-rounded.svg": ["drag", "move", "pull", "slide", "shift", "adjust", "position", "relocate", "transfer", "gesture", "control", "interaction"],
   "drag-drop-horizontal-stroke-rounded.svg": [
     "drag",
     "drop",
@@ -22115,19 +21861,7 @@ final hugeIconsMap = <String, List<String>>{
     "motion",
     "swipe"
   ],
-  "drag-left-03-stroke-rounded.svg": [
-    "drag",
-    "left",
-    "move",
-    "slide",
-    "direction",
-    "navigation",
-    "arrow",
-    "gesture",
-    "control",
-    "interface",
-    "swipe"
-  ],
+  "drag-left-03-stroke-rounded.svg": ["drag", "left", "move", "slide", "direction", "navigation", "arrow", "gesture", "control", "interface", "swipe"],
   "drag-left-04-stroke-rounded.svg": [
     "drag",
     "left",
@@ -22750,19 +22484,7 @@ final hugeIconsMap = <String, List<String>>{
     "graphic",
     "movement"
   ],
-  "ease-in-stroke-rounded.svg": [
-    "ease",
-    "smooth",
-    "transition",
-    "animation",
-    "graphic",
-    "design",
-    "motion",
-    "flow",
-    "curve",
-    "timing",
-    "effect"
-  ],
+  "ease-in-stroke-rounded.svg": ["ease", "smooth", "transition", "animation", "graphic", "design", "motion", "flow", "curve", "timing", "effect"],
   "ease-out-control-point-stroke-rounded.svg": [
     "ease",
     "out",
@@ -23520,20 +23242,7 @@ final hugeIconsMap = <String, List<String>>{
     "wipe",
     "writing"
   ],
-  "eraser-stroke-rounded.svg": [
-    "eraser",
-    "delete",
-    "remove",
-    "clean",
-    "rub",
-    "correct",
-    "edit",
-    "writing",
-    "stationery",
-    "tool",
-    "mistake",
-    "office"
-  ],
+  "eraser-stroke-rounded.svg": ["eraser", "delete", "remove", "clean", "rub", "correct", "edit", "writing", "stationery", "tool", "mistake", "office"],
   "estimate-01-stroke-rounded.svg": [
     "estimate",
     "calculation",
@@ -23987,20 +23696,7 @@ final hugeIconsMap = <String, List<String>>{
     "sparkle",
     "meteor"
   ],
-  "fast-wind-stroke-rounded.svg": [
-    "fast",
-    "wind",
-    "speed",
-    "breeze",
-    "airflow",
-    "gust",
-    "weather",
-    "movement",
-    "nature",
-    "current",
-    "atmosphere",
-    "blow"
-  ],
+  "fast-wind-stroke-rounded.svg": ["fast", "wind", "speed", "breeze", "airflow", "gust", "weather", "movement", "nature", "current", "atmosphere", "blow"],
   "favourite-circle-stroke-rounded.svg": [
     "favourite",
     "circle",
@@ -25860,20 +25556,7 @@ final hugeIconsMap = <String, List<String>>{
     "fragrance",
     "spring"
   ],
-  "flushed-stroke-rounded.svg": [
-    "flushed",
-    "emotion",
-    "face",
-    "blush",
-    "embarrassment",
-    "feeling",
-    "expression",
-    "red",
-    "reaction",
-    "emoji",
-    "cheeks",
-    "pink"
-  ],
+  "flushed-stroke-rounded.svg": ["flushed", "emotion", "face", "blush", "embarrassment", "feeling", "expression", "red", "reaction", "emoji", "cheeks", "pink"],
   "flying-human-stroke-rounded.svg": [
     "flying",
     "human",
@@ -28570,20 +28253,7 @@ final hugeIconsMap = <String, List<String>>{
     "disconnected",
     "toggle"
   ],
-  "grid-stroke-rounded.svg": [
-    "grid",
-    "layout",
-    "pattern",
-    "matrix",
-    "table",
-    "structure",
-    "organize",
-    "design",
-    "graphic",
-    "gridline",
-    "arrange",
-    "plan"
-  ],
+  "grid-stroke-rounded.svg": ["grid", "layout", "pattern", "matrix", "table", "structure", "organize", "design", "graphic", "gridline", "arrange", "plan"],
   "grid-table-stroke-rounded.svg": [
     "grid",
     "table",
@@ -29738,18 +29408,7 @@ final hugeIconsMap = <String, List<String>>{
     "symmetry",
     "form"
   ],
-  "hexagon-stroke-rounded.svg": [
-    "hexagon",
-    "shape",
-    "geometry",
-    "polygon",
-    "six-sides",
-    "design",
-    "pattern",
-    "angle",
-    "symmetry",
-    "mathematics"
-  ],
+  "hexagon-stroke-rounded.svg": ["hexagon", "shape", "geometry", "polygon", "six-sides", "design", "pattern", "angle", "symmetry", "mathematics"],
   "hierarchy-circle-01-stroke-rounded.svg": [
     "hierarchy",
     "circle",
@@ -30109,20 +29768,7 @@ final hugeIconsMap = <String, List<String>>{
     "support",
     "maintain"
   ],
-  "hold-04-stroke-rounded.svg": [
-    "hold",
-    "grip",
-    "grab",
-    "control",
-    "clutch",
-    "secure",
-    "fasten",
-    "keep",
-    "handle",
-    "retain",
-    "support",
-    "grasp"
-  ],
+  "hold-04-stroke-rounded.svg": ["hold", "grip", "grab", "control", "clutch", "secure", "fasten", "keep", "handle", "retain", "support", "grasp"],
   "hold-05-stroke-rounded.svg": [
     "hold",
     "hand",
@@ -30347,19 +29993,7 @@ final hugeIconsMap = <String, List<String>>{
     "living",
     "family"
   ],
-  "home-09-stroke-rounded.svg": [
-    "home",
-    "house",
-    "building",
-    "residence",
-    "abode",
-    "shelter",
-    "dwelling",
-    "habitat",
-    "property",
-    "accommodation",
-    "structure"
-  ],
+  "home-09-stroke-rounded.svg": ["home", "house", "building", "residence", "abode", "shelter", "dwelling", "habitat", "property", "accommodation", "structure"],
   "home-10-stroke-rounded.svg": [
     "home",
     "house",
@@ -30514,20 +30148,7 @@ final hugeIconsMap = <String, List<String>>{
     "praise",
     "win"
   ],
-  "hoodie-stroke-rounded.svg": [
-    "hoodie",
-    "clothing",
-    "fashion",
-    "jacket",
-    "casual",
-    "apparel",
-    "comfort",
-    "warm",
-    "outerwear",
-    "garment",
-    "sport",
-    "zipper"
-  ],
+  "hoodie-stroke-rounded.svg": ["hoodie", "clothing", "fashion", "jacket", "casual", "apparel", "comfort", "warm", "outerwear", "garment", "sport", "zipper"],
   "horizonal-scroll-point-stroke-rounded.svg": [
     "horizonal",
     "scroll",
@@ -30937,19 +30558,7 @@ final hugeIconsMap = <String, List<String>>{
     "standard",
     "interface"
   ],
-  "humidity-stroke-rounded.svg": [
-    "humidity",
-    "weather",
-    "climate",
-    "moisture",
-    "dampness",
-    "air",
-    "wetness",
-    "atmosphere",
-    "environment",
-    "forecast",
-    "water"
-  ],
+  "humidity-stroke-rounded.svg": ["humidity", "weather", "climate", "moisture", "dampness", "air", "wetness", "atmosphere", "environment", "forecast", "water"],
   "hut-stroke-rounded.svg": [
     "hut",
     "shelter",
@@ -32981,20 +32590,7 @@ final hugeIconsMap = <String, List<String>>{
     "wear",
     "style"
   ],
-  "kettle-01-stroke-rounded.svg": [
-    "kettle",
-    "appliance",
-    "kitchen",
-    "boil",
-    "water",
-    "tea",
-    "coffee",
-    "electric",
-    "pot",
-    "hot",
-    "drink",
-    "brew"
-  ],
+  "kettle-01-stroke-rounded.svg": ["kettle", "appliance", "kitchen", "boil", "water", "tea", "coffee", "electric", "pot", "hot", "drink", "brew"],
   "kettle-stroke-rounded.svg": [
     "kettle",
     "tea",
@@ -33201,19 +32797,7 @@ final hugeIconsMap = <String, List<String>>{
     "position",
     "tool"
   ],
-  "keyframe-left-stroke-rounded.svg": [
-    "keyframe",
-    "animation",
-    "motion",
-    "direction",
-    "design",
-    "graphic",
-    "visual",
-    "left",
-    "frame",
-    "media",
-    "marker"
-  ],
+  "keyframe-left-stroke-rounded.svg": ["keyframe", "animation", "motion", "direction", "design", "graphic", "visual", "left", "frame", "media", "marker"],
   "keyframe-remove-stroke-rounded.svg": [
     "keyframe",
     "remove",
@@ -35445,20 +35029,7 @@ final hugeIconsMap = <String, List<String>>{
     "restriction",
     "confine"
   ],
-  "line-stroke-rounded.svg": [
-    "line",
-    "stroke",
-    "curve",
-    "drawing",
-    "art",
-    "design",
-    "outline",
-    "shape",
-    "contour",
-    "illustration",
-    "graphic",
-    "border"
-  ],
+  "line-stroke-rounded.svg": ["line", "stroke", "curve", "drawing", "art", "design", "outline", "shape", "contour", "illustration", "graphic", "border"],
   "liner-stroke-rounded.svg": [
     "liner",
     "shape",
@@ -35815,19 +35386,7 @@ final hugeIconsMap = <String, List<String>>{
     "status",
     "spinner"
   ],
-  "loading-03-stroke-rounded.svg": [
-    "loading",
-    "progress",
-    "buffering",
-    "waiting",
-    "process",
-    "wheel",
-    "circle",
-    "status",
-    "indicator",
-    "update",
-    "rotate"
-  ],
+  "loading-03-stroke-rounded.svg": ["loading", "progress", "buffering", "waiting", "process", "wheel", "circle", "status", "indicator", "update", "rotate"],
   "loading-04-stroke-rounded.svg": [
     "loading",
     "progress",
@@ -36711,20 +36270,7 @@ final hugeIconsMap = <String, List<String>>{
     "authentication",
     "terminate"
   ],
-  "logout-02-stroke-rounded.svg": [
-    "logout",
-    "exit",
-    "sign out",
-    "leave",
-    "door",
-    "close",
-    "account",
-    "sign off",
-    "end",
-    "session",
-    "quit",
-    "disconnect"
-  ],
+  "logout-02-stroke-rounded.svg": ["logout", "exit", "sign out", "leave", "door", "close", "account", "sign off", "end", "session", "quit", "disconnect"],
   "logout-03-stroke-rounded.svg": [
     "logout",
     "exit",
@@ -41456,20 +41002,7 @@ final hugeIconsMap = <String, List<String>>{
     "transfer",
     "commerce"
   ],
-  "monocle-01-stroke-rounded.svg": [
-    "monocle",
-    "eyewear",
-    "lens",
-    "vision",
-    "accessory",
-    "magnify",
-    "style",
-    "vintage",
-    "eye",
-    "glass",
-    "fashion",
-    "focus"
-  ],
+  "monocle-01-stroke-rounded.svg": ["monocle", "eyewear", "lens", "vision", "accessory", "magnify", "style", "vintage", "eye", "glass", "fashion", "focus"],
   "monocle-stroke-rounded.svg": [
     "monocle",
     "eyewear",
@@ -41905,18 +41438,7 @@ final hugeIconsMap = <String, List<String>>{
     "augment",
     "surplus"
   ],
-  "more-03-stroke-rounded.svg": [
-    "more",
-    "addition",
-    "plus",
-    "extra",
-    "expand",
-    "increase",
-    "additional",
-    "supplementary",
-    "increment",
-    "enhancement"
-  ],
+  "more-03-stroke-rounded.svg": ["more", "addition", "plus", "extra", "expand", "increase", "additional", "supplementary", "increment", "enhancement"],
   "more-horizontal-circle-01-stroke-rounded.svg": [
     "more",
     "horizontal",
@@ -42419,19 +41941,7 @@ final hugeIconsMap = <String, List<String>>{
     "interface",
     "gadget"
   ],
-  "mouse-02-stroke-rounded.svg": [
-    "mouse",
-    "computer",
-    "device",
-    "technology",
-    "click",
-    "navigation",
-    "pointer",
-    "interface",
-    "hardware",
-    "input",
-    "control"
-  ],
+  "mouse-02-stroke-rounded.svg": ["mouse", "computer", "device", "technology", "click", "navigation", "pointer", "interface", "hardware", "input", "control"],
   "mouse-03-stroke-rounded.svg": [
     "mouse",
     "computer",
@@ -43052,19 +42562,7 @@ final hugeIconsMap = <String, List<String>>{
     "instruction",
     "location"
   ],
-  "move-left-stroke-rounded.svg": [
-    "move",
-    "left",
-    "direction",
-    "arrow",
-    "point",
-    "navigate",
-    "shift",
-    "position",
-    "location",
-    "action",
-    "motion"
-  ],
+  "move-left-stroke-rounded.svg": ["move", "left", "direction", "arrow", "point", "navigate", "shift", "position", "location", "action", "motion"],
   "move-right-stroke-rounded.svg": [
     "move",
     "right",
@@ -44709,19 +44207,7 @@ final hugeIconsMap = <String, List<String>>{
     "harvest",
     "shell"
   ],
-  "obtuse-stroke-rounded.svg": [
-    "obtuse",
-    "angle",
-    "geometry",
-    "math",
-    "shape",
-    "characteristic",
-    "blunt",
-    "wide",
-    "dull",
-    "measurement",
-    "triangle"
-  ],
+  "obtuse-stroke-rounded.svg": ["obtuse", "angle", "geometry", "math", "shape", "characteristic", "blunt", "wide", "dull", "measurement", "triangle"],
   "octagon-stroke-rounded.svg": [
     "octagon",
     "shape",
@@ -45045,20 +44531,7 @@ final hugeIconsMap = <String, List<String>>{
     "vector",
     "spatial"
   ],
-  "oval-stroke-rounded.svg": [
-    "oval",
-    "shape",
-    "geometry",
-    "outline",
-    "ellipse",
-    "contour",
-    "border",
-    "symmetry",
-    "loop",
-    "design",
-    "smooth",
-    "figure"
-  ],
+  "oval-stroke-rounded.svg": ["oval", "shape", "geometry", "outline", "ellipse", "contour", "border", "symmetry", "loop", "design", "smooth", "figure"],
   "oven-stroke-rounded.svg": [
     "oven",
     "kitchen",
@@ -47166,21 +46639,7 @@ final hugeIconsMap = <String, List<String>>{
     "horticulture",
     "life"
   ],
-  "plate-stroke-rounded.svg": [
-    "plate",
-    "dining",
-    "kitchen",
-    "food",
-    "dish",
-    "meal",
-    "circular",
-    "ceramic",
-    "eat",
-    "serve",
-    "tableware",
-    "round",
-    "serving"
-  ],
+  "plate-stroke-rounded.svg": ["plate", "dining", "kitchen", "food", "dish", "meal", "circular", "ceramic", "eat", "serve", "tableware", "round", "serving"],
   "plaxo-stroke-rounded.svg": [
     "plaxo",
     "network",
@@ -47682,19 +47141,7 @@ final hugeIconsMap = <String, List<String>>{
     "increase",
     "add"
   ],
-  "png-01-stroke-rounded.svg": [
-    "png",
-    "image",
-    "file",
-    "format",
-    "graphic",
-    "raster",
-    "bitmap",
-    "digital",
-    "media",
-    "picture",
-    "compression"
-  ],
+  "png-01-stroke-rounded.svg": ["png", "image", "file", "format", "graphic", "raster", "bitmap", "digital", "media", "picture", "compression"],
   "png-02-stroke-rounded.svg": [
     "png",
     "image",
@@ -48309,20 +47756,7 @@ final hugeIconsMap = <String, List<String>>{
     "exchange",
     "wealth"
   ],
-  "pound-stroke-rounded.svg": [
-    "pound",
-    "currency",
-    "money",
-    "finance",
-    "wealth",
-    "British",
-    "sterling",
-    "exchange",
-    "monetary",
-    "symbol",
-    "economy",
-    "cash"
-  ],
+  "pound-stroke-rounded.svg": ["pound", "currency", "money", "finance", "wealth", "British", "sterling", "exchange", "monetary", "symbol", "economy", "cash"],
   "power-service-stroke-rounded.svg": [
     "power",
     "service",
@@ -48442,19 +47876,7 @@ final hugeIconsMap = <String, List<String>>{
     "sacred",
     "serenity"
   ],
-  "prayer-rug-02-stroke-rounded.svg": [
-    "prayer",
-    "rug",
-    "worship",
-    "religion",
-    "spirituality",
-    "faith",
-    "meditation",
-    "Islam",
-    "devotion",
-    "mat",
-    "ceremony"
-  ],
+  "prayer-rug-02-stroke-rounded.svg": ["prayer", "rug", "worship", "religion", "spirituality", "faith", "meditation", "Islam", "devotion", "mat", "ceremony"],
   "preference-horizontal-stroke-rounded.svg": [
     "preference",
     "choice",
@@ -51279,33 +50701,8 @@ final hugeIconsMap = <String, List<String>>{
     "arabia",
     "exchange"
   ],
-  "riyal-stroke-rounded.svg": [
-    "riyal",
-    "currency",
-    "money",
-    "finance",
-    "banking",
-    "economy",
-    "coin",
-    "cash",
-    "exchange",
-    "wealth",
-    "value",
-    "trade"
-  ],
-  "road-01-stroke-rounded.svg": [
-    "road",
-    "path",
-    "street",
-    "track",
-    "drive",
-    "route",
-    "highway",
-    "transportation",
-    "journey",
-    "surface",
-    "infrastructure"
-  ],
+  "riyal-stroke-rounded.svg": ["riyal", "currency", "money", "finance", "banking", "economy", "coin", "cash", "exchange", "wealth", "value", "trade"],
+  "road-01-stroke-rounded.svg": ["road", "path", "street", "track", "drive", "route", "highway", "transportation", "journey", "surface", "infrastructure"],
   "road-02-stroke-rounded.svg": [
     "road",
     "street",
@@ -53026,22 +52423,7 @@ final hugeIconsMap = <String, List<String>>{
     "handheld",
     "blade"
   ],
-  "scissor-stroke-rounded.svg": [
-    "scissor",
-    "cut",
-    "tool",
-    "blade",
-    "sharp",
-    "craft",
-    "trim",
-    "snip",
-    "shear",
-    "grooming",
-    "sewing",
-    "office",
-    "school",
-    "art"
-  ],
+  "scissor-stroke-rounded.svg": ["scissor", "cut", "tool", "blade", "sharp", "craft", "trim", "snip", "shear", "grooming", "sewing", "office", "school", "art"],
   "scooter-01-stroke-rounded.svg": [
     "scooter",
     "vehicle",
@@ -55700,21 +55082,7 @@ final hugeIconsMap = <String, List<String>>{
     "transform",
     "swap"
   ],
-  "shuffle-stroke-rounded.svg": [
-    "shuffle",
-    "arrange",
-    "random",
-    "music",
-    "dj",
-    "mix",
-    "play",
-    "audio",
-    "transition",
-    "order",
-    "sequence",
-    "button",
-    "change"
-  ],
+  "shuffle-stroke-rounded.svg": ["shuffle", "arrange", "random", "music", "dj", "mix", "play", "audio", "transition", "order", "sequence", "button", "change"],
   "shutterstock-stroke-rounded.svg": [
     "shutterstock",
     "photo",
@@ -57919,20 +57287,7 @@ final hugeIconsMap = <String, List<String>>{
     "system",
     "analysis"
   ],
-  "square-01-stroke-rounded.svg": [
-    "square",
-    "shape",
-    "geometry",
-    "design",
-    "mathematics",
-    "figure",
-    "angle",
-    "four",
-    "equal",
-    "symmetry",
-    "basic",
-    "outline"
-  ],
+  "square-01-stroke-rounded.svg": ["square", "shape", "geometry", "design", "mathematics", "figure", "angle", "four", "equal", "symmetry", "basic", "outline"],
   "square-arrow-data-transfer-diagonal-stroke-rounded.svg": [
     "square",
     "arrow",
@@ -58962,19 +58317,7 @@ final hugeIconsMap = <String, List<String>>{
     "frame",
     "boundary"
   ],
-  "stamp-01-stroke-rounded.svg": [
-    "stamp",
-    "seal",
-    "postal",
-    "imprint",
-    "mark",
-    "postage",
-    "collectible",
-    "cancellation",
-    "authentication",
-    "design",
-    "print"
-  ],
+  "stamp-01-stroke-rounded.svg": ["stamp", "seal", "postal", "imprint", "mark", "postage", "collectible", "cancellation", "authentication", "design", "print"],
   "stamp-02-stroke-rounded.svg": [
     "stamp",
     "postal",
@@ -59183,21 +58526,7 @@ final hugeIconsMap = <String, List<String>>{
     "work",
     "stationery"
   ],
-  "steak-stroke-rounded.svg": [
-    "steak",
-    "meat",
-    "beef",
-    "food",
-    "cooking",
-    "grill",
-    "dinner",
-    "meal",
-    "protein",
-    "cuisine",
-    "nutrition",
-    "culinary",
-    "gourmet"
-  ],
+  "steak-stroke-rounded.svg": ["steak", "meat", "beef", "food", "cooking", "grill", "dinner", "meal", "protein", "cuisine", "nutrition", "culinary", "gourmet"],
   "steering-stroke-rounded.svg": [
     "steering",
     "wheel",
@@ -60960,20 +60289,7 @@ final hugeIconsMap = <String, List<String>>{
     "web",
     "media"
   ],
-  "svg-02-stroke-rounded.svg": [
-    "svg",
-    "design",
-    "graphic",
-    "illustration",
-    "art",
-    "vector",
-    "icon",
-    "digital",
-    "file",
-    "stroke",
-    "outline",
-    "shape"
-  ],
+  "svg-02-stroke-rounded.svg": ["svg", "design", "graphic", "illustration", "art", "vector", "icon", "digital", "file", "stroke", "outline", "shape"],
   "swarm-stroke-rounded.svg": [
     "swarm",
     "insect",
@@ -62044,22 +61360,7 @@ final hugeIconsMap = <String, List<String>>{
     "world wonder",
     "sightseeing"
   ],
-  "tan-stroke-rounded.svg": [
-    "tan",
-    "color",
-    "shade",
-    "hue",
-    "earthy",
-    "neutral",
-    "tone",
-    "natural",
-    "beige",
-    "brown",
-    "sand",
-    "skin",
-    "warm",
-    "soft"
-  ],
+  "tan-stroke-rounded.svg": ["tan", "color", "shade", "hue", "earthy", "neutral", "tone", "natural", "beige", "brown", "sand", "skin", "warm", "soft"],
   "tank-top-stroke-rounded.svg": [
     "tank",
     "top",
@@ -62177,21 +61478,7 @@ final hugeIconsMap = <String, List<String>>{
     "utility",
     "sink"
   ],
-  "tap-07-stroke-rounded.svg": [
-    "tap",
-    "faucet",
-    "water",
-    "plumbing",
-    "kitchen",
-    "bathroom",
-    "sink",
-    "hygiene",
-    "fixture",
-    "liquid",
-    "wash",
-    "flow",
-    "handle"
-  ],
+  "tap-07-stroke-rounded.svg": ["tap", "faucet", "water", "plumbing", "kitchen", "bathroom", "sink", "hygiene", "fixture", "liquid", "wash", "flow", "handle"],
   "tap-08-stroke-rounded.svg": [
     "tap",
     "water",
@@ -63978,21 +63265,7 @@ final hugeIconsMap = <String, List<String>>{
     "OK",
     "signal"
   ],
-  "tic-tac-toe-stroke-rounded.svg": [
-    "tic-tac-toe",
-    "game",
-    "puzzle",
-    "strategy",
-    "fun",
-    "play",
-    "board",
-    "three",
-    "line",
-    "opponent",
-    "competition",
-    "x",
-    "o"
-  ],
+  "tic-tac-toe-stroke-rounded.svg": ["tic-tac-toe", "game", "puzzle", "strategy", "fun", "play", "board", "three", "line", "opponent", "competition", "x", "o"],
   "tick-01-stroke-rounded.svg": [
     "tick",
     "check",
@@ -64843,20 +64116,7 @@ final hugeIconsMap = <String, List<String>>{
     "swipe",
     "tap"
   ],
-  "touch-05-stroke-rounded.svg": [
-    "touch",
-    "sense",
-    "feel",
-    "contact",
-    "gesture",
-    "interaction",
-    "interface",
-    "input",
-    "press",
-    "connect",
-    "engage",
-    "sensor"
-  ],
+  "touch-05-stroke-rounded.svg": ["touch", "sense", "feel", "contact", "gesture", "interaction", "interface", "input", "press", "connect", "engage", "sensor"],
   "touch-06-stroke-rounded.svg": [
     "touch",
     "hand",
@@ -65828,20 +65088,7 @@ final hugeIconsMap = <String, List<String>>{
     "form",
     "triangle-method"
   ],
-  "triangle-stroke-rounded.svg": [
-    "triangle",
-    "geometry",
-    "shape",
-    "math",
-    "polygon",
-    "three",
-    "sides",
-    "angle",
-    "design",
-    "symbol",
-    "basic",
-    "form"
-  ],
+  "triangle-stroke-rounded.svg": ["triangle", "geometry", "shape", "math", "polygon", "three", "sides", "angle", "design", "symbol", "basic", "form"],
   "trolley-01-stroke-rounded.svg": [
     "trolley",
     "cart",
@@ -68099,20 +67346,7 @@ final hugeIconsMap = <String, List<String>>{
     "control",
     "slide"
   ],
-  "vest-stroke-rounded.svg": [
-    "vest",
-    "clothing",
-    "wear",
-    "attire",
-    "fashion",
-    "garment",
-    "outfit",
-    "apparel",
-    "sleeveless",
-    "bodywear",
-    "protective",
-    "layer"
-  ],
+  "vest-stroke-rounded.svg": ["vest", "clothing", "wear", "attire", "fashion", "garment", "outfit", "apparel", "sleeveless", "bodywear", "protective", "layer"],
   "victory-finger-01-stroke-rounded.svg": [
     "victory",
     "gesture",
@@ -68571,19 +67805,7 @@ final hugeIconsMap = <String, List<String>>{
     "toggle",
     "button"
   ],
-  "volume-mute-02-stroke-rounded.svg": [
-    "volume",
-    "mute",
-    "sound",
-    "audio",
-    "silence",
-    "quiet",
-    "speaker",
-    "symbol",
-    "control",
-    "off",
-    "technology"
-  ],
+  "volume-mute-02-stroke-rounded.svg": ["volume", "mute", "sound", "audio", "silence", "quiet", "speaker", "symbol", "control", "off", "technology"],
   "volume-off-stroke-rounded.svg": [
     "volume",
     "sound",
@@ -69566,20 +68788,7 @@ final hugeIconsMap = <String, List<String>>{
     "diet",
     "track"
   ],
-  "weight-scale-stroke-rounded.svg": [
-    "weight",
-    "scale",
-    "measure",
-    "balance",
-    "weigh",
-    "mass",
-    "fitness",
-    "health",
-    "equipment",
-    "tool",
-    "gauge",
-    "tracking"
-  ],
+  "weight-scale-stroke-rounded.svg": ["weight", "scale", "measure", "balance", "weigh", "mass", "fitness", "health", "equipment", "tool", "gauge", "tracking"],
   "wellness-stroke-rounded.svg": [
     "wellness",
     "health",
@@ -70166,19 +69375,7 @@ final hugeIconsMap = <String, List<String>>{
     "ecology",
     "efficiency"
   ],
-  "wink-stroke-rounded.svg": [
-    "wink",
-    "eye",
-    "gesture",
-    "expression",
-    "flirt",
-    "playful",
-    "teasing",
-    "emotion",
-    "face",
-    "communication",
-    "wink"
-  ],
+  "wink-stroke-rounded.svg": ["wink", "eye", "gesture", "expression", "flirt", "playful", "teasing", "emotion", "face", "communication", "wink"],
   "winking-stroke-rounded.svg": [
     "winking",
     "wink",
@@ -70748,19 +69945,7 @@ final hugeIconsMap = <String, List<String>>{
     "prevent",
     "injury"
   ],
-  "worry-stroke-rounded.svg": [
-    "worry",
-    "concern",
-    "anxiety",
-    "stress",
-    "fear",
-    "unease",
-    "apprehension",
-    "nervousness",
-    "tension",
-    "distress",
-    "disquiet"
-  ],
+  "worry-stroke-rounded.svg": ["worry", "concern", "anxiety", "stress", "fear", "unease", "apprehension", "nervousness", "tension", "distress", "disquiet"],
   "wps-office-rectangle-stroke-rounded.svg": [
     "wps",
     "office",
@@ -71306,20 +70491,7 @@ final hugeIconsMap = <String, List<String>>{
     "assistance",
     "obligation"
   ],
-  "zap-stroke-rounded.svg": [
-    "zap",
-    "electricity",
-    "bolt",
-    "energy",
-    "flash",
-    "power",
-    "thunder",
-    "lightning",
-    "charge",
-    "speed",
-    "shock",
-    "current"
-  ],
+  "zap-stroke-rounded.svg": ["zap", "electricity", "bolt", "energy", "flash", "power", "thunder", "lightning", "charge", "speed", "shock", "current"],
   "zeppelin-stroke-rounded.svg": [
     "zeppelin",
     "airship",

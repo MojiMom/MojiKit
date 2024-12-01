@@ -6,7 +6,7 @@ import 'package:lexicographical_order/lexicographical_order.dart';
 import 'package:mojikit/mojikit.dart';
 import 'package:realm/realm.dart';
 import 'package:flutter/material.dart';
-import 'package:signals/signals.dart';
+import 'package:signals/signals_flutter_extended.dart';
 
 void main() {
   setUpAll(() async {
@@ -22,11 +22,11 @@ void main() {
       final cid = U.fid();
       final gcid = U.fid();
       final ggcid = U.fid();
-      final rMojiR = untracked(() => S.mojiSignal(rid).value);
-      final pMojiR = untracked(() => S.mojiSignal(pid).value);
-      final cMojiR = untracked(() => S.mojiSignal(cid).value);
-      final gcMojiR = untracked(() => S.mojiSignal(gcid).value);
-      final ggcMojiR = untracked(() => S.mojiSignal(ggcid).value);
+      final rMojiR = S.mojiSignal(rid).untrackedValue;
+      final pMojiR = S.mojiSignal(pid).untrackedValue;
+      final cMojiR = S.mojiSignal(cid).untrackedValue;
+      final gcMojiR = S.mojiSignal(gcid).untrackedValue;
+      final ggcMojiR = S.mojiSignal(ggcid).untrackedValue;
       final orderKeys = generateOrderKeys(2);
       R.m.write(() {
         rMojiR.c[pid] = orderKeys.first;
@@ -46,7 +46,7 @@ void main() {
             body: MojiTree(
               mid: rid,
               mojiPlannerWidth: 200.0,
-              dye: untracked(() => Dyes.green.value),
+              dye: Dyes.green.untrackedValue,
             ),
           ),
         ),
@@ -65,7 +65,7 @@ void main() {
       await tester.pump(kLongPressTimeout);
       await gesture.moveTo(secondLocation);
       await tester.pump();
-      expect(untracked(() => S.flyingMoji.value.id), equals(cid));
+      expect(S.flyingMoji.untrackedValue.id, equals(cid));
       await gesture.up();
       await tester.pump();
 
@@ -84,7 +84,7 @@ void main() {
       await tester.pump(kLongPressTimeout);
       await gesture.moveTo(Offset(secondLocation.dx, secondLocation.dy + 15));
       await tester.pump();
-      expect(untracked(() => S.flyingMoji.value.id), equals(cid));
+      expect(S.flyingMoji.untrackedValue.id, equals(cid));
       await gesture.up();
       await tester.pump();
 
@@ -99,7 +99,7 @@ void main() {
       await tester.pump(kLongPressTimeout);
       await gesture.moveTo(Offset(secondLocation.dx, secondLocation.dy - 15));
       await tester.pump();
-      expect(untracked(() => S.flyingMoji.value.id), equals(cid));
+      expect(S.flyingMoji.untrackedValue.id, equals(cid));
       await gesture.up();
       await tester.pump();
 

@@ -6,6 +6,7 @@ import 'package:lexicographical_order/lexicographical_order.dart';
 import 'package:signals/signals.dart';
 import 'package:mojikit/mojikit.dart';
 import 'package:realm/realm.dart';
+import 'package:signals/signals_flutter_extended.dart';
 
 void main() {
   SignalsObserver.instance = null;
@@ -36,7 +37,7 @@ void main() {
 
       final stream = signal.toStream();
 
-      await expectLater(stream, emitsInOrder([untracked(() => signal.value)]));
+      await expectLater(stream, emitsInOrder([signal.untrackedValue]));
     });
 
     test('mojiSignal returns a empty moji when the id is empty', () async {
@@ -67,7 +68,7 @@ void main() {
     });
 
     test('mojiPlannerWidth returns correct value from preferences', () async {
-      final preferences = untracked(() => S.preferencesSignal(kLocalPreferences).value);
+      final preferences = S.preferencesSignal(kLocalPreferences).untrackedValue;
 
       expect(preferences.mojiPlannerWidth, isNot(350.0));
 
@@ -82,7 +83,7 @@ void main() {
     });
 
     test('darkness returns correct value from preferences', () async {
-      final preferences = untracked(() => S.preferencesSignal(kLocalPreferences).value);
+      final preferences = S.preferencesSignal(kLocalPreferences).untrackedValue;
 
       expect(preferences.darkness, isNot(true));
 
@@ -113,7 +114,7 @@ void main() {
       R.getModifiedCalendarEvents = (day) async {
         return Future.value({DateTime(2022, 04, 02)});
       };
-      final calendars = untracked(() => S.mojiSignal(kMojiCalendars).value);
+      final calendars = S.mojiSignal(kMojiCalendars).untrackedValue;
       final order = generateOrderKeys(1);
       final calendarId = base64Encode(utf8.encode('test@example.com'));
       R.m.write(() {

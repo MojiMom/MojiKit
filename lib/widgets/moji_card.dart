@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:mojikit/mojikit.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:signals/signals_flutter.dart';
+import 'package:signals/signals_flutter_extended.dart';
 
 class MojiCard extends StatefulWidget {
   final String id;
@@ -30,7 +31,7 @@ class _MojiCardState extends State<MojiCard> {
   bool hasUnwrittenChange = false;
 
   textEditingContollerListener() {
-    if (untracked(() => S.selectedMID.value) == widget.id) {
+    if (S.selectedMID.untrackedValue == widget.id) {
       S.currentMojiText.set(_controller.text);
     }
     if (_controller.text.isEmpty) {
@@ -74,7 +75,7 @@ class _MojiCardState extends State<MojiCard> {
         // Check if it's a placeholder
         final isPlaceholder = widget.placeholder;
         // Get the selected MID
-        var selectedMID = untracked(() => S.selectedMID.value);
+        var selectedMID = S.selectedMID.untrackedValue;
         // If the selected MID is empty
         if (selectedMID?.isEmpty == true) {
           // Set it to null
@@ -114,7 +115,7 @@ class _MojiCardState extends State<MojiCard> {
 
     _focusNode.addListener(onFocused);
 
-    if (untracked(() => S.selectedMID.value) == widget.id && widget.renderedByMojiIsland != true) {
+    if (S.selectedMID.untrackedValue == widget.id && widget.renderedByMojiIsland != true) {
       _focusNode.requestFocus();
     }
     _controller = TextWithPrefixController(
@@ -124,7 +125,7 @@ class _MojiCardState extends State<MojiCard> {
           if (child == null) {
             return const SizedBox.shrink();
           }
-          final shouldBeFocused = untracked(() => S.selectedMID.value) == widget.id && widget.renderedByMojiIsland != true;
+          final shouldBeFocused = S.selectedMID.untrackedValue == widget.id && widget.renderedByMojiIsland != true;
           return Visibility(visible: _focusNode.hasFocus != true && shouldBeFocused != true && _controller.text.trim().isEmpty, child: child);
         },
         child: Watch((context) {
@@ -229,7 +230,7 @@ class _MojiCardState extends State<MojiCard> {
                                   // Check if it's a placeholder
                                   final isPlaceholder = widget.placeholder;
                                   // Get the selected MID
-                                  var selectedMID = untracked(() => S.selectedMID.value);
+                                  var selectedMID = S.selectedMID.untrackedValue;
                                   // If the selected MID is empty
                                   if (selectedMID?.isEmpty == true) {
                                     // Set it to null
@@ -263,7 +264,7 @@ class _MojiCardState extends State<MojiCard> {
                                 focusNode: _focusNode,
                                 textInputAction: TextInputAction.next,
                                 cursorHeight: 18,
-                                keyboardAppearance: untracked(() => S.darkness.value) ? Brightness.dark : Brightness.light,
+                                keyboardAppearance: S.darkness.untrackedValue ? Brightness.dark : Brightness.light,
                                 decoration: null,
                                 style: TextStyle(
                                   color: dye.ultraDark,
@@ -272,7 +273,7 @@ class _MojiCardState extends State<MojiCard> {
                                 ),
                                 maxLines: null,
                                 onChanged: (value) {
-                                  final mojiR = untracked(() => _mojiR.value);
+                                  final mojiR = _mojiR.untrackedValue;
                                   hasUnwrittenChange = true;
                                   R.m.write(() {
                                     mojiR.t = value;
@@ -280,11 +281,11 @@ class _MojiCardState extends State<MojiCard> {
                                 },
                                 onSubmitted: (value) {
                                   final isPlaceholder = widget.placeholder;
-                                  var selectedMID = untracked(() => S.selectedMID.value);
+                                  var selectedMID = S.selectedMID.untrackedValue;
                                   if (selectedMID?.isEmpty == true) {
                                     selectedMID = null;
                                   }
-                                  if (untracked(() => S.selectedHeaderView.value) == MMHeaderView.thoughts) {
+                                  if (S.selectedHeaderView.untrackedValue == MMHeaderView.thoughts) {
                                     final cfid = U.fid();
                                     batch(() {
                                       S.selectedMID.set(cfid);
@@ -292,8 +293,8 @@ class _MojiCardState extends State<MojiCard> {
                                     });
                                     if (widget.renderedByMojiIsland) {
                                       R.addChildMoji(pid: widget.id, cfid: cfid);
-                                      final parents = untracked(() => _dyeAndParents.value.$2);
-                                      parents.insert(0, untracked(() => _mojiR.value));
+                                      final parents = _dyeAndParents.untrackedValue.$2;
+                                      parents.insert(0, _mojiR.untrackedValue);
                                       for (final parent in parents) {
                                         if (U.activeTreeControllers[parent.id] != null) {
                                           final pinnedMoji = U.activeTreeControllers[parent.id]?.$1;
@@ -303,14 +304,14 @@ class _MojiCardState extends State<MojiCard> {
                                         }
                                       }
                                     } else {
-                                      final mojiR = untracked(() => _mojiR.value);
+                                      final mojiR = _mojiR.untrackedValue;
                                       if (mojiR.id.isNotEmpty) {
                                         R.updateMoji(widget.id, text: value, npid: isPlaceholder ? selectedMID : null, shouldUpdateOrigin: true);
                                         R.addSiblingMoji(mojiR, sfid: cfid);
                                         widget.node?.parent?.insertChild((widget.node?.index ?? 0) + 1, Node(id: cfid));
                                       }
                                     }
-                                    final parents = untracked(() => _dyeAndParents.value.$2);
+                                    final parents = _dyeAndParents.untrackedValue.$2;
                                     for (final parent in parents) {
                                       if (U.activeTreeControllers[parent.id] != null) {
                                         U.activeTreeControllers[parent.id]?.$2.rebuild();

@@ -8,7 +8,7 @@ import 'package:mojikit/mojikit.dart';
 import 'package:flutter/foundation.dart';
 import 'package:realm/realm.dart';
 import 'package:file/memory.dart';
-import 'package:signals/signals_flutter.dart';
+import 'package:signals/signals_flutter_extended.dart';
 
 void main() {
   const MethodChannel deviceInfoChannel = MethodChannel('dev.fluttercommunity.plus/device_info');
@@ -19,8 +19,7 @@ void main() {
     R.online = false;
     TestWidgetsFlutterBinding.ensureInitialized();
 
-    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(deviceInfoChannel,
-        (MethodCall methodCall) async {
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(deviceInfoChannel, (MethodCall methodCall) async {
       switch (methodCall.method) {
         case 'getDeviceInfo':
           switch (defaultTargetPlatform) {
@@ -161,13 +160,13 @@ void main() {
       final did = U.did(day);
       final tid = U.did(DateTime(day.year, day.month, day.day + 1));
 
-      final yidMojiR = untracked(() => S.mojiSignal(yid).value);
-      final didMojiR = untracked(() => S.mojiSignal(did).value);
-      final tidMojiR = untracked(() => S.mojiSignal(tid).value);
+      final yidMojiR = S.mojiSignal(yid).untrackedValue;
+      final didMojiR = S.mojiSignal(did).untrackedValue;
+      final tidMojiR = S.mojiSignal(tid).untrackedValue;
 
-      final event1MojiR = untracked(() => S.mojiSignal(eid1).value);
-      final event2MojiR = untracked(() => S.mojiSignal(eid2).value);
-      final event3MojiR = untracked(() => S.mojiSignal(eid3).value);
+      final event1MojiR = S.mojiSignal(eid1).untrackedValue;
+      final event2MojiR = S.mojiSignal(eid2).untrackedValue;
+      final event3MojiR = S.mojiSignal(eid3).untrackedValue;
 
       R.m.write(() {
         yidMojiR.l[eid1] = day;
@@ -205,9 +204,9 @@ void main() {
     test('mojiHasExternalOrigin identifies external origin correctly', () {
       final eomid = U.fid();
       final weomid = U.fid();
-      final mojiWithExternalOriginR = untracked(() => S.mojiSignal(eomid).value);
-      final mojiWithoutExternalOriginR = untracked(() => S.mojiSignal(weomid).value);
-      final calendars = untracked(() => S.mojiSignal(kMojiCalendars).value);
+      final mojiWithExternalOriginR = S.mojiSignal(eomid).untrackedValue;
+      final mojiWithoutExternalOriginR = S.mojiSignal(weomid).untrackedValue;
+      final calendars = S.mojiSignal(kMojiCalendars).untrackedValue;
       final email = 'example@domain.com';
       final encodedEmail = base64.encode(utf8.encode(email));
       final orderKeys = generateOrderKeys(1);

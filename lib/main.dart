@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:mojikit/mojikit.dart';
 import 'package:realm/realm.dart';
 import 'package:signals/signals_flutter.dart';
+import 'package:signals/signals_flutter_extended.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -114,7 +115,7 @@ class _MojiKitAppState extends State<MojiKitApp> {
                               GestureDetector(
                                 behavior: HitTestBehavior.opaque,
                                 onTap: () {
-                                  final darkness = untracked(() => S.darkness.value);
+                                  final darkness = S.darkness.untrackedValue;
                                   HapticFeedback.mediumImpact();
                                   R.updateDarkness(!darkness);
                                 },
@@ -253,7 +254,7 @@ class _MojiKitAppState extends State<MojiKitApp> {
                                             child: FocusTraversalGroup(
                                               policy: WidgetOrderTraversalPolicy(
                                                 requestFocusCallback: (node, {alignment, alignmentPolicy, curve, duration}) {
-                                                  if (untracked(() => S.shouldTraverseFocus.value)) {
+                                                  if (S.shouldTraverseFocus.untrackedValue) {
                                                     node.requestFocus();
                                                     S.shouldTraverseFocus.set(false);
                                                   }
