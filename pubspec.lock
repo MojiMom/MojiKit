@@ -889,27 +889,28 @@ packages:
   signals:
     dependency: "direct main"
     description:
-      name: signals
-      sha256: "4bc465297dd646474619fe155237fed2fbf3f6f469799a2b5748ef1745473472"
-      url: "https://pub.dev"
-    source: hosted
-    version: "6.0.0-rc.3"
+      path: "packages/signals"
+      ref: "152ba6cb23c5ee6167211fb26a5ac2dd84706b48"
+      resolved-ref: "152ba6cb23c5ee6167211fb26a5ac2dd84706b48"
+      url: "https://github.com/MojiMom/signals.dart"
+    source: git
+    version: "6.0.1"
   signals_core:
     dependency: transitive
     description:
       name: signals_core
-      sha256: "3f1973b8362706921f7919508c634b948072d359cc3a22eaf6a56ed450b9e5f3"
+      sha256: b7cd3aaa4ed107d298ae7b88073a33797d8019f5d59600d0bf1f27b48a214496
       url: "https://pub.dev"
     source: hosted
-    version: "6.0.0-rc.3"
+    version: "6.0.1"
   signals_flutter:
     dependency: transitive
     description:
       name: signals_flutter
-      sha256: "4be5260c488f9c56b2686a088af6f71e4bb5f46582060cf4b7083b7b603e8e48"
+      sha256: "22de199d0cf489b8a8f042c9b69bf5093fc10d3a8a695d851a8ac16e8cb70e97"
       url: "https://pub.dev"
     source: hosted
-    version: "6.0.0-rc.3"
+    version: "6.0.1"
   sky_engine:
     dependency: transitive
     description: flutter
