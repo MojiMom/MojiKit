@@ -197,6 +197,7 @@ class _MojiToolbarState extends State<MojiToolbar> {
                     final dateController = FCalendarController.date(initialSelection: utcDay);
                     batch(() {
                       S.fCalendarController.set(dateController);
+                      S.intervalPickerState.set(IntervalPickerState.none);
                       S.shouldShowMojiPicker.set(false);
                       S.shouldAddChildMoji.set(false);
                     });
