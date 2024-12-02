@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:forui/forui.dart';
 import 'package:signals/signals_flutter.dart';
+import 'package:signals/signals_flutter_extended.dart';
 import 'package:undo/undo.dart';
 import 'package:mojikit/mojikit.dart';
 import 'package:duration_picker/duration_picker.dart';
@@ -92,57 +95,99 @@ class MojiIntervalPickerState extends State<MojiIntervalPicker> {
           final interval = _interval.value;
           final mojiR = _mojiR.value;
           final mojiIntervalPickerState = S.intervalPickerState.value;
-          return DurationPicker(
-            key: ValueKey('${widget.mid}:$mojiIntervalPickerState'),
-            height: double.maxFinite,
-            width: double.maxFinite,
-            duration: Duration(minutes: interval),
-            onChange: (Duration newDuration) {
-              var round = (newDuration.inMinutes / 5).round() * 5;
-              if (interval != round) {
-                HapticFeedback.lightImpact();
+          return Stack(
+            children: [
+              DurationPicker(
+                key: ValueKey('${widget.mid}:$mojiIntervalPickerState'),
+                height: double.maxFinite,
+                width: double.maxFinite,
+                duration: Duration(minutes: interval),
+                onChange: (Duration newDuration) {
+                  var round = (newDuration.inMinutes / 5).round() * 5;
+                  if (interval != round) {
+                    HapticFeedback.lightImpact();
 
-                final sTime = R.m.write<DateTime?>(() {
-                  Duration eventDuration = Duration.zero;
-                  final sTime = mojiR.s?.toLocal();
-                  final eTime = mojiR.e?.toLocal();
-                  if (sTime != null && eTime != null) {
-                    switch (mojiIntervalPickerState) {
-                      case IntervalPickerState.duration:
-                        final newEndTime = sTime.add(Duration(minutes: round));
-                        if (newEndTime.isAfter(sTime) && newEndTime.day == sTime.day) {
-                          mojiR.e = newEndTime.toUtc();
+                    final sTime = R.m.write<DateTime?>(() {
+                      Duration eventDuration = Duration.zero;
+                      final sTime = mojiR.s?.toLocal();
+                      final eTime = mojiR.e?.toLocal();
+                      if (sTime != null && eTime != null) {
+                        switch (mojiIntervalPickerState) {
+                          case IntervalPickerState.duration:
+                            final newEndTime = sTime.add(Duration(minutes: round));
+                            if (newEndTime.isAfter(sTime) && newEndTime.day == sTime.day) {
+                              mojiR.e = newEndTime.toUtc();
+                            }
+                          case IntervalPickerState.start:
+                            final newStartTime = DateTime(sTime.year, sTime.month, sTime.day).add(Duration(minutes: round));
+                            if (newStartTime.isBefore(eTime) &&
+                                newStartTime.toLocal().day == sTime.day &&
+                                eTime.difference(newStartTime).inMinutes >= kMinMojiEventDuration.inMinutes) {
+                              mojiR.s = newStartTime.toUtc();
+                            }
+                          case IntervalPickerState.end:
+                            final newEndTime = DateTime(sTime.year, sTime.month, sTime.day).add(Duration(minutes: round));
+                            if (newEndTime.isAfter(sTime) && newEndTime.day == sTime.toLocal().day) {
+                              mojiR.e = newEndTime.toUtc();
+                            }
+                          default:
                         }
-                      case IntervalPickerState.start:
-                        final newStartTime = DateTime(sTime.year, sTime.month, sTime.day).add(Duration(minutes: round));
-                        if (newStartTime.isBefore(eTime) &&
-                            newStartTime.toLocal().day == sTime.day &&
-                            eTime.difference(newStartTime).inMinutes >= kMinMojiEventDuration.inMinutes) {
-                          mojiR.s = newStartTime.toUtc();
-                        }
-                      case IntervalPickerState.end:
-                        final newEndTime = DateTime(sTime.year, sTime.month, sTime.day).add(Duration(minutes: round));
-                        if (newEndTime.isAfter(sTime) && newEndTime.day == sTime.toLocal().day) {
-                          mojiR.e = newEndTime.toUtc();
-                        }
-                      default:
+                        eventDuration = mojiR.e?.difference(mojiR.s ?? U.zeroDateTime) ?? Duration.zero;
+                      }
+
+                      if (eventDuration.inMinutes <= 0) {
+                        mojiR.i = round;
+                      }
+                      mojiR.w = U.zeroDateTime;
+                      return mojiR.s?.toUtc();
+                    });
+                    if (sTime != null) {
+                      final (did, flexibleMojiEvents) = U.getFlexibleMojiEventsForDay(sTime, widget.mojiPlannerWidth);
+                      // Update the value of the moji planner notifier if it exists
+                      U.mojiPlannersNotifiers[did]?.value = (flexibleMojiEvents, DateTime.now().millisecondsSinceEpoch);
                     }
-                    eventDuration = mojiR.e?.difference(mojiR.s ?? U.zeroDateTime) ?? Duration.zero;
                   }
-
-                  if (eventDuration.inMinutes <= 0) {
-                    mojiR.i = round;
-                  }
-                  mojiR.w = U.zeroDateTime;
-                  return mojiR.s?.toUtc();
-                });
-                if (sTime != null) {
-                  final (did, flexibleMojiEvents) = U.getFlexibleMojiEventsForDay(sTime, widget.mojiPlannerWidth);
-                  // Update the value of the moji planner notifier if it exists
-                  U.mojiPlannersNotifiers[did]?.value = (flexibleMojiEvents, DateTime.now().millisecondsSinceEpoch);
-                }
-              }
-            },
+                },
+              ),
+              Visibility(
+                visible: mojiIntervalPickerState == IntervalPickerState.start || mojiIntervalPickerState == IntervalPickerState.end,
+                child: Positioned(
+                  bottom: 0,
+                  right: 0,
+                  child: GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: () {
+                      R.deleteMojiFromPlanner(widget.mid);
+                      R.updateMoji(widget.mid, npid: mojiR.p);
+                      batch(() {
+                        S.intervalPickerState.set(IntervalPickerState.none);
+                        S.implicitMojiDockTile.set(S.selectedMojiDockTile.untrackedValue);
+                        S.implicitPID.set(S.selectedPID.untrackedValue);
+                        S.shouldAddChildMoji.set(false);
+                        S.fCalendarController.set(FCalendarController.date());
+                        S.selectedMID.set(kEmptyString);
+                        S.pinnedMID.set(kEmptyString);
+                        S.shouldShowMojiPicker.set(false);
+                        S.linkingCalendar.set(kEmptyString);
+                      });
+                      FocusManager.instance.primaryFocus?.unfocus();
+                    },
+                    child: SizedBox(
+                      width: 48,
+                      height: 48,
+                      child: Center(
+                        child: Watch((context) {
+                          return SvgPicture.asset(
+                            'assets/hugeicons/property-delete-stroke-rounded.svg',
+                            colorFilter: ColorFilter.mode(widget.dye.darker, BlendMode.srcIn),
+                          );
+                        }),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
           );
         }),
       ),
