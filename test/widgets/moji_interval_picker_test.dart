@@ -14,7 +14,7 @@ void main() {
   });
 
   group('MojiIntervalPicker widget tests', () {
-    testWidgets('MojiIntervalPicker updates interval correctly on duration change when handing a moji tile', (WidgetTester tester) async {
+    testWidgets('updates interval correctly on duration change when handing a moji tile', (WidgetTester tester) async {
       final mid = U.fid();
       final mojiR = S.mojiSignal(mid).untrackedValue;
       final sTime = DateTime(2023, 1, 1).toUtc();
@@ -50,7 +50,7 @@ void main() {
       U.mojiChanges.undo();
     });
 
-    testWidgets('MojiIntervalPicker updates interval correctly on duration change when handing a moji event', (WidgetTester tester) async {
+    testWidgets('updates interval correctly on duration change when handing a moji event', (WidgetTester tester) async {
       final mid = U.fid();
       final mojiR = S.mojiSignal(mid).untrackedValue;
       final sTime = DateTime(2023, 1, 1).toUtc();
@@ -92,7 +92,7 @@ void main() {
       U.mojiChanges.undo();
     });
 
-    testWidgets('MojiIntervalPicker updates start time correctly on duration change', (WidgetTester tester) async {
+    testWidgets('updates start time correctly on duration change', (WidgetTester tester) async {
       final mid = U.fid();
       final mojiR = S.mojiSignal(mid).untrackedValue;
       final sTime = DateTime(2023, 1, 1, 1, 15);
@@ -133,7 +133,7 @@ void main() {
       U.mojiChanges.undo();
     });
 
-    testWidgets('MojiIntervalPicker updates end time correctly on duration change', (WidgetTester tester) async {
+    testWidgets('updates end time correctly on duration change', (WidgetTester tester) async {
       final mid = U.fid();
       final mojiR = S.mojiSignal(mid).untrackedValue;
       final sTime = DateTime(2023, 1, 1, 1);
@@ -172,6 +172,44 @@ void main() {
       await tester.fling(find.byType(DurationPicker), const Offset(-200, -100.0), 1000.0, initialOffset: firstLocation);
       await tester.pumpAndSettle();
       U.mojiChanges.undo();
+    });
+
+    testWidgets('removes event from planner when remove button is pressed', (WidgetTester tester) async {
+      final mid = U.fid();
+      final mojiR = S.mojiSignal(mid).untrackedValue;
+      final sTime = DateTime(2023, 1, 1, 1);
+      final did = U.did(sTime);
+      S.intervalPickerState.set(IntervalPickerState.end);
+      U.mojiPlannersNotifiers = {
+        did: FlutterSignal((Map<String, FlexibleMojiEvent>.from({did: FlexibleMojiEvent(mojiR)}), 0))
+      };
+      R.m.write(() {
+        mojiR.s = sTime;
+        mojiR.e = sTime.add(Duration(minutes: 15));
+        mojiR.i = 15;
+      });
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: SizedBox(
+              key: ValueKey(MojiIntervalPicker),
+              height: 500,
+              width: 500,
+              child: MojiIntervalPicker(
+                mid: mid,
+                mojiPlannerWidth: 500,
+                dye: Dyes.green.untrackedValue,
+              ),
+            ),
+          ),
+        ),
+      );
+
+      // Verify that MojiIntervalPicker widget is displayed
+      expect(find.byType(MojiIntervalPicker), findsOneWidget);
+      final Offset bottomRight = tester.getBottomRight(find.byKey(ValueKey(MojiIntervalPicker)));
+      await tester.tapAt(Offset(bottomRight.dx - 10, bottomRight.dy - 10));
     });
   });
 }
