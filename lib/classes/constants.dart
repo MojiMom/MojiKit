@@ -13,6 +13,7 @@ const kDefaultMojiEventDuration = Duration(minutes: 20);
 const kMinMojiEventDuration = Duration(minutes: 5);
 const kMinSoftwareKeyboardHeight = 100.0;
 const kDefaultMojiPlannerWidth = 300.0;
+const kMaxMojiPlannerWidth = 600.0;
 const kEmptySpace = ' ';
 const kEmptyString = '';
 const kZeroWidthSpace = '\u200B';
