@@ -420,6 +420,45 @@ void main() {
       expect(plMojiR.l.length, 0);
     });
 
+    test('addMojiToPlannerIfNeeded removes moji from planner when the new start time is on a different day', () async {
+      final sTime = DateTime(2021, 1, 1, 0, 0, 0, 0, 0).toUtc();
+      final nsTime = sTime.add(Duration(minutes: 2000));
+      final eTime = nsTime.add(kDefaultMojiEventDuration);
+      final did = U.did(sTime);
+      final nDid = U.did(nsTime);
+      final pfid = U.fid();
+      final cfid = U.fid();
+      final pMojiR = S.mojiSignal(pfid).untrackedValue;
+      final cMojiR = S.mojiSignal(cfid).untrackedValue;
+      final plMojiR = S.mojiSignal(did).untrackedValue;
+      final nPlMojiR = S.mojiSignal(nDid).untrackedValue;
+      U.mojiPlannersNotifiers = {
+        did: FlutterSignal((Map<String, FlexibleMojiEvent>.from({did: FlexibleMojiEvent(cMojiR)}), 0))
+      };
+      R.m.write(() {
+        pMojiR.c[cfid] = generateOrderKeys(1).first;
+        cMojiR.t = 'test';
+        cMojiR.s = sTime.toUtc();
+        plMojiR.l[cfid] = sTime.toUtc();
+      });
+
+      R.addMojiToPlannerIfNeeded(pMojiR, [Moji(cfid, s: nsTime.toUtc())], cStartTime: nsTime, cEndTime: eTime);
+
+      expect(pMojiR.l, {cfid: nsTime});
+      expect(pMojiR.c.length, 0);
+      expect(plMojiR.l, isEmpty);
+      expect(nPlMojiR.l, {cfid: nsTime});
+
+      U.mojiChanges.undo();
+
+      expect(pMojiR.l.length, 0);
+      expect(pMojiR.c.length, 1);
+      expect(pMojiR.c.keys.first, cfid);
+      expect(pMojiR.c.values.first, generateOrderKeys(1).first);
+      expect(plMojiR.l.length, 0);
+      expect(nPlMojiR.l.length, 0);
+    });
+
     test('addChildMoji', () async {
       final pfid = U.fid();
       final cfid = U.fid();
