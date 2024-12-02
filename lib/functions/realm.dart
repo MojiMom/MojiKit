@@ -338,6 +338,27 @@ class R {
             mojiLBC.add(cMojiR.copyWith());
           }
 
+          // Get the original child moji start time from realm
+          final cMojiRSTime = cMojiR.s?.toUtc();
+          // If it exsits
+          if (cMojiRSTime != null) {
+            // Derive the current planner id
+            final did = U.did(cMojiRSTime);
+            // If it's different than the new planner id
+            if (did != mojiPlannerR?.id) {
+              // Get the old moji planner
+              final oldMojiPlanner = R.m.find<Moji>(did);
+              // Remove the moji from the moji planner's children
+              oldMojiPlanner?.c.remove(cMoji.id);
+              // Remove the moji from the moji planner's heap
+              oldMojiPlanner?.h.remove(cMoji.id);
+              // Remove the moji from the moji planner's log
+              oldMojiPlanner?.l.remove(cMoji.id);
+              // Reset the write time of the moji
+              oldMojiPlanner?.w = U.zeroDateTime;
+            }
+          }
+
           if (sTime != null && eTime != null) {
             // Create a copy of the parent moji before changes
             final pMojiBC = isUndoAllowed ? pMoji.copyWith() : U.emptyMoji;
