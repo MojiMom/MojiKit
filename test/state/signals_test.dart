@@ -270,5 +270,11 @@ void main() {
 
       expect(appLifecycleState, equals(AppLifecycleState.resumed));
     });
+
+    test('appHeight returns correct initial value', () {
+      final appHeight = S.appHeight.value;
+
+      expect(appHeight, equals(0.0));
+    });
   });
 }
