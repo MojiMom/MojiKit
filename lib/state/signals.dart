@@ -125,7 +125,7 @@ class S {
 
   static final Signal<double> additionalTopOffsetFromHandle = signal(0.0);
   static final Signal<double> softwareKeyboardHeight = signal(0.0);
-  static final Signal<double> appHeight = signal(0.0);
+  static final TrackedSignal<double> appHeight = trackedSignal(0.0);
 
   static final TrackedSignal<AppLifecycleState> appLifecycleState = trackedSignal(AppLifecycleState.resumed);
 
