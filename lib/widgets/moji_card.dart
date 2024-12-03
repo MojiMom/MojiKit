@@ -273,6 +273,7 @@ class _MojiCardState extends State<MojiCard> {
                                 ),
                                 maxLines: null,
                                 onChanged: (value) {
+                                  S.lastInteractionAt.set(DateTime.now());
                                   final mojiR = _mojiR.untrackedValue;
                                   hasUnwrittenChange = true;
                                   R.m.write(() {
