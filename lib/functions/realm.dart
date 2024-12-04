@@ -673,21 +673,30 @@ class R {
       if (text != null) {
         // Update the text of the moji
         mojiR.t = text;
+        // Reset the write time of the moji
+        mojiR.w = U.zeroDateTime;
       }
 
       // If the moji svg is not null
       if (svg != null) {
         // Update the moji svg
         mojiR.m = svg;
+        // Reset the write time of the moji
+        mojiR.w = U.zeroDateTime;
       }
 
       // If the parent id is not null
       if (npid != null) {
         // Update the parent id
         mojiR.p = npid;
+        // Reset the write time of the moji
+        mojiR.w = U.zeroDateTime;
       }
-      // Reset the write time of the moji
-      mojiR.w = U.zeroDateTime;
+
+      // If the write time has been zeroed out
+      if (mojiR.w?.isAtSameMomentAs(U.zeroDateTime) == true) {
+        mojisToUpdate.add(mojiR.id);
+      }
     });
 
     // If the parent has changed
