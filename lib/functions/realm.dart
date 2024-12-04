@@ -72,7 +72,7 @@ class R {
         dMoji.q[quickAccessMojis.first] = generateOrderKeys(1).first;
       });
       // Update the dock moji
-      R.updateMojis([dMoji]);
+      R.updateMojis([dMoji], shouldUpdateExternalOrigins: false);
       // Get the last parent moji
       final parentMID = quickAccessMojis.lastOrNull;
       // If it exists
