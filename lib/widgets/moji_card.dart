@@ -84,7 +84,7 @@ class _MojiCardState extends State<MojiCard> {
         // If the widget is mounted
         if (mounted) {
           // Update the Moji with the latest changes and write them to the server
-          R.updateMoji(widget.id, text: _controller.text, npid: isPlaceholder ? selectedMID : null);
+          R.updateMoji(widget.id, text: _controller.text, npid: isPlaceholder ? selectedMID : null, shouldUpdateOrigin: true);
           // Reset the flag
           hasUnwrittenChange = false;
         }
@@ -238,7 +238,7 @@ class _MojiCardState extends State<MojiCard> {
                                   }
 
                                   // Update the moji with the latest changes and write them to the server
-                                  R.updateMoji(widget.id, text: _controller.text, npid: isPlaceholder ? selectedMID : null);
+                                  R.updateMoji(widget.id, text: _controller.text, npid: isPlaceholder ? selectedMID : null, shouldUpdateOrigin: true);
                                   // Wait a frame to avoid flicker
                                   WidgetsBinding.instance.addPostFrameCallback((_) {
                                     // Clear the current moji text
