@@ -104,7 +104,7 @@ class MojiIntervalPickerState extends State<MojiIntervalPicker> {
                 duration: Duration(minutes: interval),
                 onChange: (Duration newDuration) {
                   var round = (newDuration.inMinutes / 5).round() * 5;
-                  if (interval != round) {
+                  if (interval != round && round > 0) {
                     HapticFeedback.lightImpact();
 
                     final sTime = R.m.write<DateTime?>(() {
