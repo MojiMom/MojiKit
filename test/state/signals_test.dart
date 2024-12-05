@@ -276,5 +276,11 @@ void main() {
 
       expect(appHeight, equals(0.0));
     });
+
+    test('isMetaKeyPressed returns correct initial value', () {
+      final isMetaKeyPressed = S.isMetaKeyPressed.value;
+
+      expect(isMetaKeyPressed, equals(false));
+    });
   });
 }

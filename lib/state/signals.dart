@@ -118,6 +118,7 @@ class S {
   static final Signal<bool> shouldAddChildMoji = signal(false);
   static final Signal<bool> shouldShowPerformanceOverlay = signal(false);
   static final Signal<bool> flyingOverMojiPlanner = signal(false);
+  static final Signal<bool> isMetaKeyPressed = signal(false);
 
   static final Signal<Moji> flyingMoji = signal(U.emptyMoji);
   static final Signal<Moji> flyingMojiEvent = signal(U.emptyMoji);
