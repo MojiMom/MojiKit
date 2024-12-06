@@ -92,7 +92,7 @@ class U {
   }
 
   static Color ultraLightBackground(Dye dye) {
-    return S.darkness.untrackedValue == true ? Colors.white : dye.ultraLight;
+    return S.darkness.untrackedValue == true ? Colors.black : dye.ultraLight;
   }
 
   static final zeroDateTime = DateTime.fromMillisecondsSinceEpoch(0).toUtc();

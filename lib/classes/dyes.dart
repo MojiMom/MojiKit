@@ -6,66 +6,64 @@ import 'package:mojikit/mojikit.dart';
 class Dyes {
   static const greyReference = Color.from(alpha: 1.0, red: 0.42, green: 0.42, blue: 0.42);
   static final Dye greyLight = generateDyePalette(greyReference, invert: false);
-  static final Dye greyDark = generateDyePalette(greyReference);
+  static final Dye greyDark = generateDyePalette(greyReference, invert: true);
   static Computed<Dye> get grey => computed(() => S.darkness.value ? greyDark : greyLight);
 
   static const tealReference = Color.from(alpha: 1.0, red: 0.000000, green: 0.537255, blue: 0.482353);
   static final Dye tealLight = generateDyePalette(tealReference, invert: false);
-  static final Dye tealDark = generateDyePalette(tealReference);
+  static final Dye tealDark = generateDyePalette(tealReference, invert: true);
   static Computed<Dye> get teal => computed(() => S.darkness.value ? tealDark : tealLight);
 
   static const blueReference = Color.from(alpha: 1.0, red: 0.117647, green: 0.533333, blue: 0.898039);
   static final Dye blueLight = generateDyePalette(blueReference, invert: false);
-  static final blueDark = generateDyePalette(blueReference);
+  static final Dye blueDark = generateDyePalette(blueReference, invert: true);
   static Computed<Dye> get blue => computed(() => S.darkness.value ? blueDark : blueLight);
 
-  static const indigoReference = Color.from(alpha: 1.0, red: 0.635294, green: 0.376471, blue: 0.972549);
+  static const indigoReference = Color.from(alpha: 1.0, red: 0.67, green: 0.28, blue: 0.90);
   static final Dye indigoLight = generateDyePalette(indigoReference, invert: false);
-  static final Dye indigoDark = generateDyePalette(indigoReference);
+  static final Dye indigoDark = generateDyePalette(indigoReference, invert: true);
   static Computed<Dye> get indigo => computed(() => S.darkness.value ? indigoDark : indigoLight);
 
   static const pinkReference = Color.from(alpha: 1.0, red: 0.913725, green: 0.117647, blue: 0.388235);
   static final Dye pinkLight = generateDyePalette(pinkReference, invert: false);
-  static final Dye pinkDark = generateDyePalette(pinkReference);
+  static final Dye pinkDark = generateDyePalette(pinkReference, invert: true);
   static Computed<Dye> get pink => computed(() => S.darkness.value ? pinkDark : pinkLight);
 
   static const redReference = Color.from(alpha: 1.0, red: 0.898039, green: 0.223529, blue: 0.207843);
   static final Dye redLight = generateDyePalette(redReference, invert: false);
-  static final Dye redDark = generateDyePalette(redReference);
+  static final Dye redDark = generateDyePalette(redReference, invert: true);
   static Computed<Dye> get red => computed(() => S.darkness.value ? redDark : redLight);
 
   static const orangeReference = Color.from(alpha: 1.0, red: 0.984314, green: 0.549020, blue: 0.000000);
   static final Dye orangeLight = generateDyePalette(orangeReference, invert: false);
-  static final Dye orangeDark = generateDyePalette(orangeReference);
+  static final Dye orangeDark = generateDyePalette(orangeReference, invert: true);
   static Computed<Dye> get orange => computed(() => S.darkness.value ? orangeDark : orangeLight);
 
   static const greenReference = Color.from(alpha: 1.0, red: 0.262745, green: 0.627451, blue: 0.278431);
   static final Dye greenLight = generateDyePalette(greenReference, invert: false);
-  static final Dye greenDark = generateDyePalette(greenReference);
+  static final Dye greenDark = generateDyePalette(greenReference, invert: true);
   static Computed<Dye> get green => computed(() => S.darkness.value ? greenDark : greenLight);
 
   static const chestnutReference = Color.from(alpha: 1.0, red: 0.427451, green: 0.298039, blue: 0.254902);
   static final Dye chestnutLight = generateDyePalette(chestnutReference, invert: false);
-  static final Dye chestnutDark = generateDyePalette(chestnutReference);
+  static final Dye chestnutDark = generateDyePalette(chestnutReference, invert: true);
   static Computed<Dye> get chestnut => computed(() => S.darkness.value ? chestnutDark : chestnutLight);
 }
 
-Color invertColor(Color color) {
-  return Color.from(alpha: color.a, red: 1 - color.r, green: 1 - color.g, blue: 1 - color.b);
-}
-
-Dye generateDyePalette(Color inputColor, {bool invert = true}) {
-  // Invert the input color if needed
-  Color baseColor = invert ? invertColor(inputColor) : inputColor;
+Dye generateDyePalette(Color inputColor, {bool invert = false}) {
+  // For light mode (invert = false), we go from the base color towards white.
+  // For dark mode (invert = true), we go from the base color towards black.
+  final Color targetColor = invert ? Color.from(alpha: 1.0, red: 0.0, green: 0.0, blue: 0.0) : Color.from(alpha: 1.0, red: 1.0, green: 1.0, blue: 1.0);
 
   List<Color> palette = [];
 
+  // Adjust the factor scaling if needed to get a nice range
   for (int i = 0; i < 9; i++) {
     double factor = i / (invert ? 6.75 : 6.35);
 
     Color newColor = Color.lerp(
-      baseColor,
-      Color.from(alpha: 1, red: 1.0, green: 1.0, blue: 1.0),
+      inputColor,
+      targetColor,
       factor,
     )!;
 

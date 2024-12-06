@@ -47,14 +47,5 @@ void main() {
       expect(generatedDye.ultraDark, isNotNull);
       expect(generatedDye.ultraLight, isNotNull);
     });
-
-    test('invertColor correctly inverts the color', () {
-      final originalColor = const Color.from(alpha: 1.0, red: 0.9, green: 0.8, blue: 0.7);
-      final invertedColor = invertColor(originalColor);
-
-      expect((invertedColor.r * 10).round() / 10, 0.1);
-      expect((invertedColor.g * 10).round() / 10, 0.2);
-      expect((invertedColor.b * 10).round() / 10, 0.3);
-    });
   });
 }
