@@ -37,6 +37,8 @@ void main() {
       expect(Dyes.orange.value, equals(Dyes.orangeDark));
       expect(Dyes.green.value, equals(Dyes.greenDark));
       expect(Dyes.chestnut.value, equals(Dyes.chestnutDark));
+      expect(Dyes.almostBlackOrWhite.value, equals(Dyes.almostBlack));
+      expect(Dyes.almostWhiteOrBlack.value, equals(Dyes.almostWhite));
     });
 
     test('generateDyePalette returns a dye palette', () {
